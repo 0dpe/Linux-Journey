@@ -1,0 +1,9 @@
+input:focus {
+    outline: none;
+}
+
+#morse-list {
+    list-style-type: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
