@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Morse Quiz</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 
 <body>
+    <p id="stopwatch">00:00.00</p>
+    <button id="btn-restart">Restart</button>
     <ul id="morse-list">
         <li><input type="text" maxlength="1" placeholder=".-" data-answer="A"></li>
         <li><input type="text" maxlength="1" placeholder="-..." data-answer="B"></li>
@@ -45,7 +51,7 @@
         <li><input type="text" maxlength="1" placeholder="---.." data-answer="8"></li>
         <li><input type="text" maxlength="1" placeholder="----." data-answer="9"></li>
     </ul>
-
+    <button id="btn-github" onclick="window.open('https://github.com/0dpe/Morse-Quiz', '_blank')">GitHub Source</button>
     <script src="script.js"></script>
 </body>
 
