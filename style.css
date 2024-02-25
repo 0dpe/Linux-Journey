@@ -1,9 +1,109 @@
-input:focus {
+:root {
+    --gray-base-10: hsl(0, 0%, 10%);
+    --gray-15: hsl(0, 0%, 15%);
+    --gray-20: hsl(0, 0%, 20%);
+    --gray-25: hsl(0, 0%, 25%);
+    --gray-30: hsl(0,0%, 30%);
+    --gray-35: hsl(0, 0%, 35%);
+    --gray-50: hsl(0, 0%, 50%);
+    --gray-60: hsl(0, 0%, 60%);
+    --gray-text-90: hsl(0, 0%, 90%);
+}
+
+* {
+    font: 300 3dvh "Chivo Mono", monospace; /* Weight: 100-900 */
+
+    margin: 0;
+    padding: 0;
+
+    color: var(--gray-text-90);
+    background: var(--gray-base-10);
+
+    border: none;
+    border-radius: 1dvh;
+
+    box-sizing: border-box;
     outline: none;
+    list-style-type: none;
+}
+
+body {
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    justify-items: center;
+    justify-self: center;
+    align-items: center;
+    align-self: center;
+    grid-template-columns: 40dvh 40dvh;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+        "reset stopwatch"
+        "list list";
+    gap: 0 0;
+}
+
+/* Display Font Space Color Border Other */
+
+#stopwatch {
+    grid-area: stopwatch;
+    font-size: 4dvh;
+    padding: 1dvh 1.5dvh;
+    margin: 4dvh 0 1.5dvh 0;
+    color: var(--gray-text-90);
+    background-color: var(--gray-20);
+}
+
+#stopwatch.running {
+    color: var(--gray-60);
+    background-color: var(--gray-15);
+}
+
+#btn-restart {
+    grid-area: reset;
+    font-size: 4dvh;
+    padding: 1dvh 1.5dvh;
+    margin: 4dvh 0 1.5dvh 0;
+    color: var(--gray-text-90);
+    background-color: var(--gray-20);
 }
 
 #morse-list {
-    list-style-type: none;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-area: list;
+    column-count: 3;
+    column-gap: 3dvh;
+    caret-color: transparent;
+}
+
+#morse-list input {
+    width: 20dvh;
+    height: 4dvh;
+    padding: .5dvh;
+    margin: .7dvh 0;
+    text-indent: 0.5em;
+    text-transform: uppercase;
+    background-color: var(--gray-20);
+}
+
+#morse-list input::placeholder {
+    color: inherit;
+}
+
+#morse-list input[readOnly] {
+    color: var(--gray-60);
+    background-color: var(--gray-15);
+}
+
+#morse-list input:not([readOnly]):focus {
+    background-color: var(--gray-25);
+}
+
+#btn-github {
+    position: fixed;
+    padding: .5dvh 1dvh;
+    margin: 0 3dvh 3dvh 0;
+    bottom: 0;
+    right: 0;
+    color: var(--gray-50);
+    border: 0.4dvh solid var(--gray-20);
 }
