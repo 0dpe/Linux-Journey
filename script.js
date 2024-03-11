@@ -1,3 +1,5 @@
+const restartButton = document.querySelector("#btn-restart");
+
 const list = document.querySelector('#morse-list');
 const shuffledItems = Array.from(list.children).sort(() => Math.random() - 0.5);
 
@@ -9,8 +11,8 @@ shuffledItems.forEach((item, index) => {
 
     currentItem.addEventListener('input', () => {
         if (!firstInput) {
-            firstInput = true;
             startStopwatch();
+            firstInput = true;
         }
         if (currentItem.value.toUpperCase() === currentItem.dataset.answer) {
             currentItem.readOnly = true;
@@ -30,20 +32,15 @@ shuffledItems.forEach((item, index) => {
 
 document.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
-        console.log('Enter key pressed');
-        stopStopwatch()
+        alert("The button was clicked!");
     }
 });
 
-
-// Get a reference to the button
-const button = document.getElementById("btn-restart");
-
-// Add a click event listener to the button
-button.addEventListener("click", function () {
-    // This function will be executed when the button is clicked
+restartButton.addEventListener("click", function () {
     alert("The button was clicked!");
 });
+
+
 
 
 
@@ -68,5 +65,5 @@ const updateStopwatch = () => {
 
     const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(milliseconds).padStart(2, '0')}`;
 
-    document.getElementById('stopwatch').textContent = formattedTime;
+    document.querySelector('#stopwatch').textContent = formattedTime;
 }
