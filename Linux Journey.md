@@ -932,9 +932,12 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
 
 `nix-collect-garbage -d` deletes generations and store objects.
 
+hyprland: [window rules](https://wiki.hyprland.org/Configuring/Window-Rules/), [master layout](https://wiki.hyprland.org/Configuring/Master-Layout/), [env vars](https://wiki.hyprland.org/Configuring/Environment-variables/), [toggle blur/ani](https://wiki.hyprland.org/Configuring/Uncommon-tips--tricks/#toggle-animationsbluretc-hotkey). 
+hyprland redo colors: https://i.ibb.co/6ydHNt9/screenshot-29-1.png
+
 home manage firefox
 
-set xcursor
+set xcursor: https://github.com/vinceliuice/McMojave-cursors/tree/master
 
 Kitty zsh shell integration
 kitty/zsh themes
@@ -950,7 +953,7 @@ Notification Daemon: \
 Application Launcher: \
 Cursor control: Hyprcursor
 Authentication Agent: Starting method: manual (exec-once) Authentication agents are the things that pop up a window asking you for a password whenever an app wants to elevate its privileges.
-Wallpaper manager
+Wallpaper manager: https://www.reddit.com/r/commandline/comments/13y5j4m/asciimatrix/
 
 Bluetooth: \
 Audio Control: \
