@@ -548,7 +548,7 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 ```
-Since there is not a lot of configuration options, I do not use Home Manager to configure zsh.
+Since there are not a lot of configuration options, I do not use Home Manager to configure zsh.
 
 ### Using [Hyprland](https://wiki.hyprland.org/ "Hyprland Wiki")
 Hyprland can be installed 2 ways:
@@ -795,7 +795,8 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    ```
    Since I am using Hyprland from `hyprland.pkgs`, I do not need to specify `wayland.windowManager.hyprland.package` for Home Manager.\
    Options that have syntax similar to Nix need to be wrapped in `""`.\
-   [Bind and flag(s)](https://wiki.hyprland.org/Configuring/Binds/#bind-flags "Hyprland Wiki") = [modifier key(s)](https://wiki.hyprland.org/Configuring/Variables/#variable-types "Hyprland Wiki"), other key(s), [action](https://wiki.hyprland.org/Configuring/Dispatchers/#list-of-dispatchers "Hyprland Wiki"), parameter(s).
+   [Bind and flag(s)](https://wiki.hyprland.org/Configuring/Binds/#bind-flags "Hyprland Wiki") = [modifier key(s)](https://wiki.hyprland.org/Configuring/Variables/#variable-types "Hyprland Wiki"), other key(s), [action](https://wiki.hyprland.org/Configuring/Dispatchers/#list-of-dispatchers "Hyprland Wiki"), parameter(s).\
+   Although trackpad (libinput) configuration can be done through `configuration.nix`, that [doesn't work](https://discourse.nixos.org/t/xorg-libinput-configuration-seems-to-be-ignored/15504) for me (`/etc/X11/xorg.conf` isn't generated), so I use Hyprland's options instead. 
 1. Connect to internet. Use `# nixos-rebuild switch`.\
    An error occures since a configuration file for Hyprland was automatically generated when installing Hyprland. Home Manager will not overwrite this existing configuration file.
 1. Use `$ rm ~/.config/hypr/hyprland.conf`, then `# nixos-rebuild switch` again.\
