@@ -779,6 +779,7 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    +     touchpad = {
    +       disable_while_typing = false;
    +       natural_scroll = true;
+   +       tap-and-drag = false;
    +     };
    +   };
    +   misc = {
@@ -796,7 +797,8 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    Since I am using Hyprland from `hyprland.pkgs`, I do not need to specify `wayland.windowManager.hyprland.package` for Home Manager.\
    Options that have syntax similar to Nix need to be wrapped in `""`.\
    [Bind and flag(s)](https://wiki.hyprland.org/Configuring/Binds/#bind-flags "Hyprland Wiki") = [modifier key(s)](https://wiki.hyprland.org/Configuring/Variables/#variable-types "Hyprland Wiki"), other key(s), [action](https://wiki.hyprland.org/Configuring/Dispatchers/#list-of-dispatchers "Hyprland Wiki"), parameter(s).\
-   Although trackpad (libinput) configuration can be done through `configuration.nix`, that [doesn't work](https://discourse.nixos.org/t/xorg-libinput-configuration-seems-to-be-ignored/15504) for me (`/etc/X11/xorg.conf` isn't generated), so I use Hyprland's options instead. 
+   Although trackpad (libinput) configuration can be done through `configuration.nix`, that [doesn't work](https://discourse.nixos.org/t/xorg-libinput-configuration-seems-to-be-ignored/15504) for me (`/etc/X11/xorg.conf` isn't generated), so I use Hyprland's options instead.\
+   On the [Hyprland wiki](https://wiki.hyprland.org/Configuring/Variables/#touchpad:~:text=bool-,false,-Touchdevice), `touch-and-drag`'s default is marked as `false`, but in reality it's default is actually `true`, so I explicitly set it.
 1. Connect to internet. Use `# nixos-rebuild switch`.\
    An error occures since a configuration file for Hyprland was automatically generated when installing Hyprland. Home Manager will not overwrite this existing configuration file.
 1. Use `$ rm ~/.config/hypr/hyprland.conf`, then `# nixos-rebuild switch` again.\
