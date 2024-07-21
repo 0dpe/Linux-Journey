@@ -811,15 +811,8 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    { config, lib, pkgs, ... }:
    
    let
-     hslaToRgba = import ./hslaToRgba.nix { inherit lib builtins; };
-     formatRgba = color: "rgba(${hslaToRgba color})";
-
-     borderActive1 = { h = 200; s = 1.0; l = 0.6; a = 1; };
-     borderActive2 = { h = 170; s = 1.0; l = 0.6; a = 1; };
-     borderInactive = { h = 0; s = 0.0; l = 0.2; a = 1; };
-     shadowActive = { h = 185; s = 0.5; l = 0.6; a = 0.1; };
-     shadowInactive = { h = 0; s = 0.0; l = 0.2; a = 0.1; };
-
+     # ...
+   
    in
    {
      home.username = "tim";
@@ -927,17 +920,52 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    Gdk-Message: 05:23:36.908: Unable to load pointer from the cursor theme
    Gdk-Message: 05:27:02.544: Unable to load col-resize from the cursor theme
    ```
-   Although Hyprland has Hyprcursor which is superior to XCursor, some applications like Firefox [don't support](https://wiki.hyprland.org/Hypr-Ecosystem/hyprcursor/#important-notes "Hyprland Wiki") Hyprcursor and will fall back to XCursor. I don't have any Hyprcursor themes installed, so Hyprland is also falling back to XCursor. To customize the cursor in XCursor, use
+   Although Hyprland has Hyprcursor which is superior to XCursor, some applications like Firefox [don't support](https://wiki.hyprland.org/Hypr-Ecosystem/hyprcursor/#important-notes "Hyprland Wiki") Hyprcursor and will fall back to XCursor. I don't have any Hyprcursor themes installed, so Hyprland is also falling back to XCursor. To customize the cursor in XCursor, edit `home.nix`:
+   ```diff
+   { config, lib, pkgs, ... }:
+   
+   let
+     # ...
+   
+   in
+   {
+     home.username = "tim";
+     home.homeDirectory = "/home/tim";
+
+     wayland.windowManager.hyprland.enable = true;
+     wayland.windowManager.hyprland.settings = {
+       # ...
+     };
+
+     programs.kitty.enable = true;
+     programs.kitty.settings = {
+       # ...
+     };
+     programs.kitty.extraConfig = ''
+       # ...
+     '';
+
+   + home.pointerCursor.package = pkgs.;
+   + home.pointerCursor.name = "";
+   + home.pointerCursor.size = ;
+   + home.pointerCursor.gtk.enable = true;
+   + home.pointerCursor.x11.enable = true;
+   + home.pointerCursor.x11.defaultCursor = "";
+
+     home.stateVersion = "24.05";
+     programs.home-manager.enable = true;
+   }
+   ```
+   `home.pointerCursor.x11` is enabled for X programs that run through XWayland.\
+   Firefox uses GDK (backbone of GTK, the GUI toolkit), so having `home.pointerCursor.gtk.enable = true;` generates the cursor configuration for GTK. The `gtk.cursorTheme` option also exists in Home Manager, but that is not needed.\
 
 ### WIP
 
-`nix-collect-garbage -d` deletes generations and store objects.
+`# nix-collect-garbage -d` deletes generations and store objects.
 
 hyprland: [window rules](https://wiki.hyprland.org/Configuring/Window-Rules/), [master layout](https://wiki.hyprland.org/Configuring/Master-Layout/), [env vars](https://wiki.hyprland.org/Configuring/Environment-variables/), [toggle blur/ani](https://wiki.hyprland.org/Configuring/Uncommon-tips--tricks/#toggle-animationsbluretc-hotkey).
 
 home manage firefox
-
-set xcursor: https://github.com/vinceliuice/McMojave-cursors/tree/master
 
 Kitty zsh shell integration
 kitty/zsh themes
