@@ -774,7 +774,7 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    +   };
    +   input = {
    +     repeat_delay = 500;
-   +     sensitivity = "0.2";
+   +     sensitivity = "0.4";
    +     accel_profile = "flat";
    +     touchpad = {
    +       disable_while_typing = false;
