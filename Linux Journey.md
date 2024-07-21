@@ -58,7 +58,7 @@ Text based browsers are interesting but impractical.\
 Forks of Firefox or Chromium are generally inferior. Edge, Brave, and Opera are modern but bloated.
 
 ### Cursor Theme
-Numix, Gruppled, [Graphite](https://github.com/vinceliuice/Graphite-cursors), [Afterglow (recolored)](https://github.com/TeddyBearKilla/Afterglow-Cursors-Recolored), [McMojave](https://github.com/vinceliuice/McMojave-cursors), Breeze Hacked, Comix, [Bibata](https://github.com/ful1e5/Bibata_Cursor), Google inspired, [Phinger](https://github.com/phisch/phinger-cursors), Quintom, Whitesur, Vimix, Catppuccin, [Vanilla DMZ](https://www.gnome-look.org/p/999970/), OpenZone, Hackneyed, ✔️ [Capitaine](https://github.com/keeferrourke/capitaine-cursors/), Borealis, Nordzy, [Simp1e](https://www.gnome-look.org/p/1932768), Volantes, ... 
+Numix, Gruppled, [Graphite](https://github.com/vinceliuice/Graphite-cursors), [Afterglow (recolored)](https://github.com/TeddyBearKilla/Afterglow-Cursors-Recolored), [McMojave](https://github.com/vinceliuice/McMojave-cursors), Breeze Hacked, Comix, [Bibata](https://github.com/ful1e5/Bibata_Cursor), Google inspired, [Phinger](https://github.com/phisch/phinger-cursors), Quintom, Whitesur, Vimix, Catppuccin, [Vanilla DMZ](https://www.gnome-look.org/p/999970/), OpenZone, Hackneyed, Borealis, Nordzy, [Simp1e](https://www.gnome-look.org/p/1932768), Volantes, ✔️ [Capitaine](https://github.com/keeferrourke/capitaine-cursors/), ... 
 
 ## Installing NixOS
 
