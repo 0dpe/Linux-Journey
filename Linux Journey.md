@@ -945,12 +945,14 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
        # ...
      '';
 
-   + home.pointerCursor.package = pkgs.;
-   + home.pointerCursor.name = "";
-   + home.pointerCursor.size = ;
-   + home.pointerCursor.gtk.enable = true;
-   + home.pointerCursor.x11.enable = true;
-   + home.pointerCursor.x11.defaultCursor = "";
+   + home.pointerCursor = {
+   +   package = pkgs.;
+   +   name = "";
+   +   size = ;
+   +   gtk.enable = true;
+   +   x11.enable = true;
+   +   x11.defaultCursor = "";
+   + };
 
      home.stateVersion = "24.05";
      programs.home-manager.enable = true;
