@@ -927,11 +927,9 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    Gdk-Message: 05:23:36.908: Unable to load pointer from the cursor theme
    Gdk-Message: 05:27:02.544: Unable to load col-resize from the cursor theme
    ```
-   Although Hyprland has Hyprcursor which is superior to XCursor, some applications like Firefox [don't support](https://wiki.hyprland.org/Hypr-Ecosystem/hyprcursor/#important-notes "Hyprland Wiki") Hyprcursor and will fall back to XCursor. I don't have any Hyprcursor themes installed, so Hyprland is also falling back to XCursor. To customize the cursor in XCursor, use 
+   Although Hyprland has Hyprcursor which is superior to XCursor, some applications like Firefox [don't support](https://wiki.hyprland.org/Hypr-Ecosystem/hyprcursor/#important-notes "Hyprland Wiki") Hyprcursor and will fall back to XCursor. I don't have any Hyprcursor themes installed, so Hyprland is also falling back to XCursor. To customize the cursor in XCursor, use
 
-### Installing WeChat
-
-### Installing Stremio
+### WIP
 
 `nix-collect-garbage -d` deletes generations and store objects.
 
@@ -973,3 +971,7 @@ Media Player: \
 Image Viewer: \
 
 Neofetch alternative: \
+
+Wechat
+Stremio
+Astrill VPN
