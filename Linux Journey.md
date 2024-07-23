@@ -987,17 +987,17 @@ hyprland: [window rules](https://wiki.hyprland.org/Configuring/Window-Rules/), [
 
 home manage firefox
 
-Kitty zsh shell integration (done?)
-Kitty color schemes? 
-Zsh frameworks: oh my zsh, prezto, zinit, antigen, ...?
-Zsh plugins (plugin managers as well?)
-Packages for terminal: Neofetch alternative, fonts, improved ls find grep cat man etc..., 
-Zsh Prompt Customization (what is that)? powerlevel10k, starship, ...?
-git integration? 
-Terminal Multiplexers (what is that?)
-terminal file manager? 
-better nano? 
-system monitoring?
+Kitty zsh shell integration (done?)\
+Kitty color schemes? \
+Zsh frameworks: oh my zsh, prezto, zinit, antigen, ...?\
+Zsh plugins (plugin managers as well?)\
+Packages for terminal: Neofetch alternative, fonts, improved ls find grep cat man etc..., \
+Zsh Prompt Customization (what is that)? powerlevel10k, starship, ...?\
+git integration? \
+Terminal Multiplexers (what is that?)\
+terminal file manager? \
+better nano? \
+system monitoring?\
 
 home manage git
 
