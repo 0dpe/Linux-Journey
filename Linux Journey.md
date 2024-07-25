@@ -979,6 +979,18 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    Although `pkgs.capitaine-cursors` includes light and dark versions, the dark version seems to be the default, so I don't configure that manually.\
    After connecting to the internet and using `# nixos-rebuild switch`, running Firefox shows no error messages.
 
+### Controlling Screen Backlight
+Packages like `light` and `brightnessctl` work on Wayland and make changing screen brightness easy, but there is a simpler way to change screen brightness. The file `/sys/class/backlight/intel_backlight/brightness` contains an integer that defines the screen brightness. Use `$ cat /sys/class/backlight/intel_backlight/max_brightness` to see the max brightness is 24000. When the file `brightness` is modified, the screen brightness changes accordingly. However, the file `brightness` has permissions ``, so only the root user can modify it. Use `$ sudo tee /sys/class/backlight/intel_backlight/brightness <<< "$NUMBER"` to modify the file manually.\
+Notes: Using `$ sudo echo $NUMBER > /sys/class/backlight/intel_backlight/max_brightness` does not work because `sudo` elevates the command that follows it (`echo` in this case), not the redirector operator `>` which is handled by the shell (Zsh for me). `sudo` here does not affect the shell's operations; `>` is supposed to write the output of `echo $NUMBER` to the file `brightness` but it's operated by the shell which doesn't have permission. Using `# echo $NUMBER > /sys/class/backlight/intel_backlight/max_brightness` works because while using commands as root, all operations, including the shell's operations, are performed with root privileges. Also, to use the command without root, use `$ sudo sh -c 'echo SOMETHING > /sys/class/file-in-here'`. `<<<` (*here string*) is also a shell operation, but in `$ sudo tee /sys/class/backlight/intel_backlight/brightness <<< "$NUMBER"` `tee` actually does the writing, and `tee` has elevated privileges. `<<<` only passes the string to `tee` for `tee` to modify the file `brightness`.\
+To allow modification of the file `brightness` without `sudo` for all users, add to `configuration.nix`:
+```diff
+
+```
+To bind dynamic keybinds to change screen brightness with Hyprland, edit `home.nix`:
+```diff
+
+```
+
 ### WIP
 
 `# nix-collect-garbage -d` deletes generations and store objects.
@@ -1014,10 +1026,9 @@ Wallpaper manager: https://www.reddit.com/r/commandline/comments/13y5j4m/asciima
 
 Bluetooth: \
 Audio Control: \
-Screen Brightness Control: use `$ light` or 
 Keyboard Language Control: English, Chinese, Spanish. \
 Keyboard Backlight Control: \
-Power Manager: Find battery: `$ cat `
+Power Manager: Find battery percentage: `$ cat /sys/class/power_supply/BAT0/capacity`
 Clipboard Manager: \
 
 File Manager: \
