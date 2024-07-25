@@ -1014,10 +1014,10 @@ Wallpaper manager: https://www.reddit.com/r/commandline/comments/13y5j4m/asciima
 
 Bluetooth: \
 Audio Control: \
-Screen Brightness Control: \
+Screen Brightness Control: use `$ light` or 
 Keyboard Language Control: English, Chinese, Spanish. \
 Keyboard Backlight Control: \
-Power Manager: \
+Power Manager: Find battery: `$ cat `
 Clipboard Manager: \
 
 File Manager: \
