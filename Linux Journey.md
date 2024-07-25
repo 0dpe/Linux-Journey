@@ -988,7 +988,8 @@ To allow modification of the file `brightness` without `sudo` for all users, add
 ```
 To bind dynamic keybinds to change screen brightness with Hyprland, edit `home.nix`:
 ```diff
-
+bind = , XF86KbdBrightnessDown, exec, Firefox
+bind = , XF86KbdBrightnessUp, exec, Firefox
 ```
 
 ### WIP
