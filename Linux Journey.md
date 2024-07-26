@@ -69,7 +69,7 @@ Installing NixOS minimal (no GNOME or KDE) on an HP ZHAN 66 Pro 14 G2:
 1. Use [balenaEtcher](https://etcher.balena.io/#download-etcher) to flash the .iso to a USB.
 
 1. Plug the USB into the laptop and turn on the laptop.\
-   Spam *esc* key while booting to open the HP startup menu.\
+   Spam <kbd>ESC</kbd> while booting to open the HP startup menu.\
    [Disable secure boot](https://support.hp.com/us-en/document/ish_6930187-6931079-16#:~:text=Secure%20Boot%20settings%20for%20commercial%20notebooks%20and%20workstations "HP Support").\
    Select boot from USB in Boot Menu (<kbd>F9</kbd>).
 
