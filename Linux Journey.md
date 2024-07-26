@@ -1141,6 +1141,71 @@ Notes: Using `$ sudo echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_b
    }
    ```
 
+### Using a Display (Login) Manager
+Since I only have one user and one window manager or desktop environment, I do not need a graphical display manager, or any display manager at all.\
+1. To automate typing in the username, edit `configuration.nix`:
+   ```diff
+   { config, lib, pkgs, ... }:
+   
+   {
+     imports =
+       [
+         ./hardware-configuration.nix
+       ];
+   
+     boot.loader.systemd-boot.enable = true;
+     boot.loader.efi.canTouchEfiVariables = true;
+   
+     nix.settings.experimental-features = [ "nix-command" "flakes" ];
+   
+     networking.hostName = "ZHAN";
+     networking.networkmanager.enable = true;
+   
+     time.timeZone = "America/New_York";
+   
+     services.libinput.enable = true;
+     services.pipewire.enable = true;
+     services.udev.extraRules = ''
+       ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", MODE="0666", RUN+="${pkgs.coreutils}/bin/chmod a+w /sys/class/backlight/%k/brightness"
+     '';
+   
+     security.rtkit.enable = true;
+
+     xdg.portal.enable = true;
+     xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+
+     users.users.tim = {
+       isNormalUser = true;
+       extraGroups = [ "wheel" "networkmanager" ];
+     };
+   + services.getty.autologinUser = "tim";
+   
+     users.defaultUserShell = pkgs.zsh;
+   
+     environment.systemPackages = with pkgs; [
+       kitty
+       capitaine-cursors
+     ];
+   
+     programs.git.enable = true;
+
+     programs.zsh.enable = true;
+     programs.zsh.autosuggestions.enable = true;
+   
+     programs.hyprland.enable = true;
+     environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+     programs.firefox.enable = true;
+     programs.firefox.package = pkgs.firefox-bin
+   
+     system.stateVersion = "24.05";
+   }
+   ```
+   [`getty`](https://www.wikiwand.com/en/Getty_(Unix) "Wikipedia") (get-tty) manages TTYs. 
+1. To start Hyprland automatically after login, edit `.zprofile`:
+   ```
+   ```
+
 ### WIP
 `# nix-collect-garbage -d` deletes generations and store objects.
 
