@@ -732,9 +732,10 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    + hslaToRgba = import ./hslaToRgba.nix { inherit lib builtins; };
    + formatRgba = color: "rgba(${hslaToRgba color})";
 
-   + borderActive1 = { h = 200; s = 1.0; l = 0.6; a = 1; };
-   + borderActive2 = { h = 170; s = 1.0; l = 0.6; a = 1; };
-   + borderInactive = { h = 0; s = 0.0; l = 0.2; a = 1; };
+   + borderGradientDegree = 45;
+   + borderActive1 = { h = 0; s = 0.0; l = 1.0; a = 1; };
+   + borderActive2 = { h = 0; s = 0.0; l = 1.0; a = 0.65; };
+   + borderInactive = { h = 210; s = 0.16; l = 0.5; a = 0.5; };
    + shadowActive = { h = 185; s = 0.5; l = 0.6; a = 0.1; };
    + shadowInactive = { h = 0; s = 0.0; l = 0.2; a = 0.1; };
 
@@ -758,10 +759,22 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    +     "SHIFT, mouse:272, movewindow"
    +     "CTRL, mouse:272, resizewindow"
    +   ];
+   +   bezier = [
+   +     "linear, 0.5, 0.5, 0.5, 0.5"
+   +     "snappyOut1, 0, 0.85, 0, 1"
+   +     "snappyOut2, 0, 0.6, 0.15, 1"
+   +     "expoOut, 0.16, 1, 0.3, 1"
+   +   ];
+   +   animation = [
+   +     "windowsIn, 1, 5, snappyOut1, popin 20%"
+   +     "windowsOut, 1, 8, snappyOut2, popin 80%"
+   +     "windowsMove, 1, 5, snappyOut1"
+   +     "fadeOut, 1, 4, expoOut"
+   +     "borderangle, 1, 40, linear, loop"
    +   general = {
    +     border_size = 2;
    +     gaps_out = 15;
-   +     "col.active_border" = "${formatRgba borderActive1} ${formatRgba borderActive2} 45deg";
+   +     "col.active_border" = "${formatRgba borderActive1} ${formatRgba borderActive2} ${toString borderGradientDegree}";
    +     "col.inactive_border" = formatRgba borderInactive;
    +     resize_on_border = true;
    +   };
@@ -769,7 +782,7 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    +     rounding = 8;
    +     shadow_range = 6;
    +     shadow_render_power = 1;
-   +     "col.shadow" =  formatRgba shadowActive;
+   +     "col.shadow" = formatRgba shadowActive;
    +     "col.shadow_inactive" = formatRgba shadowInactive;
    +     blur = {
    +       size = 6;
@@ -1082,7 +1095,8 @@ Notes: Using `$ sudo echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_b
      system.stateVersion = "24.05";
    }
    ```
-   `udev` is enabled by default.
+   `udev` is enabled by default.\
+   After connecting to internet and using `# nixos-rebuild switch`, and then rebooting, `/sys/class/backlight/intel_backlight/brightness` has permissions `-rw-rw-rw-`.
 1. To bind dynamic commands to keybinds to change screen brightness in Hyprland, edit `home.nix`:
    ```diff
    { config, lib, pkgs, ... }:
@@ -1097,12 +1111,17 @@ Notes: Using `$ sudo echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_b
 
      wayland.windowManager.hyprland.enable = true;
      wayland.windowManager.hyprland.settings = {
-       # ...
-
+       bind = [
+         # ...
+       ];
    +   binde = [
    +     "SUPER, MINUS, exec, val=$(< /sys/class/backlight/intel_backlight/brightness); tee /sys/class/backlight/intel_backlight/brightness <<< $((val <= 4188 ? 188 : val - 4000))"
    +     "SUPER, EQUAL, exec, val=$(< /sys/class/backlight/intel_backlight/brightness); tee /sys/class/backlight/intel_backlight/brightness <<< $((val >= 20000 ? 24000 : val + 4000))"
    +   ];
+       bindm = [
+         # ...
+       ];
+       # ...
      };
 
      programs.kitty.enable = true;
@@ -1126,6 +1145,7 @@ Notes: Using `$ sudo echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_b
 `# nix-collect-garbage -d` deletes generations and store objects.
 
 hyprland: [window rules](https://wiki.hyprland.org/Configuring/Window-Rules/), [master layout](https://wiki.hyprland.org/Configuring/Master-Layout/), [env vars](https://wiki.hyprland.org/Configuring/Environment-variables/), [toggle blur/ani](https://wiki.hyprland.org/Configuring/Uncommon-tips--tricks/#toggle-animationsbluretc-hotkey).
+Finish hyprland animation customization (layers, etc...)
 
 home manage firefox
 
