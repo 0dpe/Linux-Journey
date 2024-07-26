@@ -1230,7 +1230,7 @@ Since I only have one user and one window manager or desktop environment, I do n
 
    + programs.zsh.enable = true;
    + programs.zsh.profileExtra = ''
-   +   if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
+   +   if [ -z "''${DISPLAY}" ] && [ "''${XDG_VTNR}" -eq 1 ]; then
    +     echo "ZPROFILE: Starting Hyprland..."
    +     exec Hyprland
    +   fi
@@ -1245,7 +1245,8 @@ Since I only have one user and one window manager or desktop environment, I do n
    }
    ```
    Zsh executes a few files in a [specific order](https://mac.install.guide/assets/images/terminal/zsh-configuration.png](https://github.com/sambacha/dotfiles2/blob/master/.github/shell-startup.png "Zsh Config Files Flowchart") on startup. the `.zprofile` file is executed on all login startups.\
-   `-z` checks for zero length; if Hyprland is already running, `${DISPLAY}` will have length. `${XDG_VTNR}` indicates TTY#; `-eq` means "equal".
+   `-z` checks for zero length; if Hyprland is already running, `${DISPLAY}` will have length. `${XDG_VTNR}` indicates TTY#; `-eq` means "equal".\
+   Remove `/home/tim/.zshrc`, then connect to internet and use `# nixos-rebuild switch`.
 
 ### WIP
 `# nix-collect-garbage -d` deletes generations and store objects.
