@@ -1178,8 +1178,8 @@ Since I only have one user and one window manager or desktop environment, I do n
        isNormalUser = true;
        extraGroups = [ "wheel" "networkmanager" ];
      };
-   + services.getty.autologinUser = "tim";
-   
+   + services.getty.extraArgs = [ "--skip-login" "--login-options" "tim" ];
+      
      users.defaultUserShell = pkgs.zsh;
    
      environment.systemPackages = with pkgs; [
@@ -1201,7 +1201,8 @@ Since I only have one user and one window manager or desktop environment, I do n
      system.stateVersion = "24.05";
    }
    ```
-   [`getty`](https://www.wikiwand.com/en/Getty_(Unix) "Wikipedia") (get-tty) manages TTYs. 
+   [`getty`](https://www.wikiwand.com/en/Getty_(Unix) "Wikipedia") (get-tty) manages TTYs.\
+   `services.getty.autologinUser` is not used because it skips the password too.
 1. To start Hyprland automatically after login, edit `.zprofile`:
    ```
    ```
