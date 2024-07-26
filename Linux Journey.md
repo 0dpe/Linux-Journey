@@ -1142,7 +1142,7 @@ Notes: Using `$ sudo echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_b
    ```
 
 ### Using a Display (Login) Manager
-Since I only have one user and one window manager or desktop environment, I do not need a graphical display manager, or any display manager at all.\
+Since I only have one user and one window manager or desktop environment, I do not need a graphical display manager, or any display manager at all.
 1. To automate typing in the username, edit `configuration.nix`:
    ```diff
    { config, lib, pkgs, ... }:
