@@ -551,7 +551,7 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 ```
-Since there are not a lot of configuration options, I do not use Home Manager to configure zsh.
+Since I don't need to further configure zsh (yet), I do not use Home Manager for zsh.
 
 ### Using [Hyprland](https://wiki.hyprland.org/ "Hyprland Wiki")
 Hyprland can be installed 2 ways:
@@ -1203,9 +1203,49 @@ Since I only have one user and one window manager or desktop environment, I do n
    ```
    [`getty`](https://www.wikiwand.com/en/Getty_(Unix) "Wikipedia") (get-tty) manages TTYs.\
    `services.getty.autologinUser` is not used because it skips the password too.
-1. To start Hyprland automatically after login, edit `.zprofile`:
+1. To start Hyprland automatically after login, edit `home.nix`:
+   ```diff
+   { config, lib, pkgs, ... }:
+   
+   let
+     # ...
+   
+   in
+   {
+     home.username = "tim";
+     home.homeDirectory = "/home/tim";
+
+     wayland.windowManager.hyprland.enable = true;
+     wayland.windowManager.hyprland.settings = {
+       # ...
+     };
+
+     programs.kitty.enable = true;
+     programs.kitty.settings = {
+       # ...
+     };
+     programs.kitty.extraConfig = ''
+       # ...
+     '';
+
+   + programs.zsh.enable = true;
+   + programs.zsh.profileExtra = ''
+   +   if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
+   +     echo "ZPROFILE: Starting Hyprland..."
+   +     exec Hyprland
+   +   fi
+   + '';
+
+     home.pointerCursor = {
+       # ...
+     };
+
+     home.stateVersion = "24.05";
+     programs.home-manager.enable = true;
+   }
    ```
-   ```
+   Zsh executes a few files in a [specific order](https://mac.install.guide/assets/images/terminal/zsh-configuration.png](https://github.com/sambacha/dotfiles2/blob/master/.github/shell-startup.png "Zsh Config Files Flowchart") on startup. the `.zprofile` file is executed on all login startups.\
+   `-z` checks for zero length; if Hyprland is already running, `${DISPLAY}` will have length. `${XDG_VTNR}` indicates TTY#; `-eq` means "equal".
 
 ### WIP
 `# nix-collect-garbage -d` deletes generations and store objects.
