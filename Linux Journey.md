@@ -926,14 +926,57 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    ```
    Although Hyprland has Hyprcursor which is superior to XCursor, some applications like Firefox [don't support](https://wiki.hyprland.org/Hypr-Ecosystem/hyprcursor/#important-notes "Hyprland Wiki") Hyprcursor and will fall back to XCursor. I don't have any Hyprcursor themes installed, so Hyprland is also falling back to XCursor. I don't have any XCursor themes installed. To customize the cursor in XCursor, edit `configuration.nix`:
    ```diff
-   # ...
+   { config, lib, pkgs, ... }:
+   
+   {
+     imports =
+       [
+         ./hardware-configuration.nix
+       ];
+   
+     boot.loader.systemd-boot.enable = true;
+     boot.loader.efi.canTouchEfiVariables = true;
+   
+     nix.settings.experimental-features = [ "nix-command" "flakes" ];
+   
+     networking.hostName = "ZHAN";
+     networking.networkmanager.enable = true;
+   
+     time.timeZone = "America/New_York";
+   
+     services.libinput.enable = true;
+     services.pipewire.enable = true;
+   
+     security.rtkit.enable = true;
+
+     xdg.portal.enable = true;
+     xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+
+     users.users.tim = {
+       isNormalUser = true;
+       extraGroups = [ "wheel" "networkmanager" ];
+     };
+   
+     users.defaultUserShell = pkgs.zsh;
    
      environment.systemPackages = with pkgs; [
        kitty
    +   capitaine-cursors
      ];
    
-   # ...
+     programs.git.enable = true;
+
+     programs.zsh.enable = true;
+     programs.zsh.autosuggestions.enable = true;
+   
+     programs.hyprland.enable = true;
+     environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+     programs.firefox.enable = true;
+     programs.firefox.package = pkgs.firefox-bin
+   
+     system.stateVersion = "24.05";
+   }
    ```
    And edit `home.nix`:
    ```diff
@@ -981,23 +1024,105 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
 
 ### Controlling Screen Backlight
 Packages like `light` and `brightnessctl` work on Wayland and make changing screen brightness easy, but there is a simpler way to change screen brightness. The file `/sys/class/backlight/intel_backlight/brightness` contains an integer that defines the screen brightness. Use `$ cat /sys/class/backlight/intel_backlight/max_brightness` to see the max brightness is 24000 (a number <188 makes the backlight flicker or turn off). When the file `brightness` is modified, the screen brightness changes accordingly. However, the file `brightness` has permissions `-rw-r--r--` (file type, permissions(owner, group, others)), so only the root user can modify it. Use `$ sudo tee /sys/class/backlight/intel_backlight/brightness <<< MY_NUMBER` to modify the file manually.\
-Notes: Using `$ sudo echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_brightness` does not work because `sudo` elevates the command that follows it (`echo` in this case), not the redirector operator `>` which is handled by the shell (Zsh for me). `sudo` here does not affect the shell's operations; `>` is supposed to write the output of `echo MY_NUMBER` to the file `brightness` but it's operated by the shell which doesn't have permission. Using `# echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_brightness` works because while using commands as root, all operations, including the shell's operations, are performed with root privileges. Also, to use the command without root, use `$ sudo sh -c 'echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_brightness'`. `<<<` (*here string*) is also a shell operation, but in `$ sudo tee /sys/class/backlight/intel_backlight/brightness <<< MY_NUMBER` `tee` actually does the writing, and `tee` has elevated privileges. `<<<` only passes the string to `tee` for `tee` to modify the file `brightness`.\
-To bind dynamic commands to keybinds to change screen brightness in Hyprland, edit `home.nix`:
-```diff
-binde = [
-"SUPER, MINUS, exec, val=$(< /sys/class/backlight/intel_backlight/brightness); tee /sys/class/backlight/intel_backlight/brightness <<< $((val <= 4188 ? 188 : val - 4000))"
-"SUPER, EQUAL, exec, val=$(< /sys/class/backlight/intel_backlight/brightness); tee /sys/class/backlight/intel_backlight/brightness <<< $((val >= 20000 ? 24000 : val + 4000))"
-];
-```
-To allow modification of the file `brightness` without `sudo` for all users, add to `configuration.nix`:
-```diff
-  services.udev.extraRules = ''
-    ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", MODE="0666", RUN+="${pkgs.coreutils}/bin/chmod a+w /sys/class/backlight/%k/brightness"
-  '';
-```
+Notes: Using `$ sudo echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_brightness` does not work because `sudo` elevates the command that follows it (`echo` in this case), not the redirector operator `>` which is handled by the shell (Zsh for me). `sudo` here does not affect the shell's operations; `>` is supposed to write the output of `echo MY_NUMBER` to the file `brightness` but it's operated by the shell which doesn't have permission. Using `# echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_brightness` works because while using commands as root, all operations, including the shell's operations, are performed with root privileges. Also, to use the command without root, use `$ sudo sh -c 'echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_brightness'`. `<<<` (*here string*) is also a shell operation, but in `$ sudo tee /sys/class/backlight/intel_backlight/brightness <<< MY_NUMBER` `tee` actually does the writing, and `tee` has elevated privileges. `<<<` only passes the string to `tee` for `tee` to modify the file `brightness`.
+1. To allow modification of the file `brightness` without `sudo` for all users, edit `configuration.nix`:
+   ```diff
+   { config, lib, pkgs, ... }:
+   
+   {
+     imports =
+       [
+         ./hardware-configuration.nix
+       ];
+   
+     boot.loader.systemd-boot.enable = true;
+     boot.loader.efi.canTouchEfiVariables = true;
+   
+     nix.settings.experimental-features = [ "nix-command" "flakes" ];
+   
+     networking.hostName = "ZHAN";
+     networking.networkmanager.enable = true;
+   
+     time.timeZone = "America/New_York";
+   
+     services.libinput.enable = true;
+     services.pipewire.enable = true;
+   + services.udev.extraRules = ''
+   +   ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", MODE="0666", RUN+="${pkgs.coreutils}/bin/chmod a+w /sys/class/backlight/%k/brightness"
+   + '';
+   
+     security.rtkit.enable = true;
+
+     xdg.portal.enable = true;
+     xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+
+     users.users.tim = {
+       isNormalUser = true;
+       extraGroups = [ "wheel" "networkmanager" ];
+     };
+   
+     users.defaultUserShell = pkgs.zsh;
+   
+     environment.systemPackages = with pkgs; [
+       kitty
+       capitaine-cursors
+     ];
+   
+     programs.git.enable = true;
+
+     programs.zsh.enable = true;
+     programs.zsh.autosuggestions.enable = true;
+   
+     programs.hyprland.enable = true;
+     environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+     programs.firefox.enable = true;
+     programs.firefox.package = pkgs.firefox-bin
+   
+     system.stateVersion = "24.05";
+   }
+   ```
+   `udev` is enabled by default.
+1. To bind dynamic commands to keybinds to change screen brightness in Hyprland, edit `home.nix`:
+   ```diff
+   { config, lib, pkgs, ... }:
+   
+   let
+     # ...
+   
+   in
+   {
+     home.username = "tim";
+     home.homeDirectory = "/home/tim";
+
+     wayland.windowManager.hyprland.enable = true;
+     wayland.windowManager.hyprland.settings = {
+       # ...
+
+   +   binde = [
+   +     "SUPER, MINUS, exec, val=$(< /sys/class/backlight/intel_backlight/brightness); tee /sys/class/backlight/intel_backlight/brightness <<< $((val <= 4188 ? 188 : val - 4000))"
+   +     "SUPER, EQUAL, exec, val=$(< /sys/class/backlight/intel_backlight/brightness); tee /sys/class/backlight/intel_backlight/brightness <<< $((val >= 20000 ? 24000 : val + 4000))"
+   +   ];
+     };
+
+     programs.kitty.enable = true;
+     programs.kitty.settings = {
+       # ...
+     };
+     programs.kitty.extraConfig = ''
+       # ...
+     '';
+
+     home.pointerCursor = {
+       # ...
+     };
+
+     home.stateVersion = "24.05";
+     programs.home-manager.enable = true;
+   }
+   ```
 
 ### WIP
-
 `# nix-collect-garbage -d` deletes generations and store objects.
 
 hyprland: [window rules](https://wiki.hyprland.org/Configuring/Window-Rules/), [master layout](https://wiki.hyprland.org/Configuring/Master-Layout/), [env vars](https://wiki.hyprland.org/Configuring/Environment-variables/), [toggle blur/ani](https://wiki.hyprland.org/Configuring/Uncommon-tips--tricks/#toggle-animationsbluretc-hotkey).
