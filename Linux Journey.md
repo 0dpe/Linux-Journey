@@ -984,8 +984,8 @@ Packages like `light` and `brightnessctl` work on Wayland and make changing scre
 Notes: Using `$ sudo echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_brightness` does not work because `sudo` elevates the command that follows it (`echo` in this case), not the redirector operator `>` which is handled by the shell (Zsh for me). `sudo` here does not affect the shell's operations; `>` is supposed to write the output of `echo MY_NUMBER` to the file `brightness` but it's operated by the shell which doesn't have permission. Using `# echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_brightness` works because while using commands as root, all operations, including the shell's operations, are performed with root privileges. Also, to use the command without root, use `$ sudo sh -c 'echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_brightness'`. `<<<` (*here string*) is also a shell operation, but in `$ sudo tee /sys/class/backlight/intel_backlight/brightness <<< MY_NUMBER` `tee` actually does the writing, and `tee` has elevated privileges. `<<<` only passes the string to `tee` for `tee` to modify the file `brightness`.\
 To bind dynamic commands to keybinds to change screen brightness in Hyprland, edit `home.nix`:
 ```diff
-"SUPER, =, exec, "
-"SUPER, -, exec, "
+"SUPER, MINUS, exec, "
+"SUPER, EQUAL, exec, "
 ```
 To allow modification of the file `brightness` without `sudo` for all users, add to `configuration.nix`:
 ```diff
