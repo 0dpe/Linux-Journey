@@ -789,7 +789,7 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    +   misc = {
    +     disable_splash_rendering = true;
    +     animate_manual_resizes = true;
-   +     animate_mouse_windowdragging	= true;
+   +     animate_mouse_windowdragging = true;
    +     middle_click_paste = false;
    +   };
    + };
