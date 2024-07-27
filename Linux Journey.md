@@ -1277,7 +1277,6 @@ system monitoring?
 Bluetooth: \
 Audio Control: \
 Keyboard Language Control: English, Chinese, Spanish. \
-Keyboard Backlight Control: \
 Power Manager: Find battery percentage: `$ cat /sys/class/power_supply/BAT0/capacity`\
 Clipboard Manager: \
 Screenshot Utility: \
