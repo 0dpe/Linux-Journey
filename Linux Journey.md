@@ -680,6 +680,7 @@ Debugging kitty and xdg-desktop-portal:
      system.stateVersion = "24.05";
    }
    ```
+   Connect to internet. Use `# nixos-rebuild switch`.
 
 Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#opt-wayland.windowManager.hyprland.enable "Home Manager Manual") to configure [Hyprland](https://wiki.hyprland.org/Configuring/Configuring-Hyprland/ "Hyprland Wiki"):
 1. Create and edit `/etc/nixos/hslaToRgba.nix`:
@@ -872,6 +873,7 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    }
    ```
    The `programs.kitty.shellIntegration.enableZshIntegration` Home Manager option is not set because it does not actually achieve [shell integration](https://sw.kovidgoyal.net/kitty/shell-integration/#shell-integration "Kitty Documentation"). Although kitty uses `"yes"` and `"no"`, Home Manager converts `true` and `false` to the strings. `''` defines multi-line strings in nix.
+1. Connect to internet. Use `# nixos-rebuild switch`.
 
 ### Installing Firefox
 In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by NixOS. 
@@ -928,7 +930,8 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
      system.stateVersion = "24.05";
    }
    ```
-1. Use `$ firefox` to see that Firefox works.\
+1. Connect to internet. Use `# nixos-rebuild switch`.\
+   Use `$ firefox` to see that Firefox works.\
    In the terminal, minor error messages appear:
    ```
    [Parent 4325, Main Thread] WARNING: ../gdk/wayland/gdkcursor-wayland.c:243 cursor image size (9x16) not an integermultiple of scale (2): 'glib warning', file /builds/worker/checkouts/gecko/toolkit/xre/nsSigHandlers.cpp:187
@@ -1140,6 +1143,7 @@ Notes: Using `$ sudo echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_b
      programs.home-manager.enable = true;
    }
    ```
+   Connect to internet. Use `# nixos-rebuild switch`.
 
 ### Using a Display (Login) Manager
 Since I only have one user and one window manager or desktop environment, I do not need a graphical display manager, or any display manager at all.
