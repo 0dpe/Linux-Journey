@@ -1255,10 +1255,12 @@ Since I only have one user and one window manager or desktop environment, I do n
 ### WIP
 `# nix-collect-garbage -d` deletes generations and store objects.
 
-hyprland: [window rules](https://wiki.hyprland.org/Configuring/Window-Rules/), [master layout](https://wiki.hyprland.org/Configuring/Master-Layout/), [env vars](https://wiki.hyprland.org/Configuring/Environment-variables/), [toggle blur/ani](https://wiki.hyprland.org/Configuring/Uncommon-tips--tricks/#toggle-animationsbluretc-hotkey).
-Finish hyprland animation customization (layers, etc...)
+hyprland: [window rules](https://wiki.hyprland.org/Configuring/Window-Rules/), [master layout](https://wiki.hyprland.org/Configuring/Master-Layout/), [env vars](https://wiki.hyprland.org/Configuring/Environment-variables/), [toggle blur/ani](https://wiki.hyprland.org/Configuring/Uncommon-tips--tricks/#toggle-animationsbluretc-hotkey).\
+Finish hyprland animation customization (layers, etc...)\
+wireplumber from hyprland docs / pipewire.pulse from configuration.nix
 
-home manage firefox
+Home manage firefox\
+Home manage git
 
 Kitty zsh shell integration (done?)\
 Kitty color schemes? \
@@ -1268,37 +1270,28 @@ Packages for terminal: Neofetch alternative, fonts, improved ls find grep cat ma
 Zsh Prompt Customization (what is that)? powerlevel10k, starship, ...?\
 git integration? \
 Terminal Multiplexers (what is that?)\
-terminal file manager? \
+terminal file manager (any file manager)? \
 better nano? \
-system monitoring?\
-
-home manage git
-
-wireplumber from hyprland docs / pipewire.pulse from configuration.nix
-
-Display Manager (Login Manager): \
-Screen Locker: \
-Taskbar (System Tray): \
-Notification Daemon: \
-Application Launcher: \
-Cursor control: Hyprcursor
-Authentication Agent: Starting method: manual (exec-once) Authentication agents are the things that pop up a window asking you for a password whenever an app wants to elevate its privileges.
-Wallpaper manager: https://www.reddit.com/r/commandline/comments/13y5j4m/asciimatrix/
+system monitoring?
 
 Bluetooth: \
 Audio Control: \
 Keyboard Language Control: English, Chinese, Spanish. \
 Keyboard Backlight Control: \
-Power Manager: Find battery percentage: `$ cat /sys/class/power_supply/BAT0/capacity`
+Power Manager: Find battery percentage: `$ cat /sys/class/power_supply/BAT0/capacity`\
 Clipboard Manager: \
-
-File Manager: \
 Screenshot Utility: \
 Text / Code Editor: \
 Calculator: \
 Media Player: \
 Image Viewer: \
-
-Wechat
-Stremio
+Wechat\
+Stremio\
 Astrill VPN
+
+Screen Locker: \
+Taskbar (System Tray): \
+Notification Daemon: \
+Application Launcher: \
+Authentication Agent: Starting method: manual (exec-once) Authentication agents are the things that pop up a window asking you for a password whenever an app wants to elevate its privileges.\
+Wallpaper manager: https://www.reddit.com/r/commandline/comments/13y5j4m/asciimatrix/
