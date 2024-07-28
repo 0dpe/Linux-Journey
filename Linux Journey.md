@@ -1038,13 +1038,31 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    After connecting to internet and using `# nixos-rebuild switch`, running Firefox shows no error messages.
 1. To use Home Manager to configure Firefox, edit `home.nix`:
    ```diff
-   programs.firefox.enable = true;
-   programs.firefox.package = pkgs.firefox-bin; #default is pkgs.firefox
-   programs.firefox.finalpackage = # what is this?
-   programs.firefox.languagePacks = [ "en-US" "zh-CN" ]; #https://releases.mozilla.org/pub/firefox/releases/128.0.3/linux-x86_64/xpi/
-   programs.firefox.nativeMessagingHosts = # what is this ?
-   programs.firefox.policies = # https://mozilla.github.io/policy-templates/
-   programs.firefox.profiles.tim.bookmarks = 
+   programs.firefox = {
+     enable = true;
+     package = pkgs.firefox-bin; #default is pkgs.firefox
+     finalpackage = # what is this?
+     languagePacks = [ "en-US" "zh-CN" ]; #https://releases.mozilla.org/pub/firefox/releases/128.0.3/linux-x86_64/xpi/
+     nativeMessagingHosts = # what is this ?
+     policies = # https://mozilla.github.io/policy-templates/
+     profiles.default = { # my profile is called default? 
+       bookmarks =
+       extensions =
+       extraConfig = '' # added to user.js
+       id = # 0 default
+       isDefault = # true if id=0
+       name = "tim";
+       path = ;
+       search.default = "Google";
+       search.privateDefault = "Google";
+       search.engines = ;
+       search.force =
+       search.order = 
+       settings = 
+       userChrome = # stylus scripts
+       userContent = # what is this?
+     };
+   };
    ```
 
 ### Controlling Screen Backlight
