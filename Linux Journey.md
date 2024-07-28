@@ -1043,6 +1043,8 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    programs.firefox.finalpackage = # what is this?
    programs.firefox.languagePacks = [ "en-US" "zh-CN" ]; #https://releases.mozilla.org/pub/firefox/releases/128.0.3/linux-x86_64/xpi/
    programs.firefox.nativeMessagingHosts = # what is this ?
+   programs.firefox.policies = # https://mozilla.github.io/policy-templates/
+   programs.firefox.profiles.tim.bookmarks = 
    ```
 
 ### Controlling Screen Backlight
