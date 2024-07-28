@@ -777,7 +777,7 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    +     general = {
    +       border_size = 2;
    +       gaps_out = 15;
-   +       "col.active_border" = "${formatRgba borderActive1} ${formatRgba borderActive2} ${toString borderGradientDegree}";
+   +       "col.active_border" = "${formatRgba borderActive1} ${formatRgba borderActive2} ${toString borderGradientDegree}deg";
    +       "col.inactive_border" = formatRgba borderInactive;
    +       resize_on_border = true;
    +     };
