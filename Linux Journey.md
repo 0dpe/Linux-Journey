@@ -745,66 +745,69 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
      home.username = "tim";
      home.homeDirectory = "/home/tim";
 
-   + wayland.windowManager.hyprland.enable = true;
-   + wayland.windowManager.hyprland.settings = {
-   +   bind = [
-   +     "ALT, TAB, cyclenext"
-   +     "ALT, TAB, alterzorder, top"
-   +     "SUPER, T, exec, kitty"
-   +     "SUPER, W, killactive"
-   +     "SUPER, Q, togglefloating"
-   +     "SUPER, F, fullscreen, 2"
-   +     "SUPER, K, exit"
-   +   ];
-   +   bindm = [
-   +     "SHIFT, mouse:272, movewindow"
-   +     "CTRL, mouse:272, resizewindow"
-   +   ];
-   +   bezier = [
-   +     "linear, 0.5, 0.5, 0.5, 0.5"
-   +     "snappyOut1, 0, 0.85, 0, 1"
-   +     "snappyOut2, 0, 0.6, 0.15, 1"
-   +     "expoOut, 0.16, 1, 0.3, 1"
-   +   ];
-   +   animation = [
-   +     "windowsIn, 1, 5, snappyOut1, popin 20%"
-   +     "windowsOut, 1, 8, snappyOut2, popin 80%"
-   +     "windowsMove, 1, 5, snappyOut1"
-   +     "fadeOut, 1, 4, expoOut"
-   +     "borderangle, 1, 40, linear, loop"
-   +   general = {
-   +     border_size = 2;
-   +     gaps_out = 15;
-   +     "col.active_border" = "${formatRgba borderActive1} ${formatRgba borderActive2} ${toString borderGradientDegree}";
-   +     "col.inactive_border" = formatRgba borderInactive;
-   +     resize_on_border = true;
-   +   };
-   +   decoration = {
-   +     rounding = 8;
-   +     shadow_range = 6;
-   +     shadow_render_power = 1;
-   +     "col.shadow" = formatRgba shadowActive;
-   +     "col.shadow_inactive" = formatRgba shadowInactive;
-   +     blur = {
-   +       size = 6;
-   +       passes = 3;
+   + wayland.windowManager.hyprland = {
+   +   enable = true;
+   +   settings = {
+   +     bind = [
+   +       "ALT, TAB, cyclenext"
+   +       "ALT, TAB, alterzorder, top"
+   +       "SUPER, T, exec, kitty"
+   +       "SUPER, W, killactive"
+   +       "SUPER, Q, togglefloating"
+   +       "SUPER, F, fullscreen, 2"
+   +       "SUPER, K, exit"
+   +     ];
+   +     bindm = [
+   +       "SHIFT, mouse:272, movewindow"
+   +       "CTRL, mouse:272, resizewindow"
+   +     ];
+   +     bezier = [
+   +       "linear, 0.5, 0.5, 0.5, 0.5"
+   +       "snappyOut1, 0, 0.85, 0, 1"
+   +       "snappyOut2, 0, 0.6, 0.15, 1"
+   +       "expoOut, 0.16, 1, 0.3, 1"
+   +     ];
+   +     animation = [
+   +       "windowsIn, 1, 5, snappyOut1, popin 20%"
+   +       "windowsOut, 1, 8, snappyOut2, popin 80%"
+   +       "windowsMove, 1, 5, snappyOut1"
+   +       "fadeOut, 1, 4, expoOut"
+   +       "borderangle, 1, 40, linear, loop"
+   +     ];
+   +     general = {
+   +       border_size = 2;
+   +       gaps_out = 15;
+   +       "col.active_border" = "${formatRgba borderActive1} ${formatRgba borderActive2} ${toString borderGradientDegree}";
+   +       "col.inactive_border" = formatRgba borderInactive;
+   +       resize_on_border = true;
    +     };
-   +   };
-   +   input = {
-   +     repeat_delay = 500;
-   +     sensitivity = "0.3";
-   +     accel_profile = "flat";
-   +     touchpad = {
-   +       disable_while_typing = false;
-   +       natural_scroll = true;
-   +       tap-and-drag = false;
+   +     decoration = {
+   +       rounding = 8;
+   +       shadow_range = 6;
+   +       shadow_render_power = 1;
+   +       "col.shadow" = formatRgba shadowActive;
+   +       "col.shadow_inactive" = formatRgba shadowInactive;
+   +       blur = {
+   +         size = 6;
+   +         passes = 3;
+   +       };
    +     };
-   +   };
-   +   misc = {
-   +     disable_splash_rendering = true;
-   +     animate_manual_resizes = true;
-   +     animate_mouse_windowdragging = true;
-   +     middle_click_paste = false;
+   +     input = {
+   +       repeat_delay = 500;
+   +       sensitivity = "0.3";
+   +       accel_profile = "flat";
+   +       touchpad = {
+   +         disable_while_typing = false;
+   +         natural_scroll = true;
+   +         tap-and-drag = false;
+   +       };
+   +     };
+   +     misc = {
+   +       disable_splash_rendering = true;
+   +       animate_manual_resizes = true;
+   +       animate_mouse_windowdragging = true;
+   +       middle_click_paste = false;
+   +     };
    +   };
    + };
 
@@ -836,37 +839,38 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
      home.username = "tim";
      home.homeDirectory = "/home/tim";
 
-     wayland.windowManager.hyprland.enable = true;
-     wayland.windowManager.hyprland.settings = {
+     wayland.windowManager.hyprland = {
        # ...
      };
 
-   + programs.kitty.enable = true;
-   + programs.kitty.settings = {
-   +   font_size = "9.5";
-   +   cursor_shape = "beam";
-   +   cursor_shape_unfocused = "beam";
-   +   cursor_stop_blinking_after = 0;
-   +   scrollback_fill_enlarged_window = true;
-   +   mouse_hide_wait = -1;
-   +   show_hyperlink_targets = true;
-   +   clear_all_mouse_actions = true;
-   +   enable_audio_bell = false;
-   +   confirm_os_window_close = 0;
-   +   background_opacity = "0.3";
-   +   selection_background = "#ffffff";
-   +   clear_all_shortcuts = true;
+   + programs.kitty = {
+   +   enable = true;
+   +   settings = {
+   +     font_size = "9.5";
+   +     cursor_shape = "beam";
+   +     cursor_shape_unfocused = "beam";
+   +     cursor_stop_blinking_after = 0;
+   +     scrollback_fill_enlarged_window = true;
+   +     mouse_hide_wait = -1;
+   +     show_hyperlink_targets = true;
+   +     clear_all_mouse_actions = true;
+   +     enable_audio_bell = false;
+   +     confirm_os_window_close = 0;
+   +     background_opacity = "0.3";
+   +     selection_background = "#ffffff";
+   +     clear_all_shortcuts = true;
+   +   };  
+   +   extraConfig = ''
+   +     mouse_map left press ungrabbed mouse_selection normal
+   +     mouse_map left doublepress ungrabbed mouse_selection word
+   +     mouse_map left triplepress ungrabbed mouse_selection line
+   +     map ctrl+c copy_or_interrupt
+   +     map ctrl+x copy_and_clear_or_interrupt
+   +     map ctrl+v paste_from_clipboard
+   +     map ctrl+equal change_font_size all +1.0
+   +     map ctrl+minus change_font_size all -1.0
+   +   '';
    + };
-   + programs.kitty.extraConfig = ''
-   +   mouse_map left press ungrabbed mouse_selection normal
-   +   mouse_map left doublepress ungrabbed mouse_selection word
-   +   mouse_map left triplepress ungrabbed mouse_selection line
-   +   map ctrl+c copy_or_interrupt
-   +   map ctrl+x copy_and_clear_or_interrupt
-   +   map ctrl+v paste_from_clipboard
-   +   map ctrl+equal change_font_size all +1.0
-   +   map ctrl+minus change_font_size all -1.0
-   + '';
 
      home.stateVersion = "24.05";
      programs.home-manager.enable = true;
@@ -875,7 +879,7 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    The `programs.kitty.shellIntegration.enableZshIntegration` Home Manager option is not set because it does not actually achieve [shell integration](https://sw.kovidgoyal.net/kitty/shell-integration/#shell-integration "Kitty Documentation"). Although kitty uses `"yes"` and `"no"`, Home Manager converts `true` and `false` to the strings. `''` defines multi-line strings in nix.
 1. Connect to internet. Use `# nixos-rebuild switch`.
 
-### Installing Firefox
+### Using Firefox
 In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by NixOS. 
 1. To install `firefox-bin` for all users, edit `configuration.nix`:
    ```diff
@@ -1006,18 +1010,13 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
      home.username = "tim";
      home.homeDirectory = "/home/tim";
 
-     wayland.windowManager.hyprland.enable = true;
-     wayland.windowManager.hyprland.settings = {
+     wayland.windowManager.hyprland = {
        # ...
      };
 
-     programs.kitty.enable = true;
-     programs.kitty.settings = {
+     programs.kitty = {
        # ...
      };
-     programs.kitty.extraConfig = ''
-       # ...
-     '';
 
    + home.pointerCursor = {
    +   package = pkgs.capitaine-cursors;
@@ -1037,6 +1036,14 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    `home.pointerCursor.size` seems to do nothing and Hyprland's environment variable `XCURSOR_SIZE` does not change the size for Firefox. Anyway, the default cursor size (likely 24) looks fine. Hyprland's other environment variable for cursors `XCURSOR_THEME` does not seem to do anything extra when `home.pointerCursor.name` is set. So, I do not set any environment variables for Hyprland.\
    Although `pkgs.capitaine-cursors` includes light and dark versions, the dark version seems to be the default, so I don't configure that manually.\
    After connecting to internet and using `# nixos-rebuild switch`, running Firefox shows no error messages.
+1. To use Home Manager to configure Firefox, edit `home.nix`:
+   ```diff
+   programs.firefox.enable = true;
+   programs.firefox.package = pkgs.firefox-bin; #default is pkgs.firefox
+   programs.firefox.finalpackage = # what is this?
+   programs.firefox.languagePacks = [ "en-US" "zh-CN" ]; #https://releases.mozilla.org/pub/firefox/releases/128.0.3/linux-x86_64/xpi/
+   programs.firefox.nativeMessagingHosts = # what is this ?
+   ```
 
 ### Controlling Screen Backlight
 Packages like `light` and `brightnessctl` work on Wayland and make changing screen brightness easy, but there is a simpler way to change screen brightness. The file `/sys/class/backlight/intel_backlight/brightness` contains an integer that defines the screen brightness. Use `$ cat /sys/class/backlight/intel_backlight/max_brightness` to see the max brightness is 24000 (a number <188 makes the backlight flicker or turn off). When the file `brightness` is modified, the screen brightness changes accordingly. However, the file `brightness` has permissions `-rw-r--r--` (file type, permissions(owner, group, others)), so only the root user can modify it. Use `$ sudo tee /sys/class/backlight/intel_backlight/brightness <<< MY_NUMBER` to modify the file manually.\
@@ -1112,28 +1119,26 @@ Notes: Using `$ sudo echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_b
      home.username = "tim";
      home.homeDirectory = "/home/tim";
 
-     wayland.windowManager.hyprland.enable = true;
-     wayland.windowManager.hyprland.settings = {
-       bind = [
+     wayland.windowManager.hyprland = {
+       enable = true;
+       settings = {
+         bind = [
+           # ...
+         ];
+   +     binde = [
+   +       "SUPER, MINUS, exec, val=$(< /sys/class/backlight/intel_backlight/brightness); tee /sys/class/backlight/intel_backlight/brightness <<< $((val <= 4188 ? 188 : val - 4000))"
+   +       "SUPER, EQUAL, exec, val=$(< /sys/class/backlight/intel_backlight/brightness); tee /sys/class/backlight/intel_backlight/brightness <<< $((val >= 20000 ? 24000 : val + 4000))"
+   +     ];
+         bindm = [
+           # ...
+         ];
          # ...
-       ];
-   +   binde = [
-   +     "SUPER, MINUS, exec, val=$(< /sys/class/backlight/intel_backlight/brightness); tee /sys/class/backlight/intel_backlight/brightness <<< $((val <= 4188 ? 188 : val - 4000))"
-   +     "SUPER, EQUAL, exec, val=$(< /sys/class/backlight/intel_backlight/brightness); tee /sys/class/backlight/intel_backlight/brightness <<< $((val >= 20000 ? 24000 : val + 4000))"
-   +   ];
-       bindm = [
-         # ...
-       ];
-       # ...
+       };
      };
 
-     programs.kitty.enable = true;
-     programs.kitty.settings = {
+     programs.kitty = {
        # ...
      };
-     programs.kitty.extraConfig = ''
-       # ...
-     '';
 
      home.pointerCursor = {
        # ...
@@ -1219,26 +1224,23 @@ Since I only have one user and one window manager or desktop environment, I do n
      home.username = "tim";
      home.homeDirectory = "/home/tim";
 
-     wayland.windowManager.hyprland.enable = true;
-     wayland.windowManager.hyprland.settings = {
+     wayland.windowManager.hyprland = {
        # ...
      };
 
-     programs.kitty.enable = true;
-     programs.kitty.settings = {
+     programs.kitty = {
        # ...
      };
-     programs.kitty.extraConfig = ''
-       # ...
-     '';
 
-   + programs.zsh.enable = true;
-   + programs.zsh.profileExtra = ''
-   +   if [ -z "''${DISPLAY}" ] && [ "''${XDG_VTNR}" -eq 1 ]; then
-   +     echo "ZPROFILE: Starting Hyprland..."
-   +     exec Hyprland
-   +   fi
-   + '';
+   + programs.zsh = {
+   +   enable = true;
+   +   profileExtra = ''
+   +     if [ -z "''${DISPLAY}" ] && [ "''${XDG_VTNR}" -eq 1 ]; then
+   +       echo "ZPROFILE: Starting Hyprland..."
+   +       exec Hyprland
+   +     fi
+   +   '';
+   + };
 
      home.pointerCursor = {
        # ...
