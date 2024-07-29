@@ -1042,7 +1042,9 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
      enable = true;
      package = pkgs.firefox-bin; #default is pkgs.firefox
      languagePacks = [ "en-US" "zh-CN" ]; #https://releases.mozilla.org/pub/firefox/releases/128.0.3/linux-x86_64/xpi/
-     policies = # https://mozilla.github.io/policy-templates/
+     policies = {
+       DisableSetDesktopBackground = true;
+     }; # https://mozilla.github.io/policy-templates/
      profiles.default = { # my profile is called default? 
        bookmarks =
        extensions =
