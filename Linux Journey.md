@@ -880,7 +880,7 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
 1. Connect to internet. Use `# nixos-rebuild switch`.
 
 ### Using Firefox
-In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by NixOS. 
+In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by NixOS. Installing `firefox-bin` instead of the normal non-precompiled version does not seem to make a difference during configuration with Home Manager or `configuration.nix`.
 1. To install `firefox-bin` for all users, edit `configuration.nix`:
    ```diff
    { config, lib, pkgs, ... }:
@@ -930,10 +930,33 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
 
    + programs.firefox.enable = true;
    + programs.firefox.package = pkgs.firefox-bin
+   + programs.firefox.policies = {
+   +   Extensions =
+   +   ExtensionSettings =
+   +   FirefoxHome = {
+   +     Search = false;
+   +     TopSites = false;
+   +     SponsoredTopSites = false;
+   +     Highlights = false;
+   +     Poket = false;
+   +     SponsoredPocket = false;
+   +     Snippets = false;
+   +   };
+   +   Homepage = {
+   +     URL = https://www.bing.com
+   +     StartPage = previous-session
+   +   };
+   +   ManagedBookmarks =
+   +   NoDefaultBookmarks = true;
+   +   OverrideFirstRidePage = "";
+   +   Permissions =
+   +   SearchEngines = 
+   + };
    
      system.stateVersion = "24.05";
    }
    ```
+   `programs.firefox.policies` is declared because the Home Manager option `programs.firefox.policies` does not work. Other profile specific Home Manager options in `programs.firefox.profiles` work.
 1. Connect to internet. Use `# nixos-rebuild switch`.\
    Use `$ firefox` to see that Firefox works.\
    In the terminal, minor error messages appear:
@@ -1041,10 +1064,6 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    programs.firefox = {
      enable = true;
      package = pkgs.firefox-bin;
-     languagePacks = [ "en-US" "zh-CN" ]; #https://releases.mozilla.org/pub/firefox/releases/128.0.3/linux-x86_64/xpi/
-     policies = {
-       DisableSetDesktopBackground = true;
-     }; # https://mozilla.github.io/policy-templates/
      profiles.default = { # my profile is called default? 
        bookmarks =
        extensions =
