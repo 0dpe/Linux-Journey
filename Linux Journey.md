@@ -929,9 +929,8 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
      environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
    + programs.firefox.enable = true;
-   + programs.firefox.package = pkgs.firefox-bin
+   + programs.firefox.package = pkgs.firefox-bin;
    + programs.firefox.policies = {
-   +   Extensions =
    +   ExtensionSettings =
    +   FirefoxHome = {
    +     Search = false;
@@ -943,14 +942,13 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    +     Snippets = false;
    +   };
    +   Homepage = {
-   +     URL = https://www.bing.com
-   +     StartPage = previous-session
+   +     URL = "https://www.bing.com";
+   +     StartPage = "previous-session";
    +   };
    +   ManagedBookmarks =
    +   NoDefaultBookmarks = true;
    +   OverrideFirstRidePage = "";
    +   Permissions =
-   +   SearchEngines = 
    + };
    
      system.stateVersion = "24.05";
@@ -1016,7 +1014,7 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
      environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
      programs.firefox.enable = true;
-     programs.firefox.package = pkgs.firefox-bin
+     programs.firefox.package = pkgs.firefox-bin;
    
      system.stateVersion = "24.05";
    }
@@ -1064,7 +1062,7 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    programs.firefox = {
      enable = true;
      package = pkgs.firefox-bin;
-     profiles.default = { # my profile is called default? 
+     profiles.tim1 = { 
        bookmarks =
        extensions =
        extraConfig = '' # added to user.js
@@ -1084,7 +1082,7 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    };
    ```
    The default for `programs.firefox.package` is `pkgs.firefox`, not `pkgs.firefox-bin`, so if the option is not set, Home Manager will try to install `pkgs.firefox` instead of using `pkgs.firefox-bin` that's already installed through configuration in `configuration.nix`.\
-   Note: When I first used `# nixos-rebuild switch`, a download of a Firefox package began, even though I specified `programs.firefox.package = pkgs.firefox-bin`, matching the package in `configuration.nix`. I updated `/etc/nixos/flake.lock`, used `# nixos-rebuild switch` *without* any Firefox configurations in `home.nix`, and then used `# nixos-rebuild switch` *with* Firefox configurations including `programs.firefox.package = pkgs.firefox-bin` in `home.nix`; during this rebuild no Firefox package was downloaded. Using `nix-store -q --references /run/current-system/sw | grep firefox` shows only one Firefox. A possible explanation could be that Home Manager queries a different *version* of the unstable branch of nixpkgs than the OS; Home Manager follows the same branch as the OS, as defined in `flake.nix` `home-manager.inputs.nixpkgs.follows = "nixpkgs";`, but a different version of the branch. So, during rebuild, Home Manager sees that in its version of the nixos-unstable branch of nixpkgs there is `pkgs.firefox-bin` of a different version than the `pkgs.firefox-bin` already installed in the system, so Home Manager tries to install the newer `pkgs.firefox-bin` from the version of the nixos-unstable branch of nixpkgs that it follows. So, when I update the version of the nixos-unstable branch of nixpkgs that the OS follows by updating `/etc/nixos/flake.lock` to possibly match the version that Home Manager is following, Home Manager does not install another Firefox anymore. One reason to suspect this is that before `/etc/nixos/flake.lock` was updated, Firefox version 127.x.x was installed, and after updating, it changed to version 128.0.3
+   Note: When I first used `# nixos-rebuild switch`, a download of a Firefox package began, even though I specified `programs.firefox.package = pkgs.firefox-bin`, matching the package in `configuration.nix`. I updated `/etc/nixos/flake.lock`, used `# nixos-rebuild switch` *without* any Firefox configurations in `home.nix`, and then used `# nixos-rebuild switch` *with* Firefox configurations including `programs.firefox.package = pkgs.firefox-bin` in `home.nix`; during this rebuild no Firefox package was downloaded. Using `nix-store -q --references /run/current-system/sw | grep firefox` shows only one Firefox. A possible explanation could be that Home Manager queries a different *version* of the unstable branch of nixpkgs than the OS; Home Manager follows the same branch as the OS, as defined in `flake.nix` `home-manager.inputs.nixpkgs.follows = "nixpkgs";`, but a different version of the branch. So, during rebuild, Home Manager sees that in its version of the nixos-unstable branch of nixpkgs there is `pkgs.firefox-bin` of a different version than the `pkgs.firefox-bin` already installed in the system, so Home Manager tries to install the newer `pkgs.firefox-bin` from the version of the nixos-unstable branch of nixpkgs that it follows. So, when I update the version of the nixos-unstable branch of nixpkgs that the OS follows by updating `/etc/nixos/flake.lock` to possibly match the version that Home Manager is following, Home Manager does not install another Firefox anymore. One reason to suspect this is that before `/etc/nixos/flake.lock` was updated, Firefox version 127.x.x was installed, and after updating, it changed to version 128.0.3.\
    Remove the directories `~/.mozilla` and `~/.cache/mozilla`. Connect to internet. Use `# nixos-rebuild switch`.
 
 ### Controlling Screen Backlight
@@ -1142,7 +1140,7 @@ Notes: Using `$ sudo echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_b
      environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
      programs.firefox.enable = true;
-     programs.firefox.package = pkgs.firefox-bin
+     programs.firefox.package = pkgs.firefox-bin;
    
      system.stateVersion = "24.05";
    }
@@ -1247,7 +1245,7 @@ Since I only have one user and one window manager or desktop environment, I do n
      environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
      programs.firefox.enable = true;
-     programs.firefox.package = pkgs.firefox-bin
+     programs.firefox.package = pkgs.firefox-bin;
    
      system.stateVersion = "24.05";
    }
