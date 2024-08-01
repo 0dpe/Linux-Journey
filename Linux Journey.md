@@ -78,7 +78,7 @@ Installing NixOS minimal (no GNOME or KDE) on an HP ZHAN 66 Pro 14 G2:
    `# wpa_cli`\
    `> add_network` (`0` should appear)\
    `> set_network 0 ssid "CU_FS6D"` (network called `CU_FS6D`)\
-   `> set_network 0 psk "zhang6295"` (using password `zhang6295` for    `CU_FS6D`)\
+   `> set_network 0 psk "redacted"` (using password `redacted` for    `CU_FS6D`)\
    `> set_network 0 key_mgmt WPA-PSK`\
    `> enable_network 0`\
    If something like `<3>CTRL-EVENT-CONNECTED - Connection to 32:85:ab:ef:24:5c completed [id=0 id_str=]` appears, then the laptop has connection to the internet. Leave `wpa_cli` using `> quit`.\
@@ -217,7 +217,7 @@ networking.networkmanager.enable = true; # Easiest to use and most distros use t
 ```
 Anyways, since `networking.networkmanager.enable = true;` was uncommented, I can use that.
 * Use `$ nmcli device wifi list` to list available wifi.
-* Use `$ nmcli device wifi connect "CU_FS6D" password "zhang6295"` to connect.\
+* Use `$ nmcli device wifi connect "CU_FS6D" password "redacted"` to connect.\
 Seems like it automatically connects at each boot.
 
 ### Using [Flakes](https://nix.dev/manual/nix/2.18/command-ref/new-cli/nix3-flake "Nix Reference Manual") (and the [new CLI](https://nixos-and-flakes.thiscute.world/nixos-with-flakes/introduction-to-flakes#the-new-cli-and-the-classic-cli "NixOS & Flakes Book"))
