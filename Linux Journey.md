@@ -1086,8 +1086,6 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    +     bookmarks =
    +     extensions =
    +     extraConfig = '' # added to user.js
-   +     id = # 0 default
-   +     isDefault = # true if id=0
    +     name = "tim";
    +     path = ;
    +     search.default = "Google";
