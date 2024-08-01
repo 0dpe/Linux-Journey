@@ -931,6 +931,7 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    + programs.firefox.enable = true;
    + programs.firefox.package = pkgs.firefox-bin;
    + programs.firefox.policies = {
+   +   DisablePocket = true;
    +   ExtensionSettings =
    +   FirefoxHome = {
    +     Search = false;
@@ -939,13 +940,11 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    +     Highlights = false;
    +     Poket = false;
    +     SponsoredPocket = false;
-   +     Snippets = false;
    +   };
    +   Homepage = {
-   +     URL = "https://www.bing.com";
+   +     URL = "https://redacted.myschoolapp.com/app/student";
    +     StartPage = "previous-session";
    +   };
-   +   ManagedBookmarks =
    +   NoDefaultBookmarks = true;
    +   OverrideFirstRidePage = "";
    +   Permissions =
@@ -954,7 +953,7 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
      system.stateVersion = "24.05";
    }
    ```
-   `programs.firefox.policies` is declared because the Home Manager option `programs.firefox.policies` does not work. Other profile specific Home Manager options in `programs.firefox.profiles` work.
+   [Policies](https://mozilla.github.io/policy-templates/ "Mozilla's GitHub") are usually used to allow administrators to set and lock various browser preferences. `programs.firefox.policies` is declared in `configuration.nix` because the Home Manager option `programs.firefox.policies` does not work. Other profile specific Home Manager options in `programs.firefox.profiles` work.
 1. Connect to internet. Use `# nixos-rebuild switch`.\
    Use `$ firefox` to see that Firefox works.\
    In the terminal, minor error messages appear:
@@ -1015,6 +1014,9 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
 
      programs.firefox.enable = true;
      programs.firefox.package = pkgs.firefox-bin;
+     programs.firefox.policies = {
+       # ...
+     };
    
      system.stateVersion = "24.05";
    }
@@ -1059,27 +1061,53 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    After connecting to internet and using `# nixos-rebuild switch`, running Firefox shows no error messages.
 1. To use Home Manager to configure Firefox, edit `home.nix`:
    ```diff
-   programs.firefox = {
-     enable = true;
-     package = pkgs.firefox-bin;
-     profiles.tim1 = { 
-       bookmarks =
-       extensions =
-       extraConfig = '' # added to user.js
-       id = # 0 default
-       isDefault = # true if id=0
-       name = "tim";
-       path = ;
-       search.default = "Google";
-       search.privateDefault = "Google";
-       search.engines = ;
-       search.force =
-       search.order = 
-       settings = 
-       userChrome = # stylus scripts
-       userContent = # what is this?
+   { config, lib, pkgs, ... }:
+   
+   let
+     # ...
+   
+   in
+   {
+     home.username = "tim";
+     home.homeDirectory = "/home/tim";
+
+     wayland.windowManager.hyprland = {
+       # ...
      };
-   };
+
+     programs.kitty = {
+       # ...
+     };
+
+   + programs.firefox = {
+   +   enable = true;
+   +   package = pkgs.firefox-bin;
+   +   profiles.tim1 = { 
+   +     bookmarks =
+   +     extensions =
+   +     extraConfig = '' # added to user.js
+   +     id = # 0 default
+   +     isDefault = # true if id=0
+   +     name = "tim";
+   +     path = ;
+   +     search.default = "Google";
+   +     search.privateDefault = "Google";
+   +     search.engines = ;
+   +     search.force =
+   +     search.order = 
+   +     settings = 
+   +     userChrome = # stylus scripts
+   +     userContent = # what is this?
+   +   };
+   + };
+
+     home.pointerCursor = {
+       # ...
+     };
+
+     home.stateVersion = "24.05";
+     programs.home-manager.enable = true;
+   }
    ```
    The default for `programs.firefox.package` is `pkgs.firefox`, not `pkgs.firefox-bin`, so if the option is not set, Home Manager will try to install `pkgs.firefox` instead of using `pkgs.firefox-bin` that's already installed through configuration in `configuration.nix`.\
    Note: When I first used `# nixos-rebuild switch`, a download of a Firefox package began, even though I specified `programs.firefox.package = pkgs.firefox-bin`, matching the package in `configuration.nix`. I updated `/etc/nixos/flake.lock`, used `# nixos-rebuild switch` *without* any Firefox configurations in `home.nix`, and then used `# nixos-rebuild switch` *with* Firefox configurations including `programs.firefox.package = pkgs.firefox-bin` in `home.nix`; during this rebuild no Firefox package was downloaded. Using `nix-store -q --references /run/current-system/sw | grep firefox` shows only one Firefox. A possible explanation could be that Home Manager queries a different *version* of the unstable branch of nixpkgs than the OS; Home Manager follows the same branch as the OS, as defined in `flake.nix` `home-manager.inputs.nixpkgs.follows = "nixpkgs";`, but a different version of the branch. So, during rebuild, Home Manager sees that in its version of the nixos-unstable branch of nixpkgs there is `pkgs.firefox-bin` of a different version than the `pkgs.firefox-bin` already installed in the system, so Home Manager tries to install the newer `pkgs.firefox-bin` from the version of the nixos-unstable branch of nixpkgs that it follows. So, when I update the version of the nixos-unstable branch of nixpkgs that the OS follows by updating `/etc/nixos/flake.lock` to possibly match the version that Home Manager is following, Home Manager does not install another Firefox anymore. One reason to suspect this is that before `/etc/nixos/flake.lock` was updated, Firefox version 127.x.x was installed, and after updating, it changed to version 128.0.3.\
@@ -1141,6 +1169,9 @@ Notes: Using `$ sudo echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_b
 
      programs.firefox.enable = true;
      programs.firefox.package = pkgs.firefox-bin;
+     programs.firefox.policies = {
+       # ...
+     };
    
      system.stateVersion = "24.05";
    }
@@ -1177,6 +1208,10 @@ Notes: Using `$ sudo echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_b
      };
 
      programs.kitty = {
+       # ...
+     };
+
+     programs.firefox = {
        # ...
      };
 
@@ -1246,6 +1281,9 @@ Since I only have one user and one window manager or desktop environment, I do n
 
      programs.firefox.enable = true;
      programs.firefox.package = pkgs.firefox-bin;
+     programs.firefox.policies = {
+       # ...
+     };
    
      system.stateVersion = "24.05";
    }
@@ -1272,6 +1310,10 @@ Since I only have one user and one window manager or desktop environment, I do n
        # ...
      };
 
+     programs.firefox = {
+       # ...
+     };
+
    + programs.zsh = {
    +   enable = true;
    +   profileExtra = ''
@@ -1290,7 +1332,7 @@ Since I only have one user and one window manager or desktop environment, I do n
      programs.home-manager.enable = true;
    }
    ```
-   Zsh executes a few files in a [specific order](https://mac.install.guide/assets/images/terminal/zsh-configuration.png](https://github.com/sambacha/dotfiles2/blob/master/.github/shell-startup.png "Zsh Config Files Flowchart") on startup. the `.zprofile` file is executed on all login startups.\
+   Zsh executes a few files in a [specific order](https://github.com/sambacha/dotfiles2/blob/master/.github/shell-startup.png "Zsh Config Files Flowchart") on startup. the `.zprofile` file is executed on all login startups.\
    `-z` checks for zero length; if Hyprland is already running, `${DISPLAY}` will have length. `${XDG_VTNR}` indicates TTY#; `-eq` means "equal".\
    Remove `/home/tim/.zshrc`, then connect to internet and use `# nixos-rebuild switch`.
 
@@ -1318,7 +1360,9 @@ system monitoring?
 
 Bluetooth: \
 Audio Control: \
+Microphone Control: \
 Keyboard Language Control: English, Chinese, Spanish. \
+Camera Control: \
 Power Manager: Find battery percentage: `$ cat /sys/class/power_supply/BAT0/capacity`\
 Clipboard Manager: \
 Screenshot Utility: \
