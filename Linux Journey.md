@@ -556,9 +556,9 @@ Since I don't need to further configure zsh (yet), I do not use Home Manager for
 ### Using [Hyprland](https://wiki.hyprland.org/ "Hyprland Wiki")
 Hyprland can be installed 2 ways:
 * From the branch of nixpkgs defined in the flake input.
-* From the Hyprland git repository by defining a seperate flake input.
+* From the Hyprland git repository by defining a separate flake input.
 
-Since I am following the `nixos-unstable` branch of nixpkgs, the Hyprland package from there will likely be up to date with Hyprland's own git repository; I do not have to define a seperate flake input.\
+Since I am following the `nixos-unstable` branch of nixpkgs, the Hyprland package from there will likely be up to date with Hyprland's own git repository; I do not have to define a separate flake input.\
 Note: There is a distinction between installing a package, and enabling or configuring it. By default, declarations like `programs.hyprland.enable = true;` in `configuration.nix` and `wayland.windowManager.hyprland.enable = true;` in `home.nix` installs *and* enables Hyprland. However, if Hyprland is already installed, either through a nixpkgs branch or through Hyprland's own git repository, I can tell NixOS (`programs.hyprland.package = ...`) and Home Manager (`wayland.windowManager.hyprland.package = ...`) to use it. Since I am installing Hyprland from nixpkgs, I do not have to explicitly specify the package.\
 Install Hyprland (and kitty) from nixpkgs for all users:
 1. In `configuration.nix`, add:
@@ -610,7 +610,7 @@ Install Hyprland (and kitty) from nixpkgs for all users:
 1. Reboot. Use `$ Hyprland` to see that Hyprland works. No crashes.
 
 Debugging kitty and xdg-desktop-portal:
-1. In Hyprland, use `$ kitty` to see `[0.139] [glfw error 65544]: process_desktop_settings: failed with error: [org.freedesktop.DBus.Error.UnknownMethod] No such interface "org.freedesktop.portal.Settings" on object at path /org/freedesktop/portal/desktop`. A new terminal appears, but as soon as I use <kbd>ctrl</kbd>+<kbd>c</kbd> in the origional terminal, the new terminal dissapears. 
+1. In Hyprland, use `$ kitty` to see `[0.139] [glfw error 65544]: process_desktop_settings: failed with error: [org.freedesktop.DBus.Error.UnknownMethod] No such interface "org.freedesktop.portal.Settings" on object at path /org/freedesktop/portal/desktop`. A new terminal appears, but as soon as I use <kbd>ctrl</kbd>+<kbd>c</kbd> in the origional terminal, the new terminal disappears. 
 1. Using `$ systemctl --user status dbus` shows no abnormalities, but using `$ systemctl --user status xdg-desktop-portal.service` shows (incomplete):
    ```
    systemd[1111]: Starting Portal service...
@@ -821,7 +821,7 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    Although trackpad (libinput) configuration can be done through `configuration.nix`, that [doesn't work](https://discourse.nixos.org/t/xorg-libinput-configuration-seems-to-be-ignored/15504) for me (`/etc/X11/xorg.conf` isn't generated), so I use Hyprland's options instead.\
    On the [Hyprland wiki](https://wiki.hyprland.org/Configuring/Variables/#touchpad:~:text=bool-,false,-Touchdevice), `touch-and-drag`'s default is marked as `false`, but in reality it's default is actually `true`, so I explicitly set it.
 1. Connect to internet. Use `# nixos-rebuild switch`.\
-   An error occures since a configuration file for Hyprland was automatically generated when installing Hyprland. Home Manager will not overwrite this existing configuration file.
+   An error occurs since a configuration file for Hyprland was automatically generated when installing Hyprland. Home Manager will not overwrite this existing configuration file.
 1. Use `$ rm ~/.config/hypr/hyprland.conf`, then `# nixos-rebuild switch` again.\
    Now, the configurations from `home.nix` appear.\
    Note: Home Manager creates a symlink at `~/.config/hypr/hyprland.conf`. I can remove this symlink, and when I use `# nixos-rebuild switch`, Home Manager will generate the symlink according to `home.nix` again. 
@@ -1109,6 +1109,7 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    ```
    The default for `programs.firefox.package` is `pkgs.firefox`, not `pkgs.firefox-bin`, so if the option is not set, Home Manager will try to install `pkgs.firefox` instead of using `pkgs.firefox-bin` that's already installed through configuration in `configuration.nix`.\
    Note: When I first used `# nixos-rebuild switch`, a download of a Firefox package began, even though I specified `programs.firefox.package = pkgs.firefox-bin`, matching the package in `configuration.nix`. I updated `/etc/nixos/flake.lock`, used `# nixos-rebuild switch` *without* any Firefox configurations in `home.nix`, and then used `# nixos-rebuild switch` *with* Firefox configurations including `programs.firefox.package = pkgs.firefox-bin` in `home.nix`; during this rebuild no Firefox package was downloaded. Using `nix-store -q --references /run/current-system/sw | grep firefox` shows only one Firefox. A possible explanation could be that Home Manager queries a different *version* of the unstable branch of nixpkgs than the OS; Home Manager follows the same branch as the OS, as defined in `flake.nix` `home-manager.inputs.nixpkgs.follows = "nixpkgs";`, but a different version of the branch. So, during rebuild, Home Manager sees that in its version of the nixos-unstable branch of nixpkgs there is `pkgs.firefox-bin` of a different version than the `pkgs.firefox-bin` already installed in the system, so Home Manager tries to install the newer `pkgs.firefox-bin` from the version of the nixos-unstable branch of nixpkgs that it follows. So, when I update the version of the nixos-unstable branch of nixpkgs that the OS follows by updating `/etc/nixos/flake.lock` to possibly match the version that Home Manager is following, Home Manager does not install another Firefox anymore. One reason to suspect this is that before `/etc/nixos/flake.lock` was updated, Firefox version 127.x.x was installed, and after updating, it changed to version 128.0.3.\
+   `programs.profiles.<name>` does not create profiles; Home Manager does not have any options to create profiles.\
    Remove the directories `~/.mozilla` and `~/.cache/mozilla`. Connect to internet. Use `# nixos-rebuild switch`.
 
 ### Controlling Screen Backlight
