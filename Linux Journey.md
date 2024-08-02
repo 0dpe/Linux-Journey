@@ -938,14 +938,13 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    +     TopSites = false;
    +     SponsoredTopSites = false;
    +     Highlights = false;
-   +     Poket = false;
+   +     Pocket = false;
    +     SponsoredPocket = false;
    +   };
    +   Homepage = {
    +     URL = "https://redacted.myschoolapp.com/app/student";
    +     StartPage = "previous-session";
    +   };
-   +   NoDefaultBookmarks = true;
    +   OverrideFirstRidePage = "";
    +   Permissions =
    + };
@@ -953,7 +952,8 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
      system.stateVersion = "24.05";
    }
    ```
-   [Policies](https://mozilla.github.io/policy-templates/ "Mozilla's GitHub") are usually used to allow administrators to set and lock various browser preferences. `programs.firefox.policies` is declared in `configuration.nix` because the Home Manager option `programs.firefox.policies` does not work. Other profile specific Home Manager options in `programs.firefox.profiles` work.
+   [Policies](https://mozilla.github.io/policy-templates/ "Mozilla's GitHub") are usually used to allow administrators to set and lock various browser preferences. `programs.firefox.policies` is declared in `configuration.nix` because the Home Manager option `programs.firefox.policies` does not work. Other profile specific Home Manager options in `programs.firefox.profiles` work.\
+   Note: The Firefox policy `NoDefaultBookmarks` seems good, but actually breaks Home Manager's `programs.firefox.profiles.<name>.bookmarks` option. When any option under `programs.firefox.profiles` (like `programs.firefox.profiles.<name>.bookmarks`) fails, all other options under `programs.firefox.profiles` fail; no error messages are displayed, but the configurations have no effect.
 1. Connect to internet. Use `# nixos-rebuild switch`.\
    Use `$ firefox` to see that Firefox works.\
    In the terminal, minor error messages appear:
@@ -1082,20 +1082,30 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    + programs.firefox = {
    +   enable = true;
    +   package = pkgs.firefox-bin;
-   +   profiles.tim1 = { 
-   +     bookmarks =
-   +     extensions =
-   +     extraConfig = '' # added to user.js
-   +     name = "tim";
-   +     path = ;
+   +   profiles.tim1 = {
+   +     name = "School";
+   +     id = 0;
+   +     bookmarks = [
+   +       {
+   +         name = "MySchoolApp";
+   +         url = "https://redacted.myschoolapp.com/app/student";
+   +         toolbar = true;
+   +       }
+   +     ];
+   +     extensions = ;
+   +     extraConfig = ''
+   +     '';
    +     search.default = "Google";
    +     search.privateDefault = "Google";
    +     search.engines = ;
-   +     search.force =
-   +     search.order = 
-   +     settings = 
-   +     userChrome = # stylus scripts
-   +     userContent = # what is this?
+   +     search.force = ;
+   +     search.order = ;
+   +     settings = ;
+   +     userChrome = ;
+   +     userContent = ;
+   +   };
+   +   profiles.test = {
+   +     id = 1;
    +   };
    + };
 
@@ -1109,7 +1119,8 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    ```
    The default for `programs.firefox.package` is `pkgs.firefox`, not `pkgs.firefox-bin`, so if the option is not set, Home Manager will try to install `pkgs.firefox` instead of using `pkgs.firefox-bin` that's already installed through configuration in `configuration.nix`.\
    Note: When I first used `# nixos-rebuild switch`, a download of a Firefox package began, even though I specified `programs.firefox.package = pkgs.firefox-bin`, matching the package in `configuration.nix`. I updated `/etc/nixos/flake.lock`, used `# nixos-rebuild switch` *without* any Firefox configurations in `home.nix`, and then used `# nixos-rebuild switch` *with* Firefox configurations including `programs.firefox.package = pkgs.firefox-bin` in `home.nix`; during this rebuild no Firefox package was downloaded. Using `nix-store -q --references /run/current-system/sw | grep firefox` shows only one Firefox. A possible explanation could be that Home Manager queries a different *version* of the unstable branch of nixpkgs than the OS; Home Manager follows the same branch as the OS, as defined in `flake.nix` `home-manager.inputs.nixpkgs.follows = "nixpkgs";`, but a different version of the branch. So, during rebuild, Home Manager sees that in its version of the nixos-unstable branch of nixpkgs there is `pkgs.firefox-bin` of a different version than the `pkgs.firefox-bin` already installed in the system, so Home Manager tries to install the newer `pkgs.firefox-bin` from the version of the nixos-unstable branch of nixpkgs that it follows. So, when I update the version of the nixos-unstable branch of nixpkgs that the OS follows by updating `/etc/nixos/flake.lock` to possibly match the version that Home Manager is following, Home Manager does not install another Firefox anymore. One reason to suspect this is that before `/etc/nixos/flake.lock` was updated, Firefox version 127.x.x was installed, and after updating, it changed to version 128.0.3.\
-   `programs.profiles.<name>` does not create profiles; Home Manager does not have any options to create profiles.\
+   The syntax inside `programs.firefox.profiles.<name>.bookmarks` does not allow `;`'s.\
+   `programs.firefox.profiles.<name>.id` must be declared when multiple profiles are declared.\
    Remove the directories `~/.mozilla` and `~/.cache/mozilla`. Connect to internet. Use `# nixos-rebuild switch`.
 
 ### Controlling Screen Backlight
