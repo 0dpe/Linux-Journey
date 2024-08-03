@@ -175,21 +175,29 @@ Installing NixOS minimal (no GNOME or KDE) on an HP ZHAN 66 Pro 14 G2:
          ./hardware-configuration.nix
        ];
    
-     boot.loader.systemd-boot.enable = true;
-     boot.loader.efi.canTouchEfiVariables = true;
+     boot.loader = {
+       systemd-boot.enable = true;
+       efi.canTouchEfiVariables = true;
+     };
 
-     networking.hostName = "ZHAN";
-     networking.networkmanager.enable = true;
+     networking = {
+       hostName = "ZHAN";
+       networkmanager.enable = true;
+     };
 
      time.timeZone = "America/New_York";
 
-     services.libinput.enable = true;
-
-     users.users.tim = {
-       isNormalUser = true;
-       extraGroups = [ "wheel" "networkmanager" ];
+     services = {
+       libinput.enable = true;
      };
-   
+
+     users = {
+       users.tim = {
+         isNormalUser = true;
+         extraGroups = [ "wheel" "networkmanager" ];
+       };
+     };
+
      system.stateVersion = "24.05";
    }
    ```
@@ -246,25 +254,30 @@ Enable flakes for NixOS:
        [
          ./hardware-configuration.nix
        ];
-   
-     boot.loader.systemd-boot.enable = true;
-     boot.loader.efi.canTouchEfiVariables = true;
+
+     boot.loader = {
+       # ...
+     };
      
    + nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-     networking.hostName = "ZHAN";
-     networking.networkmanager.enable = true;
+     networking = {
+       # ...
+     };
 
      time.timeZone = "America/New_York";
 
-     services.libinput.enable = true;
-
-     users.users.tim = {
-       isNormalUser = true;
-       extraGroups = [ "wheel" "networkmanager" ];
+     services = {
+       # ...
      };
 
-   + programs.git.enable = true;
+     users = {
+       # ...
+     };
+
+   + programs = {
+   +   git.enable = true;
+   + };
 
      system.stateVersion = "24.05";
    }
@@ -512,29 +525,37 @@ In `configuration.nix`, add:
       ./hardware-configuration.nix
     ];
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader = {
+    # ...
+  };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  networking.hostName = "ZHAN";
-  networking.networkmanager.enable = true;
+  networking = {
+    # ...
+  };
 
   time.timeZone = "America/New_York";
 
-  services.libinput.enable = true;
+  services = {
+    # ...
+  };
 
-  users.users.tim = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ];
-  }
+  users = {
+    users.tim = {
+      # ...
+    };
++   defaultUserShell = pkgs.zsh;
+  };
 
-+ users.defaultUserShell = pkgs.zsh;
+  programs = {
+    git.enable = true;
 
-  programs.git.enable = true;
-
-+ programs.zsh.enable = true;
-+ programs.zsh.autosuggestions.enable = true;
++   zsh = {
++     enable = true;
++     autosuggestions.enable = true;
++   };
+  };
 
   system.stateVersion = "24.05";
 }
@@ -571,36 +592,42 @@ Install Hyprland (and kitty) from nixpkgs for all users:
          ./hardware-configuration.nix
        ];
    
-     boot.loader.systemd-boot.enable = true;
-     boot.loader.efi.canTouchEfiVariables = true;
+     boot.loader = {
+       # ...
+     };
 
      nix.settings.experimental-features = [ "nix-command" "flakes" ];
    
-     networking.hostName = "ZHAN";
-     networking.networkmanager.enable = true;
+     networking = {
+       # ...
+     };
    
      time.timeZone = "America/New_York";
    
-     services.libinput.enable = true;
-   
-     users.users.tim = {
-       isNormalUser = true;
-       extraGroups = [ "wheel" "networkmanager" ];
+     services = {
+       # ...
      };
    
-     users.defaultUserShell = pkgs.zsh;
+     users = {
+       # ...
+     };
    
-   + environment.systemPackages = with pkgs; [
-   +   kitty
-   + ];
+   + environment = {
+   +   systemPackages = with pkgs; [
+   +     kitty
+   +   ];
+   +   sessionVariables.NIXOS_OZONE_WL = "1";
+   + };
 
-     programs.git.enable = true;
+     programs = {
+       git.enable = true;
+   
+       zsh = {
+         # ...
+       };
 
-     programs.zsh.enable = true;
-     programs.zsh.autosuggestions.enable = true;
-
-   + programs.hyprland.enable = true;
-   + environment.sessionVariables.NIXOS_OZONE_WL = "1";
+   +   hyprland.enable = true;
+     };
    
      system.stateVersion = "24.05";
    }
@@ -640,42 +667,41 @@ Debugging kitty and xdg-desktop-portal:
          ./hardware-configuration.nix
        ];
    
-     boot.loader.systemd-boot.enable = true;
-     boot.loader.efi.canTouchEfiVariables = true;
+     boot.loader = {
+       # ...
+     };
    
      nix.settings.experimental-features = [ "nix-command" "flakes" ];
    
-     networking.hostName = "ZHAN";
-     networking.networkmanager.enable = true;
+     networking = {
+       # ...
+     };
    
      time.timeZone = "America/New_York";
    
-     services.libinput.enable = true;
-   + services.pipewire.enable = true;
+     services = {
+       libinput.enable = true;
+   +   pipewire.enable = true;
+     };
    
    + security.rtkit.enable = true;
 
-   + xdg.portal.enable = true;
-   + xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+   + xdg.portal = {
+   +   enable = true;
+   +   extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+   + };
 
-     users.users.tim = {
-       isNormalUser = true;
-       extraGroups = [ "wheel" "networkmanager" ];
+     users = {
+       # ...
      };
    
-     users.defaultUserShell = pkgs.zsh;
-   
-     environment.systemPackages = with pkgs; [
-       kitty
-     ];
+     environment = {
+       # ...
+     };
 
-     programs.git.enable = true;
-   
-     programs.zsh.enable = true;
-     programs.zsh.autosuggestions.enable = true;
-   
-     programs.hyprland.enable = true;
-     environment.sessionVariables.NIXOS_OZONE_WL = "1";
+     programs = {
+       # ...
+     };
    
      system.stateVersion = "24.05";
    }
@@ -891,69 +917,75 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
          ./hardware-configuration.nix
        ];
    
-     boot.loader.systemd-boot.enable = true;
-     boot.loader.efi.canTouchEfiVariables = true;
+     boot.loader = {
+       # ...
+     };
    
      nix.settings.experimental-features = [ "nix-command" "flakes" ];
    
-     networking.hostName = "ZHAN";
-     networking.networkmanager.enable = true;
+     networking = {
+       # ...
+     };
    
      time.timeZone = "America/New_York";
    
-     services.libinput.enable = true;
-     services.pipewire.enable = true;
+     services = {
+       # ...
+     };
    
      security.rtkit.enable = true;
 
-     xdg.portal.enable = true;
-     xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+     xdg.portal = {
+       # ...
+     };
 
-     users.users.tim = {
-       isNormalUser = true;
-       extraGroups = [ "wheel" "networkmanager" ];
+     users = {
+       # ...
      };
    
-     users.defaultUserShell = pkgs.zsh;
+     environment = {
+       # ...
+     };
    
-     environment.systemPackages = with pkgs; [
-       kitty
-     ];
-   
-     programs.git.enable = true;
+     programs = {
+       git.enable = true;
 
-     programs.zsh.enable = true;
-     programs.zsh.autosuggestions.enable = true;
-   
-     programs.hyprland.enable = true;
-     environment.sessionVariables.NIXOS_OZONE_WL = "1";
+       zsh = {
+         # ...
+       };
 
-   + programs.firefox.enable = true;
-   + programs.firefox.package = pkgs.firefox-bin;
-   + programs.firefox.policies = {
-   +   DisablePocket = true;
-   +   ExtensionSettings =
-   +   FirefoxHome = {
-   +     Search = false;
-   +     TopSites = false;
-   +     SponsoredTopSites = false;
-   +     Highlights = false;
-   +     Pocket = false;
-   +     SponsoredPocket = false;
+       hyprland.enable = true;
+
+   +   firefox = {
+   +     enable = true;
+   +     package = pkgs.firefox-bin;
+   +     policies = {
+   +       DisablePocket = true;
+   +       ExtensionSettings = ;
+   +       FirefoxHome = {
+   +         Search = false;
+   +         TopSites = false;
+   +         SponsoredTopSites = false;
+   +         Highlights = false;
+   +         Pocket = false;
+   +         SponsoredPocket = false;
+   +       };
+   +       Homepage = {
+   +         URL = "https://redacted.myschoolapp.com/app/student";
+   +         StartPage = "previous-session";
+   +       };
+   +       OverrideFirstRidePage = "";
+   +       Permissions = ;
+   +     };
+   +     preferences = ;
    +   };
-   +   Homepage = {
-   +     URL = "https://redacted.myschoolapp.com/app/student";
-   +     StartPage = "previous-session";
-   +   };
-   +   OverrideFirstRidePage = "";
-   +   Permissions =
-   + };
+     };
    
      system.stateVersion = "24.05";
    }
    ```
    [Policies](https://mozilla.github.io/policy-templates/ "Mozilla's GitHub") are usually used to allow administrators to set and lock various browser preferences. `programs.firefox.policies` is declared in `configuration.nix` because the Home Manager option `programs.firefox.policies` does not work. Other profile specific Home Manager options in `programs.firefox.profiles` work.\
-   Note: The Firefox policy `NoDefaultBookmarks` seems good, but actually breaks Home Manager's `programs.firefox.profiles.<name>.bookmarks` option. When any option under `programs.firefox.profiles` (like `programs.firefox.profiles.<name>.bookmarks`) fails, all other options under `programs.firefox.profiles` fail; no error messages are displayed, but the configurations have no effect.
+   Note: The Firefox policy `NoDefaultBookmarks` seems good, but actually breaks Home Manager's `programs.firefox.profiles.<name>.bookmarks` option. When any option under `programs.firefox.profiles` (like `programs.firefox.profiles.<name>.bookmarks`) fails, all other options under `programs.firefox.profiles` fail; no error messages are displayed, but the configurations have no effect. When `programs.firefox.profiles.<name>.bookmarks` works, it silently overrides the default Firefox bookmarks.
 1. Connect to internet. Use `# nixos-rebuild switch`.\
    Use `$ firefox` to see that Firefox works.\
    In the terminal, minor error messages appear:
@@ -974,47 +1006,41 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
          ./hardware-configuration.nix
        ];
    
-     boot.loader.systemd-boot.enable = true;
-     boot.loader.efi.canTouchEfiVariables = true;
+     boot.loader = {
+       # ...
+     };
    
      nix.settings.experimental-features = [ "nix-command" "flakes" ];
    
-     networking.hostName = "ZHAN";
-     networking.networkmanager.enable = true;
+     networking = {
+       # ...
+     };
    
      time.timeZone = "America/New_York";
    
-     services.libinput.enable = true;
-     services.pipewire.enable = true;
-   
+     services = {
+       # ...
+     };
+
      security.rtkit.enable = true;
 
-     xdg.portal.enable = true;
-     xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+     xdg.portal = {
+       # ...
+     };
 
-     users.users.tim = {
-       isNormalUser = true;
-       extraGroups = [ "wheel" "networkmanager" ];
+     users = {
+       # ...
      };
    
-     users.defaultUserShell = pkgs.zsh;
+     environment = {
+       systemPackages = with pkgs; [
+         kitty
+   +     capitaine-cursors
+       ];
+       sessionVariables.NIXOS_OZONE_WL = "1";
+     };
    
-     environment.systemPackages = with pkgs; [
-       kitty
-   +   capitaine-cursors
-     ];
-   
-     programs.git.enable = true;
-
-     programs.zsh.enable = true;
-     programs.zsh.autosuggestions.enable = true;
-   
-     programs.hyprland.enable = true;
-     environment.sessionVariables.NIXOS_OZONE_WL = "1";
-
-     programs.firefox.enable = true;
-     programs.firefox.package = pkgs.firefox-bin;
-     programs.firefox.policies = {
+     programs = {
        # ...
      };
    
@@ -1087,9 +1113,29 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    +     id = 0;
    +     bookmarks = [
    +       {
-   +         name = "MySchoolApp";
-   +         url = "https://redacted.myschoolapp.com/app/student";
    +         toolbar = true;
+   +         bookmarks = [
+   +           {
+   +             name = "MySchoolApp";
+   +             url = "https://redacted.myschoolapp.com/app/student";
+   +             keyword = "h";
+   +           }
+   +           {
+   +             name = "Gmail";
+   +             url = "https://mail.google.com";
+   +             keyword = "m";
+   +           }
+   +           {
+   +             name = "Drive";
+   +             url = "https://drive.google.com/drive/u/0/my-drive";
+   +             keyword = "d";
+   +           }
+   +           {
+   +             name = "Claude";
+   +             url = "https://claude.ai/chats";
+   +             keyword = "c";
+   +           }
+   +         ];
    +       }
    +     ];
    +     extensions = ;
@@ -1119,7 +1165,7 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    ```
    The default for `programs.firefox.package` is `pkgs.firefox`, not `pkgs.firefox-bin`, so if the option is not set, Home Manager will try to install `pkgs.firefox` instead of using `pkgs.firefox-bin` that's already installed through configuration in `configuration.nix`.\
    Note: When I first used `# nixos-rebuild switch`, a download of a Firefox package began, even though I specified `programs.firefox.package = pkgs.firefox-bin`, matching the package in `configuration.nix`. I updated `/etc/nixos/flake.lock`, used `# nixos-rebuild switch` *without* any Firefox configurations in `home.nix`, and then used `# nixos-rebuild switch` *with* Firefox configurations including `programs.firefox.package = pkgs.firefox-bin` in `home.nix`; during this rebuild no Firefox package was downloaded. Using `nix-store -q --references /run/current-system/sw | grep firefox` shows only one Firefox. A possible explanation could be that Home Manager queries a different *version* of the unstable branch of nixpkgs than the OS; Home Manager follows the same branch as the OS, as defined in `flake.nix` `home-manager.inputs.nixpkgs.follows = "nixpkgs";`, but a different version of the branch. So, during rebuild, Home Manager sees that in its version of the nixos-unstable branch of nixpkgs there is `pkgs.firefox-bin` of a different version than the `pkgs.firefox-bin` already installed in the system, so Home Manager tries to install the newer `pkgs.firefox-bin` from the version of the nixos-unstable branch of nixpkgs that it follows. So, when I update the version of the nixos-unstable branch of nixpkgs that the OS follows by updating `/etc/nixos/flake.lock` to possibly match the version that Home Manager is following, Home Manager does not install another Firefox anymore. One reason to suspect this is that before `/etc/nixos/flake.lock` was updated, Firefox version 127.x.x was installed, and after updating, it changed to version 128.0.3.\
-   The syntax inside `programs.firefox.profiles.<name>.bookmarks` does not allow `;`'s.\
+   The syntax inside `programs.firefox.profiles.<name>.bookmarks` does not allow `;`'s after `{}`'s. The [`toolbar`](https://github.com/nix-community/home-manager/blob/afc892db74d65042031a093adb6010c4c3378422/modules/programs/firefox/mkFirefoxModule.nix#L475) option defines the sub-bookmarks within the bookmark (functioning as directory) as toolbar bookmarks. This is the pseudo-structure: `profileBookmarks = { menuBookmark1, menuBookmark2, toolbarBookmarks = { toolbarBookmark1, toolbarBookmark2, ... }, menuBookmark3, ... }`. The `keyword` option redirects typing the string in the address bar to the bookmark.\
    `programs.firefox.profiles.<name>.id` must be declared when multiple profiles are declared.\
    Remove the directories `~/.mozilla` and `~/.cache/mozilla`. Connect to internet. Use `# nixos-rebuild switch`.
 
@@ -1135,54 +1181,45 @@ Notes: Using `$ sudo echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_b
        [
          ./hardware-configuration.nix
        ];
-   
-     boot.loader.systemd-boot.enable = true;
-     boot.loader.efi.canTouchEfiVariables = true;
-   
+
+     boot.loader = {
+       # ...
+     };
+
      nix.settings.experimental-features = [ "nix-command" "flakes" ];
-   
-     networking.hostName = "ZHAN";
-     networking.networkmanager.enable = true;
-   
+
+     networking = {
+       # ...
+     };
+
      time.timeZone = "America/New_York";
-   
-     services.libinput.enable = true;
-     services.pipewire.enable = true;
-   + services.udev.extraRules = ''
-   +   ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", MODE="0666", RUN+="${pkgs.coreutils}/bin/chmod a+w /sys/class/backlight/%k/brightness"
-   + '';
+
+     services = {
+       libinput.enable = true;
+       pipewire.enable = true;
+   +   udev.extraRules = ''
+   +     ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", MODE="0666", RUN+="${pkgs.coreutils}/bin/chmod a+w /sys/class/backlight/%k/brightness"
+   +   '';
+     };
    
      security.rtkit.enable = true;
 
-     xdg.portal.enable = true;
-     xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-
-     users.users.tim = {
-       isNormalUser = true;
-       extraGroups = [ "wheel" "networkmanager" ];
+     xdg.portal = {
+       # ...
      };
-   
-     users.defaultUserShell = pkgs.zsh;
-   
-     environment.systemPackages = with pkgs; [
-       kitty
-       capitaine-cursors
-     ];
-   
-     programs.git.enable = true;
 
-     programs.zsh.enable = true;
-     programs.zsh.autosuggestions.enable = true;
-   
-     programs.hyprland.enable = true;
-     environment.sessionVariables.NIXOS_OZONE_WL = "1";
-
-     programs.firefox.enable = true;
-     programs.firefox.package = pkgs.firefox-bin;
-     programs.firefox.policies = {
+     users = {
        # ...
      };
    
+     environment = {
+       # ...
+     };
+   
+     programs = {
+       # ...
+     };
+
      system.stateVersion = "24.05";
    }
    ```
@@ -1246,52 +1283,43 @@ Since I only have one user and one window manager or desktop environment, I do n
        [
          ./hardware-configuration.nix
        ];
-   
-     boot.loader.systemd-boot.enable = true;
-     boot.loader.efi.canTouchEfiVariables = true;
-   
+
+     boot.loader = {
+       # ...
+     };
+
      nix.settings.experimental-features = [ "nix-command" "flakes" ];
-   
-     networking.hostName = "ZHAN";
-     networking.networkmanager.enable = true;
-   
+
+     networking = {
+       # ...
+     };
+
      time.timeZone = "America/New_York";
    
-     services.libinput.enable = true;
-     services.pipewire.enable = true;
-     services.udev.extraRules = ''
-       ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", MODE="0666", RUN+="${pkgs.coreutils}/bin/chmod a+w /sys/class/backlight/%k/brightness"
-     '';
+     services = {
+       libinput.enable = true;
+       pipewire.enable = true;
+       udev.extraRules = ''
+         # ...
+       '';
+   +   getty.extraArgs = [ "--skip-login" "--login-options" "tim" ];
+     };
    
      security.rtkit.enable = true;
 
-     xdg.portal.enable = true;
-     xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-
-     users.users.tim = {
-       isNormalUser = true;
-       extraGroups = [ "wheel" "networkmanager" ];
+     xdg.portal = {
+       # ...
      };
-   + services.getty.extraArgs = [ "--skip-login" "--login-options" "tim" ];
-      
-     users.defaultUserShell = pkgs.zsh;
-   
-     environment.systemPackages = with pkgs; [
-       kitty
-       capitaine-cursors
-     ];
-   
-     programs.git.enable = true;
 
-     programs.zsh.enable = true;
-     programs.zsh.autosuggestions.enable = true;
-   
-     programs.hyprland.enable = true;
-     environment.sessionVariables.NIXOS_OZONE_WL = "1";
+     users = {
+       # ...
+     };
 
-     programs.firefox.enable = true;
-     programs.firefox.package = pkgs.firefox-bin;
-     programs.firefox.policies = {
+     environment = {
+       # ...
+     };
+
+     programs = {
        # ...
      };
    
