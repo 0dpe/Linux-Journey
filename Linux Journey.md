@@ -976,16 +976,18 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    +       };
    +       OverrideFirstRidePage = "";
    +       Permissions = ;
+   +       Preferences = {
+   +       };
    +     };
-   +     preferences = ;
    +   };
      };
    
      system.stateVersion = "24.05";
    }
    ```
-   [Policies](https://mozilla.github.io/policy-templates/ "Mozilla's GitHub") are usually used to allow administrators to set and lock various browser preferences. `programs.firefox.policies` is declared in `configuration.nix` because the Home Manager option `programs.firefox.policies` does not work. Other profile specific Home Manager options in `programs.firefox.profiles` work.\
-   Note: The Firefox policy `NoDefaultBookmarks` seems good, but actually breaks Home Manager's `programs.firefox.profiles.<name>.bookmarks` option. When any option under `programs.firefox.profiles` (like `programs.firefox.profiles.<name>.bookmarks`) fails, all other options under `programs.firefox.profiles` fail; no error messages are displayed, but the configurations have no effect. When `programs.firefox.profiles.<name>.bookmarks` works, it silently overrides the default Firefox bookmarks.
+   [Policies](https://mozilla.github.io/policy-templates/ "Mozilla's GitHub") (view in Firefox internal page with URL `about:policies`; stored in file(s) in `/nix/store/`) are usually declared to allow administrators to set and lock browser settings. `programs.firefox.policies` is declared in `configuration.nix` because the Home Manager option `programs.firefox.policies` does not work. Other profile specific Home Manager options in `programs.firefox.profiles` work.\
+   Note: The Firefox policy `NoDefaultBookmarks` seems good, but actually breaks Home Manager's `programs.firefox.profiles.<name>.bookmarks` option. When any option under `programs.firefox.profiles` (like `programs.firefox.profiles.<name>.bookmarks`) fails, all other options under `programs.firefox.profiles` fail; no error messages are displayed, but the configurations have no effect. When `programs.firefox.profiles.<name>.bookmarks` works, it silently overrides the default Firefox bookmarks.\
+   `programs.firefox.preferences` declare configuration options viewable in Firefox internal page `about:config`; in testing, this option seems to be equivalent to `programs.firefox.policies = { Preferences = {} }`, since the `Preferences` policy can be seen in `about:policies`. Home Manager's option `programs.firefox.profiles.<name>.settings` also modify options viewable in `about:config`, but the modifications are user specific; the modifications are stored in `~/.mozilla/firefox/<name>/user.js`, which defines overrides to `~/.mozilla/firefox/<name>/prefs.js` (Firefox modifies `prefs.js` when options are changed directly through `about:config`). So, to modify `about:config` for all users, using a policy is the only option, and to modify `about:config` for a specific user, using Home Manager's option `programs.firefox.profiles.<name>.settings` is the only option (there is no option for modifying `prefs.js` directly, but modifying `user.js` achieves the same result).
 1. Connect to internet. Use `# nixos-rebuild switch`.\
    Use `$ firefox` to see that Firefox works.\
    In the terminal, minor error messages appear:
@@ -1116,11 +1118,6 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    +         toolbar = true;
    +         bookmarks = [
    +           {
-   +             name = "MySchoolApp";
-   +             url = "https://redacted.myschoolapp.com/app/student";
-   +             keyword = "h";
-   +           }
-   +           {
    +             name = "Gmail";
    +             url = "https://mail.google.com";
    +             keyword = "m";
@@ -1140,15 +1137,15 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    +     ];
    +     extensions = ;
    +     extraConfig = ''
-   +     '';
+   +     ''; # user.js
    +     search.default = "Google";
    +     search.privateDefault = "Google";
    +     search.engines = ;
    +     search.force = ;
    +     search.order = ;
-   +     settings = ;
-   +     userChrome = ;
-   +     userContent = ;
+   +     settings = ; # about:config
+   +     userChrome = ; # firefox itself
+   +     userContent = ; # webpages
    +   };
    +   profiles.test = {
    +     id = 1;
@@ -1381,7 +1378,6 @@ hyprland: [window rules](https://wiki.hyprland.org/Configuring/Window-Rules/), [
 Finish hyprland animation customization (layers, etc...)\
 wireplumber from hyprland docs / pipewire.pulse from configuration.nix
 
-Home manage firefox\
 Home manage git
 
 Kitty zsh shell integration (done?)\
