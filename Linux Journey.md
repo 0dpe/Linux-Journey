@@ -12,7 +12,7 @@ Distro | Package Manager | Minimal | Comments
 [Arch Linux](https://archlinux.org/) | Pacman (AUR - independent) | Maybe | Great documentation
 :heavy_check_mark: [NixOS](https://nixos.org/) | Nix (independent) | No | [Has the most packages](https://repology.org/repositories/statistics/total "Repology.org"); clean config
 
-### [Display Server](https://www.wikiwand.com/en/Display_server#Display_server_communications_protocols "Wikipedia") & Window Manager
+### [Display Server](https://en.wikipedia.org/wiki/Windowing_system#Display_server_communications_protocols "Wikipedia") & Window Manager
 X11 will be replaced by Wayland.
 Compositing <br> Window Manager | Minimal <br> Eyecandy | Comments 
 -|-|-
@@ -48,7 +48,7 @@ Not in nixpkgs:
 * [Extraterm](https://extraterm.org/): The swiss army chainsaw of terminal emulators.
 * [Tabby](https://tabby.sh/): A terminal for the modern age.
 
-### [Web Engine](https://eylenburg.github.io/browser_engines.htm "Eylenburg.github.io") & [Browser](https://www.wikiwand.com/en/Web_browser#External_links:~:text=at%20Wikimedia%20Commons-,Web%20browsers,-Web%20browsers "Wikipedia")
+### [Web Engine](https://eylenburg.github.io/browser_engines.htm "Eylenburg.github.io") & [Browser](https://en.wikipedia.org/wiki/Web_browser#:~:text=hide-,Active,-Blink%2Dbased "Wikipedia")
 * Blink: Chromium
 * QtWebEngine (Chromium): Qutebrowser
 * :heavy_check_mark: Gecko: Firefox 
@@ -157,7 +157,7 @@ Installing NixOS minimal (no GNOME or KDE) on an HP ZHAN 66 Pro 14 G2:
 1. Follow [manual](https://nixos.org/manual/nixos/stable/#sec-installation-manual-installing "NixOS Manual - Installing"): Mounting.\
    Note: Saying "*mount A to B*" means "*make the contents of A accessible at location B*".\
    I use `# mount /dev/disk/by-label/nixos /mnt` to mount my root partition to `/mnt`, which exists by default in the root filesystem of my *live environment*, which is a complete but temporary OS running in RAM using read-only storage in the USB. Use `# ls /` (`/` is the root filesystem) to see `mnt`: `bin  dev  etc  home  iso  mnt  nix  proc  root  run  srv  sys  tmp  usr  var`. Here, the `mount` command creates a "bridge" between the partition on the disk and the live environment. After installation, the live environment "dies", meaning the temporary OS along with its files won't be accessible anymore. Also, the command uses the filesystem label; for me, it is equivalent to `# mount /dev/nvme0n1p5 /mnt`.\
-   I use `# mkdir -p /mnt/boot` then `# mount -o umask=077 /dev/nvme0n1p1 /mnt/boot` to mount Windows' EFI system partition to `/mnt/boot`. [`-o umask=077`](https://www.wikiwand.com/en/Umask#Command_line_examples "Wikipedia") specifies an option that sets the permission for the newly created directory; 077 means that the owner has full permissions (read, write, execute), and no permissions for everyone else (this only affects Linux, not Windows). I could maybe use `# mount -o umask=077 /dev/disk/by-label/boot /mnt/boot`, but I do not know for sure if Windows' boot partition has the filesystem label `boot`.\
+   I use `# mkdir -p /mnt/boot` then `# mount -o umask=077 /dev/nvme0n1p1 /mnt/boot` to mount Windows' EFI system partition to `/mnt/boot`. [`-o umask=077`](https://en.wikipedia.org/wiki/Umask#Command_line_examples "Wikipedia") specifies an option that sets the permission for the newly created directory; 077 means that the owner has full permissions (read, write, execute), and no permissions for everyone else (this only affects Linux, not Windows). I could maybe use `# mount -o umask=077 /dev/disk/by-label/boot /mnt/boot`, but I do not know for sure if Windows' boot partition has the filesystem label `boot`.\
    I use `# swapon /dev/disk/by-label/swap` to enable swap. Equivalent to `# swapon /dev/nvme0n1p6` for me.
 
 1. Follow [manual](https://nixos.org/manual/nixos/stable/#sec-installation-manual-installing "NixOS Manual - Installing"): Configure NixOS and install.\
@@ -1136,16 +1136,27 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    +       }
    +     ];
    +     extensions = ;
+   +     settings = ; # about:config
    +     extraConfig = ''
    +     ''; # user.js
-   +     search.default = "Google";
-   +     search.privateDefault = "Google";
-   +     search.engines = ;
-   +     search.force = ;
-   +     search.order = ;
-   +     settings = ; # about:config
-   +     userChrome = ; # firefox itself
-   +     userContent = ; # webpages
+   +     search = {
+   +       default = "Google";
+   +       privateDefault = "Google";
+   +       engines = {
+   +         "Google" = {
+   +           urls = [{ template = "https://www.google.com/search?q={searchTerms}"; }];
+   +           definedAliases = [ "@g" ];
+   +         };
+   +         "Bing CN" = {
+   +           urls = [{ template = "https://cn.bing.com/search?q={searchTerms}&ensearch=1"; }];
+   +           definedAliases = [ "@b" ];
+   +         };
+   +       };
+   +       order = [ "Google" "Bing CN" ];
+   +       force = true; # this does not work
+   +     };
+   +     userChrome = ;
+   +     userContent = ;
    +   };
    +   profiles.test = {
    +     id = 1;
@@ -1162,7 +1173,8 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    ```
    The default for `programs.firefox.package` is `pkgs.firefox`, not `pkgs.firefox-bin`, so if the option is not set, Home Manager will try to install `pkgs.firefox` instead of using `pkgs.firefox-bin` that's already installed through configuration in `configuration.nix`.\
    Note: When I first used `# nixos-rebuild switch`, a download of a Firefox package began, even though I specified `programs.firefox.package = pkgs.firefox-bin`, matching the package in `configuration.nix`. I updated `/etc/nixos/flake.lock`, used `# nixos-rebuild switch` *without* any Firefox configurations in `home.nix`, and then used `# nixos-rebuild switch` *with* Firefox configurations including `programs.firefox.package = pkgs.firefox-bin` in `home.nix`; during this rebuild no Firefox package was downloaded. Using `nix-store -q --references /run/current-system/sw | grep firefox` shows only one Firefox. A possible explanation could be that Home Manager queries a different *version* of the unstable branch of nixpkgs than the OS; Home Manager follows the same branch as the OS, as defined in `flake.nix` `home-manager.inputs.nixpkgs.follows = "nixpkgs";`, but a different version of the branch. So, during rebuild, Home Manager sees that in its version of the nixos-unstable branch of nixpkgs there is `pkgs.firefox-bin` of a different version than the `pkgs.firefox-bin` already installed in the system, so Home Manager tries to install the newer `pkgs.firefox-bin` from the version of the nixos-unstable branch of nixpkgs that it follows. So, when I update the version of the nixos-unstable branch of nixpkgs that the OS follows by updating `/etc/nixos/flake.lock` to possibly match the version that Home Manager is following, Home Manager does not install another Firefox anymore. One reason to suspect this is that before `/etc/nixos/flake.lock` was updated, Firefox version 127.x.x was installed, and after updating, it changed to version 128.0.3.\
-   The syntax inside `programs.firefox.profiles.<name>.bookmarks` does not allow `;`'s after `{}`'s. The [`toolbar`](https://github.com/nix-community/home-manager/blob/afc892db74d65042031a093adb6010c4c3378422/modules/programs/firefox/mkFirefoxModule.nix#L475) option defines the sub-bookmarks within the bookmark (functioning as directory) as toolbar bookmarks. This is the pseudo-structure: `profileBookmarks = { menuBookmark1, menuBookmark2, toolbarBookmarks = { toolbarBookmark1, toolbarBookmark2, ... }, menuBookmark3, ... }`. The `keyword` option redirects typing the string in the address bar to the bookmark.\
+   Firefox generates profiles on first launch, not instillation. This means that if I delete the profile directories and use `# nixos-rebuild switch` *without* modifying `home.nix`, reopening Firefox will generate the default profile instead of profiles defined in `programs.firefox.profiles`.\
+   The syntax inside `programs.firefox.profiles.<name>.bookmarks` does not allow `;`'s after `{}`'s. The [`toolbar`](https://github.com/nix-community/home-manager/blob/afc892db74d65042031a093adb6010c4c3378422/modules/programs/firefox/mkFirefoxModule.nix#L475 "GitHub") option defines the sub-bookmarks within the bookmark (functioning as directory) as toolbar bookmarks. This is the pseudo-structure: `profileBookmarks = { menuBookmark1, menuBookmark2, toolbarBookmarks = { toolbarBookmark1, toolbarBookmark2, ... }, menuBookmark3, ... }`. The `keyword` option redirects typing the string in the address bar to the bookmark.\
    `programs.firefox.profiles.<name>.id` must be declared when multiple profiles are declared.\
    Remove the directories `~/.mozilla` and `~/.cache/mozilla`. Connect to internet. Use `# nixos-rebuild switch`.
 
@@ -1323,7 +1335,7 @@ Since I only have one user and one window manager or desktop environment, I do n
      system.stateVersion = "24.05";
    }
    ```
-   [`getty`](https://www.wikiwand.com/en/Getty_(Unix) "Wikipedia") (get-tty) manages TTYs.\
+   [`getty`](https://en.wikipedia.org/wiki/Getty_(Unix) "Wikipedia") (get-tty) manages TTYs.\
    `services.getty.autologinUser` is not used because it skips the password too.
 1. To start Hyprland automatically after login, edit `home.nix`:
    ```diff
