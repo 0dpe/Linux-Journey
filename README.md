@@ -977,6 +977,42 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    +       OverrideFirstRidePage = "";
    +       Permissions = ;
    +       Preferences = {
+   +         "browser.tabs.tabmanager.enabled" = {
+   +           Value = false;
+   +           Status = "user";
+   +         };
+   +         "browser.tabs.inTitlebar" = {
+   +           Value = 0;
+   +           Status = "user";
+   +         };
+   +         "browser.uidensity" = {
+   +           Value = 1;
+   +           Status = "user";
+   +         };
+   +         "browser.urlbar.shortcuts.tabs" = {
+   +           Value = false;
+   +           Status = "user";
+   +         };
+   +         "browser.urlbar.suggest.engines" = {
+   +           Value = false;
+   +           Status = "user";
+   +         };
+   +         "browser.urlbar.suggest.topsites" = {
+   +           Value = false;
+   +           Status = "user";
+   +         };
+   +         "browser.urlbar.suggest.calculator" = {
+   +           Value = true;
+   +           Status = "user";
+   +         };
+   +         "browser.urlbar.unitConversion.enabled" = {
+   +           Value = true;
+   +           Status = "user";
+   +         };
+   +         "browser.vpn_promo.enabled" = {
+   +           Value = false;
+   +           Status = "user";
+   +         };
    +       };
    +     };
    +   };
@@ -987,7 +1023,8 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    ```
    [Policies](https://mozilla.github.io/policy-templates/ "Mozilla's GitHub") (view in Firefox internal page with URL `about:policies`; stored in file(s) in `/nix/store/`) are usually declared to allow administrators to set and lock browser settings. `programs.firefox.policies` is declared in `configuration.nix` because the Home Manager option `programs.firefox.policies` does not work. Other profile specific Home Manager options in `programs.firefox.profiles` work.\
    Note: The Firefox policy `NoDefaultBookmarks` seems good, but actually breaks Home Manager's `programs.firefox.profiles.<name>.bookmarks` option. When any option under `programs.firefox.profiles` (like `programs.firefox.profiles.<name>.bookmarks`) fails, all other options under `programs.firefox.profiles` fail; no error messages are displayed, but the configurations have no effect. When `programs.firefox.profiles.<name>.bookmarks` works, it silently overrides the default Firefox bookmarks.\
-   `programs.firefox.preferences` declare configuration options [mostly](https://searchfox.org/mozilla-central/source/toolkit/modules/Troubleshoot.sys.mjs#113 "Firefox Source (Searchfox.org)") viewable in Firefox internal page `about:config`; in testing, this option seems to be equivalent to `programs.firefox.policies = { Preferences = {} }`, since the [`Preferences`](https://mozilla.github.io/policy-templates/#preferences "Mozilla's GitHub") policy can be seen in `about:policies`. Home Manager's option `programs.firefox.profiles.<name>.settings` also modify options viewable in `about:config`, but the modifications are user specific; the modifications are stored in `~/.mozilla/firefox/<name>/user.js`, which defines overrides to `~/.mozilla/firefox/<name>/prefs.js` (Firefox modifies `prefs.js` when options are changed directly through `about:config`). So, to modify `about:config` for all users, using a policy is the only option, and to modify `about:config` for a specific user, using Home Manager's option `programs.firefox.profiles.<name>.settings` is the only option (there is no option for modifying `prefs.js` directly, but modifying `user.js` achieves the same result). Also, Home Manager's option `programs.firefox.profiles.<name>.extraConfig` modifies `user.js` as well, as seen in Home Manager's [`mkFirefoxModule.nix`](https://github.com/nix-community/home-manager/blob/afc892db74d65042031a093adb6010c4c3378422/modules/programs/firefox/mkFirefoxModule.nix#L847 "GitHub").
+   `programs.firefox.preferences` declare configuration options [mostly](https://searchfox.org/mozilla-central/source/toolkit/modules/Troubleshoot.sys.mjs#113 "Firefox Source (Searchfox.org)") viewable in Firefox internal page `about:config`; in testing, this option seems to be equivalent to `programs.firefox.policies = { Preferences = {} }`, since the [`Preferences`](https://mozilla.github.io/policy-templates/#preferences "Mozilla's GitHub") policy can be seen in `about:policies`. Home Manager's option `programs.firefox.profiles.<name>.settings` also modify options viewable in `about:config`, but the modifications are user specific; the modifications are stored in `~/.mozilla/firefox/<name>/user.js`, which defines overrides to `~/.mozilla/firefox/<name>/prefs.js` (Firefox modifies `prefs.js` when options are changed directly through `about:config`). So, to modify `about:config` for all users, using a policy is the only option, and to modify `about:config` for a specific user, using Home Manager's option `programs.firefox.profiles.<name>.settings` is the only option (there is no option for modifying `prefs.js` directly, but modifying `user.js` achieves the same result). Also, Home Manager's option `programs.firefox.profiles.<name>.extraConfig` modifies `user.js` as well, as seen in Home Manager's [`mkFirefoxModule.nix`](https://github.com/nix-community/home-manager/blob/afc892db74d65042031a093adb6010c4c3378422/modules/programs/firefox/mkFirefoxModule.nix#L847 "GitHub").\
+   Note: Nearly all Firefox configuration options hidden or shown in `about:config` can be found in [`firefox.js`](https://searchfox.org/mozilla-release/source/browser/app/profile/firefox.js "Firefox Source (Searchfox.org)"), [`all.js`](https://searchfox.org/mozilla-release/source/modules/libpref/init/all.js "Firefox Source (Searchfox.org)"), [`StaticPrefList.yaml`](https://searchfox.org/mozilla-release/source/modules/libpref/init/StaticPrefList.yaml "Firefox Source (Searchfox.org)"), and [MozillaZine](https://kb.mozillazine.org/About:config_entries). 
 1. Connect to internet. Use `# nixos-rebuild switch`.\
    Use `$ firefox` to see that Firefox works.\
    In the terminal, minor error messages appear:
@@ -1136,27 +1173,26 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    +       }
    +     ];
    +     extensions = ;
-   +     settings = ; # about:config
-   +     extraConfig = ''
-   +     ''; # user.js
-   +     search = {
-   +       default = "Google";
-   +       privateDefault = "Google";
-   +       engines = {
-   +         "Google" = {
-   +           urls = [{ template = "https://www.google.com/search?q={searchTerms}"; }];
-   +           definedAliases = [ "@g" ];
-   +         };
-   +         "Bing CN" = {
-   +           urls = [{ template = "https://cn.bing.com/search?q={searchTerms}&ensearch=1"; }];
-   +           definedAliases = [ "@b" ];
-   +         };
-   +       };
-   +       order = [ "Google" "Bing CN" ];
-   +       force = true; # this does not work
+   +     settings = {
+   +       "middlemouse.paste" = false;
+   +       "findbar.highlightAll" = true;
    +     };
-   +     userChrome = ;
-   +     userContent = ;
+   +     extraConfig = ''
+   +     '';
+   +     search.engines = {
+   +       "Bing CN" = {
+   +         urls = [{ template = "https://cn.bing.com/search?q={searchTerms}&ensearch=1"; }];
+   +         definedAliases = [ "@b" ];
+   +         iconURL = "https://img.icons8.com/fluency/48/bing--v4.png";
+   +       };
+   +       "Bing".metaData.hidden = true;
+   +       "DuckDuckGo".metaData.hidden = true;
+   +       "Wikipedia (en)".metaData.hidden = true;
+   +     };
+   +     userChrome = ''
+   +     '';
+   +     userContent = ''
+   +     '';
    +   };
    +   profiles.test = {
    +     id = 1;
@@ -1176,7 +1212,8 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    Firefox generates profiles on first launch, not instillation. This means that if I delete the profile directories and use `# nixos-rebuild switch` *without* modifying `home.nix`, reopening Firefox will generate the default profile instead of profiles defined in `programs.firefox.profiles`.\
    `programs.firefox.profiles.<name>.id` must be declared when multiple profiles are declared.\
    The syntax inside `programs.firefox.profiles.<name>.bookmarks` does not allow `;`'s after `{}`'s. The [`toolbar`](https://github.com/nix-community/home-manager/blob/afc892db74d65042031a093adb6010c4c3378422/modules/programs/firefox/mkFirefoxModule.nix#L475 "GitHub") option defines the sub-bookmarks within the bookmark (functioning as directory) as toolbar bookmarks. This is the pseudo-structure: `profileBookmarks = { menuBookmark1, menuBookmark2, toolbarBookmarks = { toolbarBookmark1, toolbarBookmark2, ... }, menuBookmark3, ... }`. The `keyword` option redirects typing the string in the address bar to the bookmark.\
-   `programs.firefox.profiles.<name>.search.force` does not function as described in the [documentation](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.firefox.profiles._name_.search.force "Home Manager Manual"); the default search engines (Google, Bing, DuckDuckGo, Wikipedia (en)) still appear with the option set to `true`. On seemingly every launch, Firefox regenerates the file `~/.mozilla/firefox/<name>/search.json.mozlz4`, replacing Home Manager's symlink, adding the default search engines back into the file; the issue is [not resolved](https://github.com/nix-community/home-manager/issues/3698#issuecomment-1863664311 "GitHub"). The [`SearchEngines`](https://mozilla.github.io/policy-templates/#searchengines-this-policy-is-only-available-on-the-esr "Mozilla's GitHub") policy exists for Firefox ESR, and for security [reasons](https://github.com/mozilla/policy-templates/issues/706#issuecomment-1976702696 "GitHub") it will not be supported for rapid release. Default search engines may be hidden with metadata in Home Manager or [uninstalled](https://github.com/mozilla/policy-templates/issues/484 "GitHub") through extension related policies, but cannot be removed completely.\
+   Configurations inside `programs.firefox.profiles.<name>.settings` are all configurations not available through the [Preferences](https://mozilla.github.io/policy-templates/#preferences "Mozilla's GitHub") policy in `configuration.nix`.\
+   `programs.firefox.profiles.<name>.search.force` does not function as described in the [documentation](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.firefox.profiles._name_.search.force "Home Manager Manual"); the default search engines (Google, Bing, DuckDuckGo, Wikipedia (en)) still appear with the option set to `true`. On seemingly every launch, Firefox regenerates the file `~/.mozilla/firefox/<name>/search.json.mozlz4`, replacing Home Manager's symlink, adding the default search engines back into the file; the issue is [not resolved](https://github.com/nix-community/home-manager/issues/3698#issuecomment-1863664311 "GitHub"). The [`SearchEngines`](https://mozilla.github.io/policy-templates/#searchengines-this-policy-is-only-available-on-the-esr "Mozilla's GitHub") policy exists for Firefox ESR, and for security [reasons](https://github.com/mozilla/policy-templates/issues/706#issuecomment-1976702696 "GitHub") it will not be supported for rapid release. Default search engines are hidden with [metadata attributes](https://searchfox.org/mozilla-central/source/toolkit/components/search/nsISearchService.idl#128,144,470,479 "Firefox Source (Searchfox.org)") in `home.nix`; default engines cannot be removed completely, although [uninstalling](https://github.com/mozilla/policy-templates/issues/484 "GitHub") them through extension related policies could work. `programs.firefox.profiles.<name>.search.privateDefault` does not work, but the default is Google.\
    Remove the directories `~/.mozilla` and `~/.cache/mozilla`. Connect to internet. Use `# nixos-rebuild switch`.
 
 ### Controlling Screen Backlight
