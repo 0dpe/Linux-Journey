@@ -58,7 +58,19 @@ Text based browsers are interesting but impractical.\
 Forks of Firefox or Chromium are generally inferior. Edge, Brave, and Opera are modern but bloated.
 
 ### Cursor Theme
-Numix, Gruppled, [Graphite](https://github.com/vinceliuice/Graphite-cursors), [Afterglow (recolored)](https://github.com/TeddyBearKilla/Afterglow-Cursors-Recolored), [McMojave](https://github.com/vinceliuice/McMojave-cursors), Breeze Hacked, Comix, [Bibata](https://github.com/ful1e5/Bibata_Cursor), Google inspired, [Phinger](https://github.com/phisch/phinger-cursors), Quintom, Whitesur, Vimix, Catppuccin, [Vanilla DMZ](https://www.gnome-look.org/p/999970/), OpenZone, Hackneyed, Borealis, Nordzy, [Simp1e](https://www.gnome-look.org/p/1932768), Volantes, ✔️ [Capitaine](https://github.com/keeferrourke/capitaine-cursors/), ... 
+Numix, Gruppled, [Graphite](https://github.com/vinceliuice/Graphite-cursors), [Afterglow (recolored)](https://github.com/TeddyBearKilla/Afterglow-Cursors-Recolored), [McMojave](https://github.com/vinceliuice/McMojave-cursors), Breeze Hacked, Comix, [Bibata](https://github.com/ful1e5/Bibata_Cursor), Google inspired, [Phinger](https://github.com/phisch/phinger-cursors), Quintom, Whitesur, Vimix, Catppuccin, [Vanilla DMZ](https://www.gnome-look.org/p/999970/), OpenZone, Hackneyed, Borealis, Nordzy, [Simp1e](https://www.gnome-look.org/p/1932768), Volantes, :heavy_check_mark: [Capitaine](https://github.com/keeferrourke/capitaine-cursors/), ...
+
+### Wallpaper Manager
+Wayland wallpaper managers (all in nixpkgs):
+Manager | Animated | Transitions | Home <br> Manager
+-|-|-|-
+[swaybg](https://github.com/swaywm/swaybg) | ? | ? | No
+[mpvpaper](https://github.com/GhostNaN/mpvpaper) | MPV | ? | No
+[swww](https://github.com/LGFae/swww) | GIF | Yes | No
+[Wallutils](https://github.com/xyproto/wallutils) | ? | Yes | No
+[wbg](https://codeberg.org/dnkl/wbg) | No | No | No
+[hyprpaper](https://github.com/hyprwm/hyprpaper) | No | No | Yes
+:heavy_check_mark: [wpaperd](https://github.com/danyspin97/wpaperd) | GIF | Yes | Yes
 
 ## Installing NixOS
 
