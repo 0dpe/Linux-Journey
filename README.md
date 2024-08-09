@@ -66,11 +66,11 @@ Manager | Animated | Transitions | Home <br> Manager
 -|-|-|-
 [swaybg](https://github.com/swaywm/swaybg) | ? | ? | No
 [mpvpaper](https://github.com/GhostNaN/mpvpaper) | MPV | ? | No
-[swww](https://github.com/LGFae/swww) | GIF | Yes | No
-[Wallutils](https://github.com/xyproto/wallutils) | ? | Yes | No
+[Wallutils](https://github.com/xyproto/wallutils) | No | Yes | No
 [wbg](https://codeberg.org/dnkl/wbg) | No | No | No
 [hyprpaper](https://github.com/hyprwm/hyprpaper) | No | No | Yes
-:heavy_check_mark: [wpaperd](https://github.com/danyspin97/wpaperd) | GIF | Yes | Yes
+[wpaperd](https://github.com/danyspin97/wpaperd) | No | Cross Fade | Yes
+:heavy_check_mark: [swww](https://github.com/LGFae/swww) | GIF | Yes | No (CLI)
 
 ## Installing NixOS
 
@@ -841,6 +841,7 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    +       };
    +     };
    +     misc = {
+   +       disable_hyprland_logo = true;
    +       disable_splash_rendering = true;
    +       animate_manual_resizes = true;
    +       animate_mouse_windowdragging = true;
@@ -1429,9 +1430,109 @@ Since I only have one user and one window manager or desktop environment, I do n
      programs.home-manager.enable = true;
    }
    ```
+   Note: Options similar to `programs.zsh.profileExtra` exist for `configuration.nix`, but they are system wide.\
    Zsh executes a few files in a [specific order](https://github.com/sambacha/dotfiles2/blob/master/.github/shell-startup.png "Zsh Config Files Flowchart") on startup. the `.zprofile` file is executed on all login startups.\
    `-z` checks for zero length; if Hyprland is already running, `${DISPLAY}` will have length. `${XDG_VTNR}` indicates TTY#; `-eq` means "equal".\
    Remove `/home/tim/.zshrc`, then connect to internet and use `# nixos-rebuild switch`.
+
+### Using swww
+The swww wallpaper manager does not have a configuration file; all configurations are done through commands.
+1. To install swww, edit `configuration.nix`:
+   ```diff
+   { config, lib, pkgs, ... }:
+   
+   {
+     imports =
+       [
+         ./hardware-configuration.nix
+       ];
+   
+     boot.loader = {
+       # ...
+     };
+   
+     nix.settings.experimental-features = [ "nix-command" "flakes" ];
+   
+     networking = {
+       # ...
+     };
+   
+     time.timeZone = "America/New_York";
+   
+     services = {
+       # ...
+     };
+
+     security.rtkit.enable = true;
+
+     xdg.portal = {
+       # ...
+     };
+
+     users = {
+       # ...
+     };
+   
+     environment = {
+       systemPackages = with pkgs; [
+         kitty
+         capitaine-cursors
+   +     swww
+       ];
+       sessionVariables.NIXOS_OZONE_WL = "1";
+     };
+   
+     programs = {
+       # ...
+     };
+   
+     system.stateVersion = "24.05";
+   }
+   ```
+1. To autostart swww, edit `home.nix`:
+   ```diff
+   { config, lib, pkgs, ... }:
+   
+   let
+     # ...
+   
+   in
+   {
+     home.username = "tim";
+     home.homeDirectory = "/home/tim";
+
+     wayland.windowManager.hyprland = {
+       enable = true;
+       settings = {
+         # ...
+         misc = {
+           # ...
+         };
+   +     exec-once = "swww-daemon";
+       };
+     };
+
+     programs.kitty = {
+       # ...
+     };
+
+     programs.firefox = {
+       # ...
+     };
+
+     programs.zsh = {
+       # ...
+     };
+
+     home.pointerCursor = {
+       # ...
+     };
+
+     home.stateVersion = "24.05";
+     programs.home-manager.enable = true;
+   }
+   ```
+   Use `swww img -h` to see all options.
 
 ### WIP
 `# nix-collect-garbage -d` deletes generations and store objects.
@@ -1475,4 +1576,4 @@ Taskbar (System Tray): \
 Notification Daemon: \
 Application Launcher: \
 Authentication Agent: Starting method: manual (exec-once) Authentication agents are the things that pop up a window asking you for a password whenever an app wants to elevate its privileges.\
-Wallpaper manager: https://www.reddit.com/r/commandline/comments/13y5j4m/asciimatrix/
+Wallpaper: https://www.reddit.com/r/commandline/comments/13y5j4m/asciimatrix/
