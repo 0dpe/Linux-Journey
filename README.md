@@ -366,10 +366,12 @@ Install Home Manager as a NixOS module:
    { config, lib, pkgs, ... }:
    
    {
-     home.username = "tim";
-     home.homeDirectory = "/home/tim";
-   
-     home.stateVersion = "24.05";
+     home = {
+       username = "tim";
+       homeDirectory = "/home/tim";
+       stateVersion = "24.05";
+     };
+
      programs.home-manager.enable = true;
    }
    ```
@@ -780,8 +782,9 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
 
    +in
    {
-     home.username = "tim";
-     home.homeDirectory = "/home/tim";
+     home = {
+       # ...
+     };
 
    + wayland.windowManager.hyprland = {
    +   enable = true;
@@ -850,7 +853,6 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    +   };
    + };
 
-     home.stateVersion = "24.05";
      programs.home-manager.enable = true;
    }
    ```
@@ -875,8 +877,9 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    
    in
    {
-     home.username = "tim";
-     home.homeDirectory = "/home/tim";
+     home = {
+       # ...
+     };
 
      wayland.windowManager.hyprland = {
        # ...
@@ -911,7 +914,6 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    +   '';
    + };
 
-     home.stateVersion = "24.05";
      programs.home-manager.enable = true;
    }
    ```
@@ -1108,8 +1110,18 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    
    in
    {
-     home.username = "tim";
-     home.homeDirectory = "/home/tim";
+     home = {
+       username = "tim";
+       homeDirectory = "/home/tim";
+       stateVersion = "24.05";
+   +   pointerCursor = {
+   +     package = pkgs.capitaine-cursors;
+   +     name = "capitaine-cursors";
+   +     gtk.enable = true;
+   +     x11.enable = true;
+   +     x11.defaultCursor = "default";
+   +   };
+     };
 
      wayland.windowManager.hyprland = {
        # ...
@@ -1119,15 +1131,6 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
        # ...
      };
 
-   + home.pointerCursor = {
-   +   package = pkgs.capitaine-cursors;
-   +   name = "capitaine-cursors";
-   +   gtk.enable = true;
-   +   x11.enable = true;
-   +   x11.defaultCursor = "default";
-   + };
-
-     home.stateVersion = "24.05";
      programs.home-manager.enable = true;
    }
    ```
@@ -1146,8 +1149,9 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    
    in
    {
-     home.username = "tim";
-     home.homeDirectory = "/home/tim";
+     home = {
+       # ...
+     };
 
      wayland.windowManager.hyprland = {
        # ...
@@ -1212,11 +1216,6 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    +   };
    + };
 
-     home.pointerCursor = {
-       # ...
-     };
-
-     home.stateVersion = "24.05";
      programs.home-manager.enable = true;
    }
    ```
@@ -1294,8 +1293,9 @@ Notes: Using `$ sudo echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_b
    
    in
    {
-     home.username = "tim";
-     home.homeDirectory = "/home/tim";
+     home = {
+       # ...
+     };
 
      wayland.windowManager.hyprland = {
        enable = true;
@@ -1322,11 +1322,6 @@ Notes: Using `$ sudo echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_b
        # ...
      };
 
-     home.pointerCursor = {
-       # ...
-     };
-
-     home.stateVersion = "24.05";
      programs.home-manager.enable = true;
    }
    ```
@@ -1397,8 +1392,9 @@ Since I only have one user and one window manager or desktop environment, I do n
    
    in
    {
-     home.username = "tim";
-     home.homeDirectory = "/home/tim";
+     home = {
+       # ...
+     };
 
      wayland.windowManager.hyprland = {
        # ...
@@ -1416,23 +1412,17 @@ Since I only have one user and one window manager or desktop environment, I do n
    +   enable = true;
    +   profileExtra = ''
    +     if [ -z "''${DISPLAY}" ] && [ "''${XDG_VTNR}" -eq 1 ]; then
-   +       echo "ZPROFILE: Starting Hyprland..."
    +       exec Hyprland
    +     fi
    +   '';
    + };
 
-     home.pointerCursor = {
-       # ...
-     };
-
-     home.stateVersion = "24.05";
      programs.home-manager.enable = true;
    }
    ```
    Note: Options similar to `programs.zsh.profileExtra` exist for `configuration.nix`, but they are system wide.\
    Zsh executes a few files in a [specific order](https://github.com/sambacha/dotfiles2/blob/master/.github/shell-startup.png "Zsh Config Files Flowchart") on startup. the `.zprofile` file is executed on all login startups.\
-   `-z` checks for zero length; if Hyprland is already running, `${DISPLAY}` will have length. `${XDG_VTNR}` indicates TTY#; `-eq` means "equal".\
+   `-z` checks for zero length; if Hyprland is already running, `${DISPLAY}` will have length. In nix, `$`s inside multi-line strings can be escaped with `''`. `${XDG_VTNR}` indicates TTY#; `-eq` means "equal".\
    Remove `/home/tim/.zshrc`, then connect to internet and use `# nixos-rebuild switch`.
 
 ### Using swww
@@ -1489,7 +1479,7 @@ The swww wallpaper manager does not have a configuration file; all configuration
      system.stateVersion = "24.05";
    }
    ```
-1. To autostart swww, edit `home.nix`:
+1. To autostart swww and automatically randomize wallpapers, edit `home.nix`:
    ```diff
    { config, lib, pkgs, ... }:
    
@@ -1498,8 +1488,40 @@ The swww wallpaper manager does not have a configuration file; all configuration
    
    in
    {
-     home.username = "tim";
-     home.homeDirectory = "/home/tim";
+     home = {
+       username = "tim";
+       homeDirectory = "/home/tim";
+       stateVersion = "24.05";
+       pointerCursor = {
+         # ...
+       };
+   +   file = {
+   +     ".swwwRandomizer" = {
+   +       enable = true;
+   +       executable = true;
+   +       text = ''
+   +         #!/usr/bin/env zsh
+   +         swww img ''$1/*([1])
+   +         used=()
+   +         while :; do
+   +           all=(''$1/*)
+   +           [[ ''$#used -eq ''$#all ]] && used=(''$selected)
+   +           unused=(''${all:|used})
+   +           selected=''${unused[''$RANDOM % ''$#unused + 1]}
+   +           random_pos=(''$(seq 0.1 .1 0.9 | shuf))
+   +           swww img ''$selected \
+   +             --resize fit \
+   +             -t grow \
+   +             --transition-pos ''$random_pos[1],''$random_pos[2] \
+   +             --transition-duration 5 \
+   +             --transition-fps 60
+   +           used+=(''$selected)
+   +           sleep 3600
+   +         done
+   +       '';
+   +     };
+   +   };
+     };
 
      wayland.windowManager.hyprland = {
        enable = true;
@@ -1508,7 +1530,10 @@ The swww wallpaper manager does not have a configuration file; all configuration
          misc = {
            # ...
          };
-   +     exec-once = "swww-daemon";
+   +     exec-once [
+   +       "swww-daemon"
+   +       "~/.swwwRandomizer /home/Wallpapers"
+   +     ];
        };
      };
 
@@ -1524,15 +1549,37 @@ The swww wallpaper manager does not have a configuration file; all configuration
        # ...
      };
 
-     home.pointerCursor = {
-       # ...
-     };
-
-     home.stateVersion = "24.05";
      programs.home-manager.enable = true;
    }
    ```
-   Use `swww img -h` to see all options.
+   Home Manager's [`home.file.<name>.target`](https://nix-community.github.io/home-manager/options.xhtml#opt-home.file._name_.target "Home Manager Manual") option defines the path and name of the generated symlink or file relative to `~`. This option defaults to `~/<name>` when undefined.\
+   Although the zsh script can be run as a one-line command with `$ zsh -c "command"`, using Hyprland's `exec-once` to execute the command on Hyprland startup does not seem to work. Also, the NixOS option [`writeShellApplication`](https://nixos.org/manual/nixpkgs/unstable/#trivial-builder-writeShellApplication "NixOS Manual") might be worth exploring for system wide scripts.\
+   Pseudocode for the script:
+   1. [Shebang](https://en.wikipedia.org/wiki/Shebang_(Unix) "Wikipedia") for NixOS.
+   1. Execute `swww img` with the path to the file inside `$1` with index 1.\
+      `$` indicates a variable. The variable `1` is the first argument passed to the script when it is run, like so: `$ ~/.swwwRandomizer first_argument`. Using `$ ~/.swwwRandomizer /home/Wallpapers` simplifies to `swww img /home/Wallpapers/*([1])`. The wildcard `*` lists all files in `Wallpapers`. Parentheses `()` here is required to indicate a *[glob](https://en.wikipedia.org/wiki/Glob_(programming) "Wikipedia") pattern* to match for the file with index, denoted with brackets `[]`, of number `1`. In zsh, array indexing starts at one, not zero.\
+      Note: Using `$ swww-daemon` without any cache (to clear cache, use `$ swww clear-cache`) and then using `$ swww img /path/to/any/image` displays a black wallpaper. Using `$ swww query` that swww has attempted to display an image. Using `$ swww img /path/to/any/image` again fixes the black wallpaper. So, the script runs `$ swww img $1*([1])` once in the start to arbitrarily attempt to display the first image in `/home/Wallpapers` to fix this.\
+   1. Define `used` as an empty array.\
+      Putting spaces before and after the equal sign `=` would result in a syntax error.
+   1. While true, loop:\
+      `:` stands for `true`. Semicolons `;` are mandatory for compacting the script into a single line; they are optional with newlines.
+      1. Define `all` as an array of files inside `$1/*`.
+      1. Length of `used` equals length of `all` and redefine `used` as an array with only `selected`.\
+         Double brackets `[[ ]]` are used for testing conditions. `#` tests for the length of the array variable. `&&`, the logical AND, only runs the second command if the first returns `true`. `selected` is defined later in the script; putting it here will never cause an error unless `all` is defined as an empty array. Putting `selected` ensures that images never get picked twice in a row after all images have been used.\
+         Note: `$#var` works in zsh, but not bash. In bash, curly braces `{}` are required: `${#var}`.
+      1. Define `unused` as an array of `all` without `used`.\
+         `{}` are required for zsh to group commands. `:|` removes anything inside the second array from the first array. `:|` needs to be inside the *parameter expansion* `${}`. Otherwise, `:|` in `unused=($all:|$used)` would be interpreted as a pipe operator followed by a colon.
+      1. Define `selected` as the path of the ((`$RANDOM` modulo length of `unused`) + 1)th file of `unused`.\
+         `$RANDOM` is a pre-defined shell variable that returns a random integer between 0 and 32767. The modulo operator `%` returns the remainder from dividing `$RANDOM` by the length of `unused`. Since zsh is one indexed, one is added to the remainder to accurately calculate the index.
+      1. Define `random_pos` as the array of the sequence of 0.1 to 0.9 with step 0.1 shuffled.\
+         The set of inner parentheses `$()` capture *command substitution*. The pipe operator `|` feeds the output of the first command as input to the second command.
+      1. Execute `swww img` with the image with path `selected`.\
+         Back slashes `\` are used to separate one line commands to multiple lines. Use `swww img --help` to see all image display and transition options. `--resize fit` shrinks the image until the entire image is displayed; `--resize crop` enlarges the image until the screen is filled. `-t grow` transition animation type is a growing circle. `-t any` randomizes the position of the circle, but it also randomizes between `grow` and `outer` (shrinking circle) animations, so it is not used. `--transition-pos` values separated by commas are float percentage values; arbitrarily the first and second floats of the shuffled `random_pos` array are used.
+      1. Append `selected` to the `used` array.
+      1. Pause for 3600 seconds.
+   1. End of loop.
+
+   Connect to internet. Use `# nixos-rebuild switch`.
 
 ### WIP
 `# nix-collect-garbage -d` deletes generations and store objects.
@@ -1572,8 +1619,9 @@ Stremio\
 Astrill VPN
 
 Screen Locker: \
-Taskbar (System Tray): \
+Taskbar (System Tray): https://sw.kovidgoyal.net/kitty/kittens/panel/\
 Notification Daemon: \
 Application Launcher: \
 Authentication Agent: Starting method: manual (exec-once) Authentication agents are the things that pop up a window asking you for a password whenever an app wants to elevate its privileges.\
-Wallpaper: https://www.reddit.com/r/commandline/comments/13y5j4m/asciimatrix/
+Wallpaper: https://www.reddit.com/r/commandline/comments/13y5j4m/asciimatrix/\
+Pywal alternative
