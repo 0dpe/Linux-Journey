@@ -1479,6 +1479,7 @@ The swww wallpaper manager does not have a configuration file; all configuration
      system.stateVersion = "24.05";
    }
    ```
+1. Use `$ mkdir /home/tim/Wallpapers` to create a directory for the wallpapers.
 1. To autostart swww and automatically randomize wallpapers, edit `home.nix`:
    ```diff
    { config, lib, pkgs, ... }:
@@ -1510,13 +1511,14 @@ The swww wallpaper manager does not have a configuration file; all configuration
    +           selected=''${unused[''$RANDOM % ''$#unused + 1]}
    +           random_pos=(''$(seq 0.1 .1 0.9 | shuf))
    +           swww img ''$selected \
-   +             --resize fit \
+   +             --resize crop \
    +             -t grow \
    +             --transition-pos ''$random_pos[1],''$random_pos[2] \
    +             --transition-duration 5 \
-   +             --transition-fps 60
+   +             --transition-fps 60 \
+   +             -f Nearest
    +           used+=(''$selected)
-   +           sleep 3600
+   +           sleep ''$2
    +         done
    +       '';
    +     };
@@ -1532,7 +1534,7 @@ The swww wallpaper manager does not have a configuration file; all configuration
          };
    +     exec-once [
    +       "swww-daemon"
-   +       "~/.swwwRandomizer /home/Wallpapers"
+   +       "~/.swwwRandomizer /home/tim/Wallpapers 3600"
    +     ];
        };
      };
@@ -1557,8 +1559,8 @@ The swww wallpaper manager does not have a configuration file; all configuration
    Pseudocode for the script:
    1. [Shebang](https://en.wikipedia.org/wiki/Shebang_(Unix) "Wikipedia") for NixOS.
    1. Execute `swww img` with the path to the file inside `$1` with index 1.\
-      `$` indicates a variable. The variable `1` is the first argument passed to the script when it is run, like so: `$ ~/.swwwRandomizer first_argument`. Using `$ ~/.swwwRandomizer /home/Wallpapers` simplifies to `swww img /home/Wallpapers/*([1])`. The wildcard `*` lists all files in `Wallpapers`. Parentheses `()` here is required to indicate a *[glob](https://en.wikipedia.org/wiki/Glob_(programming) "Wikipedia") pattern* to match for the file with index, denoted with brackets `[]`, of number `1`. In zsh, array indexing starts at one, not zero.\
-      Note: Using `$ swww-daemon` without any cache (to clear cache, use `$ swww clear-cache`) and then using `$ swww img /path/to/any/image` displays a black wallpaper. Using `$ swww query` that swww has attempted to display an image. Using `$ swww img /path/to/any/image` again fixes the black wallpaper. So, the script runs `$ swww img $1*([1])` once in the start to arbitrarily attempt to display the first image in `/home/Wallpapers` to fix this.\
+      `$` indicates a variable. The variable `1` is the first argument passed to the script when it is run, like so: `$ ~/.swwwRandomizer first_argument`. Using `$ ~/.swwwRandomizer /home/tim/Wallpapers` simplifies to `swww img /home/tim/Wallpapers/*([1])`. The wildcard `*` lists all files in `Wallpapers`. Parentheses `()` here is required to indicate a *[glob](https://en.wikipedia.org/wiki/Glob_(programming) "Wikipedia") pattern* to match for the file with index, denoted with brackets `[]`, of number `1`. In zsh, array indexing starts at one, not zero.\
+      Note: Using `$ swww-daemon` without any cache (to clear cache, use `$ swww clear-cache`) and then using `$ swww img /path/to/any/image` displays a black wallpaper. Using `$ swww query` that swww has attempted to display an image. Using `$ swww img /path/to/any/image` again fixes the black wallpaper. So, the script runs `$ swww img $1*([1])` once in the start to arbitrarily attempt to display the first image in `/home/tim/Wallpapers` to fix this.\
    1. Define `used` as an empty array.\
       Putting spaces before and after the equal sign `=` would result in a syntax error.
    1. While true, loop:\
@@ -1574,9 +1576,9 @@ The swww wallpaper manager does not have a configuration file; all configuration
       1. Define `random_pos` as the array of the sequence of 0.1 to 0.9 with step 0.1 shuffled.\
          The set of inner parentheses `$()` capture *command substitution*. The pipe operator `|` feeds the output of the first command as input to the second command.
       1. Execute `swww img` with the image with path `selected`.\
-         Back slashes `\` are used to separate one line commands to multiple lines. Use `swww img --help` to see all image display and transition options. `--resize fit` shrinks the image until the entire image is displayed; `--resize crop` enlarges the image until the screen is filled. `-t grow` transition animation type is a growing circle. `-t any` randomizes the position of the circle, but it also randomizes between `grow` and `outer` (shrinking circle) animations, so it is not used. `--transition-pos` values separated by commas are float percentage values; arbitrarily the first and second floats of the shuffled `random_pos` array are used.
+         Back slashes `\` are used to separate one line commands to multiple lines. Use `swww img --help` to see all image display and transition options. `--resize fit` shrinks the image until the entire image is displayed; `--resize crop` enlarges the image until the screen is filled. `-t grow` transition animation type is a growing circle. `-t any` randomizes the position of the circle, but it also randomizes between `grow` and `outer` (shrinking circle) animations, so it is not used. `--transition-pos` values separated by commas are float percentage values; arbitrarily the first and second floats of the shuffled `random_pos` array are used. `-f Nearest` is the fastest filter; best for pixel art.
       1. Append `selected` to the `used` array.
-      1. Pause for 3600 seconds.
+      1. Pause for variable `2` seconds.
    1. End of loop.
 
    Connect to internet. Use `# nixos-rebuild switch`.
