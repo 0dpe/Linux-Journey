@@ -1618,7 +1618,7 @@ Media Player: \
 Image Viewer: \
 Wechat\
 Stremio\
-Astrill VPN
+VPN / shadowsocks / mullvad
 
 Screen Locker: \
 Taskbar (System Tray): https://sw.kovidgoyal.net/kitty/kittens/panel/\
