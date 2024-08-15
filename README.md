@@ -1586,6 +1586,9 @@ The swww wallpaper manager does not have a configuration file; all configuration
 ### WIP
 `# nix-collect-garbage -d` deletes generations and store objects.
 
+Finish Firefox config: stuff in about:preferences(included in about:config?) about:addons about:logins about:policies(done?) about:config\
+Firefox css: https://www.reddit.com/r/FirefoxCSS/top/?t=all https://firefoxcss-store.github.io/index.html https://support.mozilla.org/en-US/kb/customize-your-new-tab-page#firefox:linux:fx129 https://support.mozilla.org/en-US/kb/customize-firefox-controls-buttons-and-toolbars#firefox:linux:fx129
+
 hyprland: [window rules](https://wiki.hyprland.org/Configuring/Window-Rules/), [master layout](https://wiki.hyprland.org/Configuring/Master-Layout/), [env vars](https://wiki.hyprland.org/Configuring/Environment-variables/), [toggle blur/ani](https://wiki.hyprland.org/Configuring/Uncommon-tips--tricks/#toggle-animationsbluretc-hotkey).\
 Finish hyprland animation customization (layers, etc...)\
 wireplumber from hyprland docs / pipewire.pulse from configuration.nix
@@ -1616,14 +1619,14 @@ Text / Code Editor: \
 Calculator: \
 Media Player: \
 Image Viewer: \
-Wechat\
+WeChat\
 Stremio\
-VPN / shadowsocks / mullvad
+Mullvad
 
 Screen Locker: \
-Taskbar (System Tray): https://sw.kovidgoyal.net/kitty/kittens/panel/\
+Taskbar (System Tray): https://sw.kovidgoyal.net/kitty/kittens/panel/ \
 Notification Daemon: \
 Application Launcher: \
 Authentication Agent: Starting method: manual (exec-once) Authentication agents are the things that pop up a window asking you for a password whenever an app wants to elevate its privileges.\
-Wallpaper: https://www.reddit.com/r/commandline/comments/13y5j4m/asciimatrix/\
+Wallpaper: https://www.reddit.com/r/commandline/comments/13y5j4m/asciimatrix/ \
 Pywal alternative
