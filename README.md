@@ -848,6 +848,7 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    +       disable_splash_rendering = true;
    +       animate_manual_resizes = true;
    +       animate_mouse_windowdragging = true;
+   +       background_color = 000000;
    +       middle_click_paste = false;
    +     };
    +   };
@@ -1502,7 +1503,6 @@ The swww wallpaper manager does not have a configuration file; all configuration
    +       executable = true;
    +       text = ''
    +         #!/usr/bin/env zsh
-   +         swww img ''$1/*([1])
    +         used=()
    +         while :; do
    +           all=(''$1/*)
@@ -1514,7 +1514,7 @@ The swww wallpaper manager does not have a configuration file; all configuration
    +             --resize crop \
    +             -t grow \
    +             --transition-pos ''$random_pos[1],''$random_pos[2] \
-   +             --transition-duration 5 \
+   +             --transition-duration 4 \
    +             --transition-fps 60 \
    +             -f Nearest
    +           used+=(''$selected)
@@ -1533,8 +1533,8 @@ The swww wallpaper manager does not have a configuration file; all configuration
            # ...
          };
    +     exec-once [
-   +       "swww-daemon"
-   +       "~/.swwwRandomizer /home/tim/Wallpapers 3600"
+   +       "swww-daemon --no-cache"
+   +       "swww clear 000000 && ~/.swwwRandomizer /home/tim/Wallpapers 3600"
    +     ];
        };
      };
@@ -1558,21 +1558,19 @@ The swww wallpaper manager does not have a configuration file; all configuration
    Although the zsh script can be run as a one-line command with `$ zsh -c "command"`, using Hyprland's `exec-once` to execute the command on Hyprland startup does not seem to work. Also, the NixOS option [`writeShellApplication`](https://nixos.org/manual/nixpkgs/unstable/#trivial-builder-writeShellApplication "NixOS Manual") might be worth exploring for system wide scripts.\
    Pseudocode for the script:
    1. [Shebang](https://en.wikipedia.org/wiki/Shebang_(Unix) "Wikipedia") for NixOS.
-   1. Execute `swww img` with the path to the file inside `$1` with index 1.\
-      `$` indicates a variable. The variable `1` is the first argument passed to the script when it is run, like so: `$ ~/.swwwRandomizer first_argument`. Using `$ ~/.swwwRandomizer /home/tim/Wallpapers` simplifies to `swww img /home/tim/Wallpapers/*([1])`. The wildcard `*` lists all files in `Wallpapers`. Parentheses `()` here is required to indicate a *[glob](https://en.wikipedia.org/wiki/Glob_(programming) "Wikipedia") pattern* to match for the file with index, denoted with brackets `[]`, of number `1`. In zsh, array indexing starts at one, not zero.\
-      Note: Using `$ swww-daemon` without any cache (to clear cache, use `$ swww clear-cache`) and then using `$ swww img /path/to/any/image` displays a black wallpaper. Using `$ swww query` that swww has attempted to display an image. Using `$ swww img /path/to/any/image` again fixes the black wallpaper. So, the script runs `$ swww img $1*([1])` once in the start to arbitrarily attempt to display the first image in `/home/tim/Wallpapers` to fix this.\
    1. Define `used` as an empty array.\
       Putting spaces before and after the equal sign `=` would result in a syntax error.
    1. While true, loop:\
       `:` stands for `true`. Semicolons `;` are mandatory for compacting the script into a single line; they are optional with newlines.
       1. Define `all` as an array of files inside `$1/*`.
+         `$` indicates a variable. The variable `1` is the first argument passed to the script when it is run, like so: `$ ~/.swwwRandomizer first_argument`. Using `$ ~/.swwwRandomizer /home/tim/Wallpapers` simplifies to `(/home/tim/Wallpapers/*)`. The wildcard `*` lists all files in the directory.
       1. Length of `used` equals length of `all` and redefine `used` as an array with only `selected`.\
          Double brackets `[[ ]]` are used for testing conditions. `#` tests for the length of the array variable. `&&`, the logical AND, only runs the second command if the first returns `true`. `selected` is defined later in the script; putting it here will never cause an error unless `all` is defined as an empty array. Putting `selected` ensures that images never get picked twice in a row after all images have been used.\
          Note: `$#var` works in zsh, but not bash. In bash, curly braces `{}` are required: `${#var}`.
       1. Define `unused` as an array of `all` without `used`.\
          `{}` are required for zsh to group commands. `:|` removes anything inside the second array from the first array. `:|` needs to be inside the *parameter expansion* `${}`. Otherwise, `:|` in `unused=($all:|$used)` would be interpreted as a pipe operator followed by a colon.
       1. Define `selected` as the path of the ((`$RANDOM` modulo length of `unused`) + 1)th file of `unused`.\
-         `$RANDOM` is a pre-defined shell variable that returns a random integer between 0 and 32767. The modulo operator `%` returns the remainder from dividing `$RANDOM` by the length of `unused`. Since zsh is one indexed, one is added to the remainder to accurately calculate the index.
+         `$RANDOM` is a pre-defined shell variable that returns a random integer between 0 and 32767. The modulo operator `%` returns the remainder from dividing `$RANDOM` by the length of `unused`. Since zsh indexing start at one, not zero, one is added to the remainder to accurately calculate the index, which is denoted with brackets `[]`.
       1. Define `random_pos` as the array of the sequence of 0.1 to 0.9 with step 0.1 shuffled.\
          The set of inner parentheses `$()` capture *command substitution*. The pipe operator `|` feeds the output of the first command as input to the second command.
       1. Execute `swww img` with the image with path `selected`.\
@@ -1581,6 +1579,8 @@ The swww wallpaper manager does not have a configuration file; all configuration
       1. Pause for variable `2` seconds.
    1. End of loop.
 
+   The `--no-cache` flag is declared when starting `swww-daemon` because swww [does not yet](https://github.com/LGFae/swww/issues/336 "GitHub") remember options such as filter and resize for cached images.\
+   Using `$ swww-daemon` for the first time on instillation or using `$ swww-daemon --no-cache` (to clear cache, use `$ swww clear-cache`) and then using `$ swww img /path/to/any/image` displays a black wallpaper. Using `$ swww query` shows that swww has attempted to display an image. Using any swww command to attempt to display something again fixes the black wallpaper. So, `swww clear 000000` is executed once in the start to arbitrarily display black. Putting `swww clear 000000` right after the shebang inside the script yields inconsistent results, indicating that the command is run too quickly, maybe before swww daemon has completely started, so `&&` is necessary in `exec-once`.\
    Connect to internet. Use `# nixos-rebuild switch`.
 
 ### WIP
