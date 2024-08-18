@@ -1628,5 +1628,6 @@ Taskbar (System Tray): https://sw.kovidgoyal.net/kitty/kittens/panel/ \
 Notification Daemon: \
 Application Launcher: \
 Authentication Agent: Starting method: manual (exec-once) Authentication agents are the things that pop up a window asking you for a password whenever an app wants to elevate its privileges.\
-Wallpaper: https://www.reddit.com/r/commandline/comments/13y5j4m/asciimatrix/ \
-Pywal alternative
+https://gitlab.com/christosangel/ascii-matrix \
+Pywal alternative\
+Find wallpapers
