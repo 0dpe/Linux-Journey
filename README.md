@@ -1584,7 +1584,8 @@ The swww wallpaper manager does not have a configuration file; all configuration
    Connect to internet. Use `# nixos-rebuild switch`.
 
 ### WIP
-`# nix-collect-garbage -d` deletes generations and store objects.
+`# nix-collect-garbage -d` deletes generations and store objects.\
+`$ nix-collect-garbage -d` deletes home manager generations? https://discourse.nixos.org/t/home-manager-and-garbage-collection/41715
 
 Finish Firefox config: stuff in about:preferences(included in about:config?) about:addons about:logins about:policies(done?) about:config\
 Firefox css: https://www.reddit.com/r/FirefoxCSS/top/?t=all https://firefoxcss-store.github.io/index.html https://support.mozilla.org/en-US/kb/customize-your-new-tab-page#firefox:linux:fx129 https://support.mozilla.org/en-US/kb/customize-firefox-controls-buttons-and-toolbars#firefox:linux:fx129
