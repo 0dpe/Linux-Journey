@@ -662,7 +662,7 @@ Debugging kitty and xdg-desktop-portal:
    systemd[1111]: Started Portal service.
    ```
 1. Kitty's error can be fixed by adding xdg-desktop-portal-gtk to the system. This can seemingly be done 2 ways; either with `environment.systemPackages` or with `xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];`. Both ways install xdg-desktop-portal-gtk, and I choose the second option.\
-   Note: Using `$ systemctl --user status xdg-desktop-portal-hyprland.service` shows that the Hyprland version of xdg-desktop-portal is already running without any issues; I guess kitty either is not using this Hyprland version or does not work with it. Although, I do not mind installing the GTK version of xdg-desktop-portal, it is also recommended on the [Hyprland wiki](https://wiki.hyprland.org/Useful-Utilities/xdg-desktop-portal-hyprland/).
+   Note: Using `$ systemctl --user status xdg-desktop-portal-hyprland.service` shows that the Hyprland version of xdg-desktop-portal is already running without any issues; I guess kitty either is not using this Hyprland version or does not work with it. Although, I do not mind installing the GTK version of xdg-desktop-portal, since it is recommended on the [Hyprland wiki](https://wiki.hyprland.org/Useful-Utilities/xdg-desktop-portal-hyprland/).
 1. xdg-desktop-portal's RealtimeKit error can be fixed by adding `security.rtkit.enable = true;` to `configuration.nix`. `No skeleton to export` can also be fixed by adding xdg-desktop-portal-gtk.\
    After changing these two options, a new error appears when using `$ systemctl --user status xdg-desktop-portal.service` (incomplete):
    ```
