@@ -795,7 +795,7 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    +       "SUPER, T, exec, kitty"
    +       "SUPER, W, killactive"
    +       "SUPER, Q, togglefloating"
-   +       "SUPER, F, fullscreen, 2"
+   +       "SUPER, F, fullscreenstate, 2 0"
    +       "SUPER, K, exit"
    +     ];
    +     bindm = [
