@@ -1632,4 +1632,5 @@ Application Launcher: \
 Authentication Agent: Starting method: manual (exec-once) Authentication agents are the things that pop up a window asking you for a password whenever an app wants to elevate its privileges.\
 https://gitlab.com/christosangel/ascii-matrix \
 Pywal alternative\
-Find wallpapers
+Find wallpapers\
+Customize Grub
