@@ -1,4 +1,5 @@
-# Linux Journey (Jun 20 2024)
+# Linux Journey
+Started on Jun 20, 2024. Still updating.
 
 ## Choosing
 
