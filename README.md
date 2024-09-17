@@ -23,13 +23,13 @@ Compositing <br> Window Manager | Minimal <br> Eyecandy | Comments
 [river](https://codeberg.org/river/river) | Minimal | Lacking wiki
 :heavy_check_mark: [Hyprland](https://hyprland.org/) | Eyecandy |  Great wiki
 
-### [Shell](https://wiki.archlinux.org/title/command-line_shell#List_of_shells "Arch Wiki")
-A *shell* converts human commands to something the kernel understands. Use `$ echo $SHELL` to see the current shell. NixOS by default uses Bourne-Again shell (bash). Popular modern shells: 
+### [Command Shell](https://wiki.archlinux.org/title/command-line_shell#List_of_shells "Arch Wiki")
+A *command shell* converts human commands to something the kernel understands. Use `$ echo $SHELL` to see the current command shell. NixOS by default uses Bourne-Again shell (bash). Popular modern command shells: 
 * Friendly Interactive Shell (fish)
 * :heavy_check_mark: Z Shell (zsh)
 
 ### Terminal Emulator
-Terminals provide access to the shell. The TTY (*TeleTYpe* informally, *virtual terminal* formally, *framebuffer terminal* functionally; switch between TTYs using <kbd>ctrl</kbd>+<kbd>alt</kbd>+<kbd>F#</kbd>) does not support copy and paste, panels, scrolling, multitasking with multiple windows, etc... Therefore, a non-framebuffer terminal emulator is useful for using commands without having to switch out of the graphical environment.
+Terminals provide access to the command shell. The TTY (*TeleTYpe* informally, *virtual terminal* formally, *framebuffer terminal* functionally; switch between TTYs using <kbd>ctrl</kbd>+<kbd>alt</kbd>+<kbd>F#</kbd>) does not support copy and paste, panels, scrolling, multitasking with multiple windows, etc... Therefore, a non-framebuffer terminal emulator is useful for using commands without having to switch out of the graphical environment.
 * [Alacritty](https://alacritty.org/): A cross-platform, OpenGL terminal emulator.
 * [Foot](https://codeberg.org/dnkl/foot): A fast, lightweight and minimalistic Wayland terminal emulator.
 * [Terminator](https://gnome-terminator.org/): Multiple GNOME terminals in one window!
@@ -1232,7 +1232,7 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
 
 ### Controlling Screen Backlight
 Packages like `light` and `brightnessctl` work on Wayland and make changing screen brightness easy, but there is a simpler way to change screen brightness. The file `/sys/class/backlight/intel_backlight/brightness` contains an integer that defines the screen brightness. Use `$ cat /sys/class/backlight/intel_backlight/max_brightness` to see the max brightness is 24000 (a number <188 makes the backlight flicker or turn off). When the file `brightness` is modified, the screen brightness changes accordingly. However, the file `brightness` has permissions `-rw-r--r--` (file type, permissions(owner, group, others)), so only the root user can modify it. Use `$ sudo tee /sys/class/backlight/intel_backlight/brightness <<< MY_NUMBER` to modify the file manually.\
-Notes: Using `$ sudo echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_brightness` does not work because `sudo` elevates the command that follows it (`echo` in this case), not the redirector operator `>` which is handled by the shell (zsh for me). `sudo` here does not affect the shell's operations; `>` is supposed to write the output of `echo MY_NUMBER` to the file `brightness` but it's operated by the shell which doesn't have permission. Using `# echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_brightness` works because while using commands as root, all operations, including the shell's operations, are performed with root privileges. Also, to use the command without root, use `$ sudo sh -c 'echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_brightness'`. `<<<` (*here string*) is also a shell operation, but in `$ sudo tee /sys/class/backlight/intel_backlight/brightness <<< MY_NUMBER` `tee` actually does the writing, and `tee` has elevated privileges. `<<<` only passes the string to `tee` for `tee` to modify the file `brightness`.
+Notes: Using `$ sudo echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_brightness` does not work because `sudo` elevates the command that follows it (`echo` in this case), not the redirector operator `>` which is handled by the command shell (zsh for me). `sudo` here does not affect the command shell's operations; `>` is supposed to write the output of `echo MY_NUMBER` to the file `brightness` but it's operated by the command shell which doesn't have permission. Using `# echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_brightness` works because while using commands as root, all operations, including the command shell's operations, are performed with root privileges. Also, to use the command without root, use `$ sudo sh -c 'echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_brightness'`. `<<<` (*here string*) is also a command shell operation, but in `$ sudo tee /sys/class/backlight/intel_backlight/brightness <<< MY_NUMBER` `tee` actually does the writing, and `tee` has elevated privileges. `<<<` only passes the string to `tee` for `tee` to modify the file `brightness`.
 1. To allow modification of the file `brightness` without `sudo` for all users, edit `configuration.nix`:
    ```diff
    { config, lib, pkgs, ... }:
@@ -1571,7 +1571,7 @@ The swww wallpaper manager does not have a configuration file; all configuration
       1. Define `unused` as an array of `all` without `used`.\
          `{}` are required for zsh to group commands. `:|` removes anything inside the second array from the first array. `:|` needs to be inside the *parameter expansion* `${}`. Otherwise, `:|` in `unused=($all:|$used)` would be interpreted as a pipe operator followed by a colon.
       1. Define `selected` as the path of the ((`$RANDOM` modulo length of `unused`) + 1)th file of `unused`.\
-         `$RANDOM` is a pre-defined shell variable that returns a random integer between 0 and 32767. The modulo operator `%` returns the remainder from dividing `$RANDOM` by the length of `unused`. Since zsh indexing start at one, not zero, one is added to the remainder to accurately calculate the index, which is denoted with brackets `[]`.
+         `$RANDOM` is a pre-defined command shell variable that returns a random integer between 0 and 32767. The modulo operator `%` returns the remainder from dividing `$RANDOM` by the length of `unused`. Since zsh indexing start at one, not zero, one is added to the remainder to accurately calculate the index, which is denoted with brackets `[]`.
       1. Define `random_pos` as the array of the sequence of 0.1 to 0.9 with step 0.1 shuffled.\
          The set of inner parentheses `$()` capture *command substitution*. The pipe operator `|` feeds the output of the first command as input to the second command.
       1. Execute `swww img` with the image with path `selected`.\
@@ -1597,7 +1597,7 @@ wireplumber from hyprland docs / pipewire.pulse from configuration.nix
 
 Home manage git
 
-Kitty zsh shell integration (done?)\
+Kitty zsh command shell integration (done?)\
 Kitty color schemes? \
 Zsh frameworks: oh my zsh, prezto, zinit, antigen, ...?\
 Zsh plugins (plugin managers as well?)\
