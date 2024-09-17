@@ -1585,6 +1585,9 @@ The swww wallpaper manager does not have a configuration file; all configuration
    Using `$ swww-daemon` for the first time on instillation or using `$ swww-daemon --no-cache` (to clear cache, use `$ swww clear-cache`) and then using `$ swww img /path/to/any/image` displays a black wallpaper. Using `$ swww query` shows that swww has attempted to display an image. Using any swww command to attempt to display something again fixes the black wallpaper. So, `swww clear 000000` is executed once in the start to arbitrarily display black. Putting `swww clear 000000` right after the shebang inside the script yields inconsistent results, indicating that the command is run too quickly, maybe before swww daemon has completely started, so `&&` is necessary in `exec-once`.\
    Connect to internet. Use `# nixos-rebuild switch`.
 
+### Using Python Environment
+Python and Python packages can be installed system wide, but using *nix shells* is recommended. Nix shells are different from command shells like zsh and bash; they are both called shells because they wrap around things.
+
 ### WIP
 `# nix-collect-garbage -d` deletes generations and store objects.\
 `$ nix-collect-garbage -d` deletes home manager generations? https://discourse.nixos.org/t/home-manager-and-garbage-collection/41715
