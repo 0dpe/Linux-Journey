@@ -249,6 +249,7 @@ Great resources for understanding flakes:
 * [Ultimate NixOS Guide | Flakes | Home-manager](https://www.youtube.com/watch?v=a67Sv4Mbxmc&t=360s "YouTube"): Advantages of flakes and using flakes to configure NixOS.
 * [NixOS with Flakes](https://nixos-and-flakes.thiscute.world/nixos-with-flakes/nixos-with-flakes-enabled "NixOS & Flakes Book"): General guides for flakes, modules, and Home Manager.
 * [Intro Flake Config Setup for New NixOS Users](https://librephoenix.com/2023-10-21-intro-flake-config-setup-for-new-nixos-users#org990add0 "LibrePhoenix's Tech Nest Blog"): Structure and syntax of a flake explained.
+* [Ultimate Nix Flakes Guide](https://youtu.be/JCeYq72Sko0 "YouTube"): Comprehensive guide for flakes.
 
 Nix is the programming language used primarily by NixOS. Flakes are simply Nix programs (`flake.nix` files) that have specific agreed upon structures making them do specific things. They all have *input* and *output* parts. This [flake template](https://github.com/NixOS/templates/blob/master/full/flake.nix "GitHub") lists common inputs and outputs and their use cases. Briefly speaking:
 * [Inputs](https://nixos-and-flakes.thiscute.world/other-usage-of-flakes/inputs "NixOS & Flakes Book") can be git repositories, local paths, or other flakes.
@@ -1586,7 +1587,12 @@ The swww wallpaper manager does not have a configuration file; all configuration
    Connect to internet. Use `# nixos-rebuild switch`.
 
 ### Using Python Environment
-Python and Python packages can be installed system wide, but using *nix shells* is recommended. Nix shells are different from command shells like zsh and bash; they are both called shells because they wrap around things.
+Python and Python packages can be installed system wide, but using [nix shells](https://youtu.be/0YBWhSNTgV8 "YouTube") is recommended. Nix shells can:
+* Create isolated environments. Packages installed through the shell cannot be accessed outside the shell and are deleted when `# nix-collect-garbage -d` is used. Nix shells only effect packages and environment variables.
+* Create reproducible environments. Shells can be shared to create identical environments on different NixOS machines.
+
+Nix shells can be started with commands (`$ nix shell` in flake systems) or more declaratively with `shell.nix` files for more configuration options.\
+Note: Nix shells are different from command shells (zsh, bash, etc...); they are all called shells because they function as wrappers.
 
 ### WIP
 `# nix-collect-garbage -d` deletes generations and store objects.\
