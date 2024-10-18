@@ -91,7 +91,7 @@ Installing NixOS minimal (no GNOME or KDE) on an HP ZHAN 66 Pro 14 G2:
    `# wpa_cli`\
    `> add_network` (`0` should appear)\
    `> set_network 0 ssid "CU_FS6D"` (network called `CU_FS6D`)\
-   `> set_network 0 psk "redacted"` (using password `redacted` for    `CU_FS6D`)\
+   `> set_network 0 psk "redacted"` (using password `redacted` for `CU_FS6D`)\
    `> set_network 0 key_mgmt WPA-PSK`\
    `> enable_network 0`\
    If something like `<3>CTRL-EVENT-CONNECTED - Connection to 32:85:ab:ef:24:5c completed [id=0 id_str=]` appears, then the laptop has connection to the internet. Leave `wpa_cli` using `> quit`.\
@@ -1593,6 +1593,9 @@ Python and Python packages can be installed system wide, but using [nix shells](
 
 Nix shells can be started with commands (`$ nix shell` in flake systems) or more declaratively with `shell.nix` files for more configuration options.\
 Note: Nix shells are different from command shells (zsh, bash, etc...); they are all called shells because they function as wrappers.
+1. Create and edit `~/shell.nix`:
+   ```nix
+   ```
 
 ### WIP
 `# nix-collect-garbage -d` deletes generations and store objects.\
