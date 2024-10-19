@@ -1586,18 +1586,20 @@ The swww wallpaper manager does not have a configuration file; all configuration
    Using `$ swww-daemon` for the first time on instillation or using `$ swww-daemon --no-cache` (to clear cache, use `$ swww clear-cache`) and then using `$ swww img /path/to/any/image` displays a black wallpaper. Using `$ swww query` shows that swww has attempted to display an image. Using any swww command to attempt to display something again fixes the black wallpaper. So, `swww clear 000000` is executed once in the start to arbitrarily display black. Putting `swww clear 000000` right after the shebang inside the script yields inconsistent results, indicating that the command is run too quickly, maybe before swww daemon has completely started, so `&&` is necessary in `exec-once`.\
    Connect to internet. Use `# nixos-rebuild switch`.
 
-### Using Python Environment
+### WIP
+Using Python Environment
 Python and Python packages can be installed system wide, but using [nix shells](https://youtu.be/0YBWhSNTgV8 "YouTube") is recommended. Nix shells can:
 * Create isolated environments. Packages installed through the shell cannot be accessed outside the shell and are deleted when `# nix-collect-garbage -d` is used. Nix shells only effect packages and environment variables.
 * Create reproducible environments. Shells can be shared to create identical environments on different NixOS machines.
 
 Nix shells can be started with commands (`$ nix shell` in flake systems) or more declaratively with `shell.nix` files for more configuration options.\
 Note: Nix shells are different from command shells (zsh, bash, etc...); they are all called shells because they function as wrappers.
-1. Create and edit `~/shell.nix`:
-   ```nix
-   ```
+Flakes can be used with `shell.nix` to define the input nixpkgs channel. 
 
-### WIP
+All things in NixOS are packages. The system is a package that depends on whatever packages you install (like Firefox). Packages are built with stdenv.mkDerivation. mkShell is just a wrapper of stdenv.mkDerivation. 
+
+
+
 `# nix-collect-garbage -d` deletes generations and store objects.\
 `$ nix-collect-garbage -d` deletes home manager generations? https://discourse.nixos.org/t/home-manager-and-garbage-collection/41715
 
