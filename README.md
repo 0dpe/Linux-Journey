@@ -826,10 +826,12 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    +     };
    +     decoration = {
    +       rounding = 8;
-   +       shadow_range = 6;
-   +       shadow_render_power = 1;
-   +       "col.shadow" = formatRgba shadowActive;
-   +       "col.shadow_inactive" = formatRgba shadowInactive;
+   +       shadow = {
+   +         range = 6;
+   +         render_power = 1;
+   +         color = formatRgba shadowActive;
+   +         color_inactive = formatRgba shadowInactive;
+   +       };
    +       blur = {
    +         size = 6;
    +         passes = 3;
