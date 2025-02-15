@@ -1681,7 +1681,8 @@ The swww wallpaper manager does not have a configuration file; all configuration
      programs.home-manager.enable = true;
    }
    ```
-   Note: While Oh My Posh's documentation suggests to edit `.zshrc`, Home Manager automatically does that.\
+   Note: While Oh My Posh's documentation suggests to edit `.zshrc`, Home Manager automatically does that.
+1. Connect to internet. Use `# nixos-rebuild switch`.
 
 ### WIP
 Using Python Environment
