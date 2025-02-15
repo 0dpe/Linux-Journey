@@ -1588,6 +1588,101 @@ The swww wallpaper manager does not have a configuration file; all configuration
    Using `$ swww-daemon` for the first time on instillation or using `$ swww-daemon --no-cache` (to clear cache, use `$ swww clear-cache`) and then using `$ swww img /path/to/any/image` displays a black wallpaper. Using `$ swww query` shows that swww has attempted to display an image. Using any swww command to attempt to display something again fixes the black wallpaper. So, `swww clear 000000` is executed once in the start to arbitrarily display black. Putting `swww clear 000000` right after the shebang inside the script yields inconsistent results, indicating that the command is run too quickly, maybe before swww daemon has completely started, so `&&` is necessary in `exec-once`.\
    Connect to internet. Use `# nixos-rebuild switch`.
 
+### Customizing Zsh Prompt
+[Oh My Posh](https://ohmyposh.dev/docs/ "Oh My Posh Documentation") is used for making shells look better. 
+1. To install Oh My Posh, edit `configuration.nix`:
+   ```diff
+   { config, lib, pkgs, ... }:
+   
+   {
+     imports =
+       [
+         ./hardware-configuration.nix
+       ];
+   
+     boot.loader = {
+       # ...
+     };
+   
+     nix.settings.experimental-features = [ "nix-command" "flakes" ];
+   
+     networking = {
+       # ...
+     };
+   
+     time.timeZone = "America/New_York";
+   
+     services = {
+       # ...
+     };
+
+     security.rtkit.enable = true;
+
+     xdg.portal = {
+       # ...
+     };
+
+     users = {
+       # ...
+     };
+   
+     environment = {
+       systemPackages = with pkgs; [
+         kitty
+         capitaine-cursors
+         swww
+   +     oh-my-posh
+       ];
+       sessionVariables.NIXOS_OZONE_WL = "1";
+     };
+   
+     programs = {
+       # ...
+     };
+   
+     system.stateVersion = "24.05";
+   }
+   ```
+1. Connect to internet. Use `# nixos-rebuild switch`.
+1. To use Home Manager to configure Oh My Posh, edit `home.nix`:
+   ```diff
+   { config, lib, pkgs, ... }:
+   
+   let
+     # ...
+   
+   in
+   {
+     home = {
+       # ...
+     };
+
+     wayland.windowManager.hyprland = {
+       # ... 
+     };
+
+     programs.kitty = {
+       # ...
+     };
+
+     programs.firefox = {
+       # ...
+     };
+
+     programs.zsh = {
+       # ...
+     };
+
+   + programs.oh-my-posh = {
+   +   enable = true;
+   +   useTheme = "zash"; 
+   + };
+
+     programs.home-manager.enable = true;
+   }
+   ```
+   Note: While Oh My Posh's documentation suggests to edit `.zshrc`, Home Manager automatically does that.\
+
 ### WIP
 Using Python Environment
 Python and Python packages can be installed system wide, but using [nix shells](https://youtu.be/0YBWhSNTgV8 "YouTube") is recommended. Nix shells can:
@@ -1616,14 +1711,11 @@ Home manage git
 
 Kitty zsh command shell integration (done?)\
 Kitty color schemes? \
-Zsh frameworks: oh my zsh, prezto, zinit, antigen, ...?\
+Zsh frameworks? oh my zsh, prezto, zinit, antigen, \
 Zsh plugins (plugin managers as well?)\
 Packages for terminal: Neofetch alternative, fonts, improved ls find grep cat man etc..., \
-Zsh Prompt Customization (what is that)? powerlevel10k, starship, ...?\
 git integration? \
-Terminal Multiplexers (what is that?)\
 terminal file manager (any file manager)? \
-better nano? \
 system monitoring?
 
 Bluetooth: \
