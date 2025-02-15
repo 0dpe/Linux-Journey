@@ -1725,6 +1725,7 @@ The swww wallpaper manager does not have a configuration file; all configuration
    }
    ```
    Note: While Oh My Posh's documentation suggests to edit `.zshrc`, Home Manager automatically does that. `❱` is `\u2771`; use `$ echo "\u2771"` to see the symbol.
+1. Connect to internet. Use `# nixos-rebuild switch`.
 
 ### WIP
 Using Python Environment
