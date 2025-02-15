@@ -1675,14 +1675,56 @@ The swww wallpaper manager does not have a configuration file; all configuration
 
    + programs.oh-my-posh = {
    +   enable = true;
-   +   useTheme = "zash"; 
+   +   settings = {
+   +     "$schema" = "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json";
+   +     final_space = true;
+   +     blocks = [
+   +       {
+   +         type = "prompt";
+   +         alignment = "left";
+   +         segments = [
+   +           {
+   +             type = "session";
+   +             style = "plain";
+   +             foreground = "white";
+   +             template = "{{ .UserName }}";
+   +           }
+   +           {
+   +             type = "path";
+   +             style = "plain";
+   +             foreground = "white";
+   +             properties = {
+   +               style = "full";
+   +             };
+   +           }
+   +           {
+   +             type = "text";
+   +             style = "plain";
+   +             foreground = "white";
+   +             template = "❱";
+   +           }
+   +         ];
+   +       }
+   +       {
+   +         type = "rprompt";
+   +         alignment = "right";
+   +         overflow = "break";
+   +         segments = [
+   +           {
+   +             type = "executiontime";
+   +             style = "plain";
+   +             foreground = "white";
+   +           }
+   +         ];
+   +       }
+   +     ];
+   +   };
    + };
 
      programs.home-manager.enable = true;
    }
    ```
-   Note: While Oh My Posh's documentation suggests to edit `.zshrc`, Home Manager automatically does that.
-1. Connect to internet. Use `# nixos-rebuild switch`.
+   Note: While Oh My Posh's documentation suggests to edit `.zshrc`, Home Manager automatically does that. `❱` is `\u2771`; use `$ echo "\u2771"` to see the symbol.
 
 ### WIP
 Using Python Environment
