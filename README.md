@@ -722,7 +722,7 @@ Debugging kitty and xdg-desktop-portal:
      system.stateVersion = "24.05";
    }
    ```
-   Connect to internet. Use `# nixos-rebuild switch`.
+1. Connect to internet. Use `# nixos-rebuild switch`.
 
 Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#opt-wayland.windowManager.hyprland.enable "Home Manager Manual") to configure [Hyprland](https://wiki.hyprland.org/Configuring/Configuring-Hyprland/ "Hyprland Wiki"):
 1. Create and edit `/etc/nixos/hslaToRgba.nix`:
@@ -1331,7 +1331,7 @@ Notes: Using `$ sudo echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_b
      programs.home-manager.enable = true;
    }
    ```
-   Connect to internet. Use `# nixos-rebuild switch`.
+1. Connect to internet. Use `# nixos-rebuild switch`.
 
 ### Using a Display (Login) Manager
 Since I only have one user and one window manager or desktop environment, I do not need a graphical display manager, or any display manager at all.
@@ -1727,6 +1727,120 @@ The swww wallpaper manager does not have a configuration file; all configuration
    Note: While Oh My Posh's documentation suggests to edit `.zshrc`, Home Manager automatically does that. `❱` is `\u2771`; use `$ echo "\u2771"` to see the symbol.
 1. Connect to internet. Use `# nixos-rebuild switch`.
 
+### Controlling Audio
+For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Documentation") is used for managing audio. PipeWire is more modern compared to PulseAudio and JACK. While `services.pipewire.enable = true;` is already in `configuration.nix`, it is recommended to add some extra options.
+1. Edit `configuration.nix`:
+   ```diff
+   { config, lib, pkgs, ... }:
+   
+   {
+     imports =
+       [
+         ./hardware-configuration.nix
+       ];
+   
+     boot.loader = {
+       # ...
+     };
+   
+     nix.settings.experimental-features = [ "nix-command" "flakes" ];
+   
+     networking = {
+       # ...
+     };
+   
+     time.timeZone = "America/New_York";
+   
+     services = {
+       libinput.enable = true;
+   -   pipewire.enable = true;
+   +   pipewire = {
+   +     enable = true;
+   +     wireplumber.enable = true;
+   +     pulse.enable = true;
+   +     alsa.enable = true;
+   +     alsa.support32Bit = true;
+   +   };
+     };
+
+     security.rtkit.enable = true;
+
+     xdg.portal = {
+       # ...
+     };
+
+     users = {
+       # ...
+     };
+   
+     environment = {
+       # ...
+     };
+   
+     programs = {
+       # ...
+     };
+   
+     system.stateVersion = "24.05";
+   }
+   ```
+   [WirePlumber](https://pipewire.pages.freedesktop.org/wireplumber/index.html "WirePlumber Documentation") is PipeWire's *session manager*, a daemon that manages PipeWire.\
+   `services.pipewire.pulse.enable = true;` allows PulseAudio applications to work with PipeWire. Likewise, ALSA configurations allow ALSA compatibility.
+1. Connect to internet. Use `# nixos-rebuild switch`.
+1. To bind the buttons <kbd>XF86AudioMute</kbd>, <kbd>XF86AudioLowerVolume</kbd>, and <kbd>XF86AudioRaiseVolume</kbd> to WirePlumber commands to manage volume through Hyprland, edit `home.nix`:
+   ```diff
+   { config, lib, pkgs, ... }:
+   
+   let
+     # ...
+   
+   in
+   {
+     home = {
+       # ...
+     };
+
+     wayland.windowManager.hyprland = {
+       enable = true;
+       settings = {
+         bind = [
+           # ...
+         ];
+         binde = [
+           "SUPER, MINUS, exec, val=$(< /sys/class/backlight/intel_backlight/brightness); tee /sys/class/backlight/intel_backlight/brightness <<< $((val <= 4188 ? 188 : val - 4000))"
+           "SUPER, EQUAL, exec, val=$(< /sys/class/backlight/intel_backlight/brightness); tee /sys/class/backlight/intel_backlight/brightness <<< $((val >= 20000 ? 24000 : val + 4000))"
+   +       ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_SINK@ toggle"
+   +       ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_SINK@ 5%-"
+   +       ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_SINK@ 5%+"
+         ];
+         bindm = [
+           # ...
+         ];
+         # ...
+       };
+     };
+
+     programs.kitty = {
+       # ...
+     };
+
+     programs.firefox = {
+       # ...
+     };
+     
+     programs.zsh = {
+       # ...
+     };
+
+     programs.oh-my-posh = {
+       # ...
+     };
+
+     programs.home-manager.enable = true;
+   }
+   ```
+1. Connect to internet. Use `# nixos-rebuild switch`.
+
 ### WIP
 Using Python Environment
 Python and Python packages can be installed system wide, but using [nix shells](https://youtu.be/0YBWhSNTgV8 "YouTube") is recommended. Nix shells can:
@@ -1749,7 +1863,6 @@ Firefox css: https://www.reddit.com/r/FirefoxCSS/top/?t=all https://firefoxcss-s
 
 hyprland: [window rules](https://wiki.hyprland.org/Configuring/Window-Rules/), [master layout](https://wiki.hyprland.org/Configuring/Master-Layout/), [env vars](https://wiki.hyprland.org/Configuring/Environment-variables/), [toggle blur/ani](https://wiki.hyprland.org/Configuring/Uncommon-tips--tricks/#toggle-animationsbluretc-hotkey).\
 Finish hyprland animation customization (layers, etc...)\
-wireplumber from hyprland docs / pipewire.pulse from configuration.nix
 
 Home manage git
 
@@ -1763,7 +1876,6 @@ terminal file manager (any file manager)? \
 system monitoring?
 
 Bluetooth: \
-Audio Control: \
 Microphone Control: \
 Keyboard Language Control: English, Chinese, Spanish. \
 Camera Control: \
