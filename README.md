@@ -73,6 +73,23 @@ Manager | Animated | Transitions | Home <br> Manager
 [wpaperd](https://github.com/danyspin97/wpaperd) | No | Cross Fade | Yes
 :heavy_check_mark: [swww](https://github.com/LGFae/swww) | GIF | Yes | No (CLI)
 
+### Status bar
+Wayland status bars (all in nixpkgs):
+* [eww](https://elkowar.github.io/eww): ElKowars wacky widgets (extreme, complicated customizability with its own language)
+* [Yambar](https://codeberg.org/dnkl/yambar): Modular status panel for X11 and Wayland (similar to Waybar but not as popular and not as many modules; does not support Hyprland by default)
+* [xmobar](https://codeberg.org/xmobar/xmobar): A minimalist status bar (originally designed to work with xmonad; Wayland support was an afterthought)
+* :heavy_check_mark: [Waybar](https://github.com/Alexays/Waybar): Highly customizable Wayland bar for Sway and Wlroots based compositors.
+
+Not included in Home Manager option documentation:
+* [HyprPanel](https://github.com/Jas-SinghFSU/HyprPanel): A Bar/Panel for Hyprland with extensive customizability. (only avaible through flake)
+* [Luastatus](https://github.com/shdown/luastatus): universal status bar content generator
+* [Fabric](https://wiki.ffpy.org/getting-started/introduction): The next-generation framework for building desktop widgets using Python (only available through flake)
+* [Ironbar](https://crates.io/crates/ironbar): Customisable Wayland gtk bar written in Rust.
+* [gBar](https://github.com/scorpion-26/gBar): Blazingly fast status bar written with GTK
+* [Root Bar](https://hg.sr.ht/~scoopta/rootbar): Root Bar is a bar for wlroots based wayland compositors such as sway and was designed to address the lack of good bars for wayland.
+* [sfwbar](https://github.com/LBCrion/sfwbar): S* Floating Window Bar
+* [nwg-panel](https://github.com/nwg-piotr/nwg-panel): GTK3-based panel for sway and Hyprland Wayland compositors
+
 ## Installing NixOS
 
 Installing NixOS minimal (no GNOME or KDE) on an HP ZHAN 66 Pro 14 G2:
@@ -1537,7 +1554,7 @@ The swww wallpaper manager does not have a configuration file; all configuration
          misc = {
            # ...
          };
-   +     exec-once [
+   +     exec-once = [
    +       "swww-daemon --no-cache"
    +       "swww clear 000000 && ~/.swwwRandomizer /home/tim/Wallpapers 3600"
    +     ];
@@ -1727,8 +1744,9 @@ The swww wallpaper manager does not have a configuration file; all configuration
    Note: While Oh My Posh's documentation suggests to edit `.zshrc`, Home Manager automatically does that. `❱` is `\u2771`; use `$ echo "\u2771"` to see the symbol.
 1. Connect to internet. Use `# nixos-rebuild switch`.
 
-### Controlling Audio
-For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Documentation") is used for managing audio. PipeWire is more modern compared to PulseAudio and JACK. While `services.pipewire.enable = true;` is already in `configuration.nix`, it is recommended to add some extra options.
+### Controlling Audio & Bluetooth
+For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Documentation") is used for managing audio. PipeWire is more modern compared to PulseAudio and JACK. While `services.pipewire.enable = true;` is already in my `configuration.nix`, it is recommended to add some extra options.\
+[BlueZ](https://www.bluez.org/about/) is the official standard bluetooth package.
 1. Edit `configuration.nix`:
    ```diff
    { config, lib, pkgs, ... }:
@@ -1761,7 +1779,18 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    +     alsa.enable = true;
    +     alsa.support32Bit = true;
    +   };
+       udev.extraRules = ''
+         # ...
+       '';
+       # ...
      };
+
+   + hardware = {
+   +   bluetooth = {
+   +     enable = true;
+   +     powerOnBoot = true;
+   +   };
+   + };
 
      security.rtkit.enable = true;
 
@@ -1785,7 +1814,8 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    }
    ```
    [WirePlumber](https://pipewire.pages.freedesktop.org/wireplumber/index.html "WirePlumber Documentation") is PipeWire's *session manager*, a daemon that manages PipeWire.\
-   `services.pipewire.pulse.enable = true;` allows PulseAudio applications to work with PipeWire. Likewise, ALSA configurations allow ALSA compatibility.
+   `services.pipewire.pulse.enable = true;` allows PulseAudio applications to work with PipeWire. Likewise, ALSA configurations allow ALSA compatibility.\
+   `hardware.bluetooth` configures BlueZ. To use bluetooth, use `$ bluetoothctl`; use `[bluetooth]# scan on`, `[bluetooth]# pair F8:4E:17:D3:E7:4A`, and `[bluetooth]# connect F8:4E:17:D3:E7:4A` to connect to `F8:4E:17:D3:E7:4A`. Use `[bluetooth]# trust F8:4E:17:D3:E7:4A` to automatically connect. Using `[bluetooth]# quit` will not terminate the connection. Use `$ bluetoothctl devices [Paired/Bonded/Trusted/Connected]` to see paired, bonded, trusted, or connected devices.
 1. Connect to internet. Use `# nixos-rebuild switch`.
 1. To bind the buttons <kbd>XF86AudioMute</kbd>, <kbd>XF86AudioLowerVolume</kbd>, and <kbd>XF86AudioRaiseVolume</kbd> to WirePlumber commands to manage volume through Hyprland, edit `home.nix`:
    ```diff
@@ -1810,8 +1840,8 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
            "SUPER, MINUS, exec, val=$(< /sys/class/backlight/intel_backlight/brightness); tee /sys/class/backlight/intel_backlight/brightness <<< $((val <= 4188 ? 188 : val - 4000))"
            "SUPER, EQUAL, exec, val=$(< /sys/class/backlight/intel_backlight/brightness); tee /sys/class/backlight/intel_backlight/brightness <<< $((val >= 20000 ? 24000 : val + 4000))"
    +       ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_SINK@ toggle"
-   +       ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_SINK@ 5%-"
-   +       ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_SINK@ 5%+"
+   +       ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_SINK@ 2%-"
+   +       ", XF86AudioRaiseVolume, exec, wpctl get-volume @DEFAULT_SINK@ | awk '{if ($2 < 2.20) system(\"wpctl set-volume @DEFAULT_SINK 2%+\")}'"
          ];
          bindm = [
            # ...
@@ -1839,6 +1869,198 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
      programs.home-manager.enable = true;
    }
    ```
+   Note: `wpctl get-volume @DEFAULT_SINK@ | awk '{if ($2 < 2.20) system(\"wpctl set-volume @DEFAULT_SINK 2%+\")}'` or `$ wpctl get-volume @DEFAULT_SINK@ | awk '{if ($2 < 2.20) system("wpctl set-volume @DEFAULT_SINK@ 2%+")}'` raises the volume by 0.02 if the volume is lower than 2.20. Through testing, it seems that while values can go above 2.20 to infinity, values above 2.20 do not actually make the speakers louder.
+1. Connect to internet. Use `# nixos-rebuild switch`.
+
+### Using Fonts
+1. Edit `configuration.nix`:
+   ```diff
+   { config, lib, pkgs, ... }:
+   
+   {
+     imports =
+       [
+         ./hardware-configuration.nix
+       ];
+   
+     boot.loader = {
+       # ...
+     };
+   
+     nix.settings.experimental-features = [ "nix-command" "flakes" ];
+   
+     networking = {
+       # ...
+     };
+   
+     time.timeZone = "America/New_York";
+   
+     services = {
+       # ...
+     };
+
+     security.rtkit.enable = true;
+
+     xdg.portal = {
+       # ...
+     };
+
+     users = {
+       # ...
+     };
+   
+     environment = {
+       # ...
+     };
+
+   + fonts = {
+   +   enableDefaultPackages = false;
+   +   packages = with pkgs; [
+   +     nerd-fonts.go-mono
+   +     nerd-fonts.roboto-mono
+   +     nerd-fonts.lilex
+   +     nerd-fonts.dejavu-sans-mono
+   +     noto-fonts
+   +     twemoji-color-font
+   +   ];
+   +   fontconfig.defaultFonts = {
+   +     serif = [ "Noto Serif" ];
+   +     sansSerif = [ "Noto Sans" ];
+   +     monospace = [ "DejaVuSansM Nerd Font Mono" ];
+   +     emoji = [ "Twitter Color Emoji" ];
+   +   };
+   + };
+   
+     programs = {
+       # ...
+     };
+   
+     system.stateVersion = "24.05";
+   }
+   ```
+   [`fonts.enableDefaultPackages`](https://search.nixos.org/options?channel=unstable&show=fonts.enableDefaultPackages "NixOS.org") installs some fonts like DejaVu; DejaVu was the font used by kitty before this configuration was set to `false` (use `$ kitty +list-fonts` to see the fonts available to kitty). If this configuration was set to `false` and no other fonts are in `fonts.packages`, then kitty's font rendering breaks.\
+   Names in `fonts.fontconfig.defaultFonts` are found by finding the TrueType file and using [`$ fc-query font.ttf | grep '^\s\+family:' | cut -d'"' -f2`](https://nixos.wiki/wiki/Fonts#:~:text=%24%20fc%2Dquery%20DejaVuSans.ttf%20%7C%20grep%20%27%5E%5Cs%5C%2Bfamily%3A%27%20%7C%20cut%20%2Dd%27%22%27%20%2Df2 "NixOS Wiki"). To find the location of the TrueType file, use `# find / -iname "*font*"`.
+1. Connect to internet. Use `# nixos-rebuild switch`.
+
+### Using [Waybar](https://github.com/Alexays/Waybar "GitHub") (WIP)
+1. To install Waybar, edit `configuration.nix`:
+   ```diff
+   { config, lib, pkgs, ... }:
+   
+   {
+     imports =
+       [
+         ./hardware-configuration.nix
+       ];
+   
+     boot.loader = {
+       # ...
+     };
+   
+     nix.settings.experimental-features = [ "nix-command" "flakes" ];
+   
+     networking = {
+       # ...
+     };
+   
+     time.timeZone = "America/New_York";
+   
+     services = {
+       # ...
+     };
+
+     security.rtkit.enable = true;
+
+     xdg.portal = {
+       # ...
+     };
+
+     users = {
+       # ...
+     };
+   
+     environment = {
+       # ...
+     };
+
+     fonts = {
+       # ...
+     };
+   
+     programs = {
+       # ...
+       firefox = {
+         # ...
+       };
+
+   +   waybar.enable = true;
+     };
+   
+     system.stateVersion = "24.05";
+   }
+   ```
+1. Connect to internet. Use `# nixos-rebuild switch`.
+1. To use Home Manager to configure Waybar and to autostart Waybar, edit `home.nix`:
+   ```diff
+   { config, lib, pkgs, ... }:
+   
+   let
+     # ...
+   
+   in
+   {
+     home = {
+       # ...
+     };
+
+     wayland.windowManager.hyprland = {
+       enable = true;
+       settings = {
+         # ...
+         misc = {
+           # ...
+         };
+         exec-once = [
+           "swww-daemon --no-cache"
+           "swww clear 000000 && ~/.swwwRandomizer /home/tim/Wallpapers 3600"
+   +       "waybar"
+         ];
+       };
+     };
+
+     programs.kitty = {
+       # ...
+     };
+
+     programs.firefox = {
+       # ...
+     };
+
+     programs.zsh = {
+       # ...
+     };
+
+     programs.oh-my-posh = {
+       # ...
+     };
+
+   + programs.waybar = {
+   +   enable = true;
+   +   settings.bar = {
+   +     layer = "top";
+   +     
+   +   };
+   +   style = ''
+   +   
+   +   '';
+   + };
+
+     programs.home-manager.enable = true;
+   }
+   ```
+   Note: `bar` in `programs.waybar.settings.bar` is an arbitrary name for the bar; Waybar supports having multiple bars at the same time, but I only need one bar.
+   \ueb24 is the muted icon.
+   \uf1eb is the web icon
 1. Connect to internet. Use `# nixos-rebuild switch`.
 
 ### WIP
@@ -1866,8 +2088,6 @@ Finish hyprland animation customization (layers, etc...)\
 
 Home manage git
 
-Kitty zsh command shell integration (done?)\
-Kitty color schemes? \
 Zsh frameworks? oh my zsh, prezto, zinit, antigen, \
 Zsh plugins (plugin managers as well?)\
 Packages for terminal: Neofetch alternative, fonts, improved ls find grep cat man etc..., \
@@ -1875,9 +2095,8 @@ git integration? \
 terminal file manager (any file manager)? \
 system monitoring?
 
-Bluetooth: \
 Microphone Control: \
-Keyboard Language Control: English, Chinese, Spanish. \
+Keyboard Language Control: English, Chinese, Spanish. Remember to add bar indicator https://github.com/Alexays/Waybar/wiki/Module:-Hyprland#language\
 Camera Control: \
 Power Manager: Find battery percentage: `$ cat /sys/class/power_supply/BAT0/capacity`\
 Clipboard Manager: \
@@ -1891,7 +2110,6 @@ Stremio\
 Mullvad
 
 Screen Locker: \
-Taskbar (System Tray): https://sw.kovidgoyal.net/kitty/kittens/panel/ \
 Notification Daemon: \
 Application Launcher: \
 Authentication Agent: Starting method: manual (exec-once) Authentication agents are the things that pop up a window asking you for a password whenever an app wants to elevate its privileges.\
