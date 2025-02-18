@@ -1946,7 +1946,22 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    }
    ```
    [`fonts.enableDefaultPackages`](https://search.nixos.org/options?channel=unstable&show=fonts.enableDefaultPackages "NixOS.org") installs some fonts like DejaVu; DejaVu was the font used by kitty before this configuration was set to `false` (use `$ kitty +list-fonts` to see the fonts available to kitty). If this configuration was set to `false` and no other fonts are in `fonts.packages`, then kitty's font rendering breaks.\
-   Names in `fonts.fontconfig.defaultFonts` are found by finding the TrueType file and using [`$ fc-query font.ttf | grep '^\s\+family:' | cut -d'"' -f2`](https://nixos.wiki/wiki/Fonts#:~:text=%24%20fc%2Dquery%20DejaVuSans.ttf%20%7C%20grep%20%27%5E%5Cs%5C%2Bfamily%3A%27%20%7C%20cut%20%2Dd%27%22%27%20%2Df2 "NixOS Wiki"). To find the location of the TrueType file, use `# find / -iname "*font*"`.
+   Names in `fonts.fontconfig.defaultFonts` are found by finding the TrueType file and using [`$ fc-query font.ttf | grep '^\s\+family:' | cut -d'"' -f2`](https://nixos.wiki/wiki/Fonts#:~:text=%24%20fc%2Dquery%20DejaVuSans.ttf%20%7C%20grep%20%27%5E%5Cs%5C%2Bfamily%3A%27%20%7C%20cut%20%2Dd%27%22%27%20%2Df2 "NixOS Wiki"). To find the location of the TrueType file, use `# find / -iname "*font*"`.\
+   Note: Many symbols in Nerd Fonts have `\uxxxxx` unicodes like `\uf00af`. Using `$ echo "\uf00af"` does not work since there are more than 4 characters in `f00af`. To see it in the terminal, the `f00af` has to be converted. This is a python script that converts Nerd Font unicodes:
+   ```python
+   try:
+       hex_input = input("Enter code from Nerd Fonts (like 'f00af'): ").strip().lower()
+       try:
+           hex_input = int(hex_input, 16)
+           char = chr(hex_input)
+       except ValueError as e:
+           raise ValueError(f"Invalid code point: {hex_input}") from e
+       utf8_bytes = char.encode('utf-8')
+       print(''.join([f'\\x{byte:02x}' for byte in utf8_bytes]))
+   except ValueError as e:
+       print(f"Error: {e}")
+   ```
+   For `f00af`, the script should output `\xf3\xb0\x82\xaf`. Use `$ echo "\xf3\xb0\x82\xaf"` and the symbol should render.
 1. Connect to internet. Use `# nixos-rebuild switch`.
 
 ### Using [Waybar](https://github.com/Alexays/Waybar "GitHub") (WIP)
@@ -2050,7 +2065,7 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    +     spacing = 0;
    +   };
    +   style = ''
-   +   
+   +     
    +   '';
    + };
 
