@@ -2044,7 +2044,10 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    +   enable = true;
    +   settings.bar = {
    +     layer = "top";
-   +     
+   +     position = "top";
+   +     modules-left = [ "" ];
+   +     modules-right = [ "" ];
+   +     spacing = 0;
    +   };
    +   style = ''
    +   
@@ -2054,7 +2057,7 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
      programs.home-manager.enable = true;
    }
    ```
-   Waybar automatically starts on startup mysteriously, so there needs to be neither Hyprland nor zsh configuration for autostarting Waybar.
+   Waybar automatically starts on startup mysteriously, so there needs to be neither Hyprland nor zsh configuration for autostarting Waybar.\
    Note: `bar` in `programs.waybar.settings.bar` is an arbitrary name for the bar; Waybar supports having multiple bars at the same time, but I only need one bar.
    \ueb24 is the muted icon.
    \uf1eb is the web icon
