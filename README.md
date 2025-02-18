@@ -670,7 +670,7 @@ Install Hyprland (and kitty) from nixpkgs for all users:
 1. Reboot. Use `$ Hyprland` to see that Hyprland works. No crashes.
 
 Debugging kitty and xdg-desktop-portal:
-1. In Hyprland, use `$ kitty` to see `[0.139] [glfw error 65544]: process_desktop_settings: failed with error: [org.freedesktop.DBus.Error.UnknownMethod] No such interface "org.freedesktop.portal.Settings" on object at path /org/freedesktop/portal/desktop`. A new terminal appears, but as soon as I use <kbd>ctrl</kbd>+<kbd>c</kbd> in the origional terminal, the new terminal disappears. 
+1. In Hyprland, use `$ kitty` to see `[0.139] [glfw error 65544]: process_desktop_settings: failed with error: [org.freedesktop.DBus.Error.UnknownMethod] No such interface "org.freedesktop.portal.Settings" on object at path /org/freedesktop/portal/desktop`. A new terminal appears, but as soon as I use <kbd>ctrl</kbd>+<kbd>c</kbd> in the original terminal, the new terminal disappears. 
 1. Using `$ systemctl --user status dbus` shows no abnormalities, but using `$ systemctl --user status xdg-desktop-portal.service` shows (incomplete):
    ```
    systemd[1111]: Starting Portal service...
@@ -816,6 +816,8 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    +       "SUPER, Q, togglefloating"
    +       "SUPER, F, fullscreenstate, 2 0"
    +       "SUPER, K, exit"
+   +       "SUPER, left, workspace, -1"
+   +       "SUPER, right, workspace, +1"
    +     ];
    +     bindm = [
    +       "SHIFT, mouse:272, movewindow"
@@ -833,10 +835,12 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    +       "windowsMove, 1, 5, snappyOut1"
    +       "fadeOut, 1, 4, expoOut"
    +       "borderangle, 1, 40, linear, loop"
+   +       "workspaces, 1, 3, snappyOut1, slide"
    +     ];
    +     general = {
    +       border_size = 2;
-   +       gaps_out = 15;
+   +       gaps_in = 4;
+   +       gaps_out = 10;
    +       "col.active_border" = "${formatRgba borderActive1} ${formatRgba borderActive2} ${toString borderGradientDegree}deg";
    +       "col.inactive_border" = formatRgba borderInactive;
    +       resize_on_border = true;
@@ -863,6 +867,9 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    +         natural_scroll = true;
    +         tap-and-drag = false;
    +       };
+   +     };
+   +     gestures = {
+   +       workspace_swipe = true;
    +     };
    +     misc = {
    +       disable_hyprland_logo = true;
@@ -942,7 +949,7 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    The `programs.kitty.shellIntegration.enableZshIntegration` Home Manager option is not set because it does not actually achieve [shell integration](https://sw.kovidgoyal.net/kitty/shell-integration/#shell-integration "Kitty Documentation"). Although kitty uses `"yes"` and `"no"`, Home Manager converts `true` and `false` to the strings. `''` defines multi-line strings in nix.
 1. Connect to internet. Use `# nixos-rebuild switch`.
 
-### Using Firefox
+### Using Firefox (WIP)
 In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by NixOS. Installing `firefox-bin` instead of the normal non-precompiled version does not seem to make a difference during configuration with Home Manager or `configuration.nix`.
 1. To install `firefox-bin` for all users, edit `configuration.nix`:
    ```diff
@@ -2000,7 +2007,7 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    }
    ```
 1. Connect to internet. Use `# nixos-rebuild switch`.
-1. To use Home Manager to configure Waybar and to autostart Waybar, edit `home.nix`:
+1. To use Home Manager to configure Waybar, edit `home.nix`:
    ```diff
    { config, lib, pkgs, ... }:
    
@@ -2014,18 +2021,7 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
      };
 
      wayland.windowManager.hyprland = {
-       enable = true;
-       settings = {
-         # ...
-         misc = {
-           # ...
-         };
-         exec-once = [
-           "swww-daemon --no-cache"
-           "swww clear 000000 && ~/.swwwRandomizer /home/tim/Wallpapers 3600"
-   +       "waybar"
-         ];
-       };
+       # ...
      };
 
      programs.kitty = {
@@ -2058,6 +2054,7 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
      programs.home-manager.enable = true;
    }
    ```
+   Waybar automatically starts on startup mysteriously, so there needs to be neither Hyprland nor zsh configuration for autostarting Waybar.
    Note: `bar` in `programs.waybar.settings.bar` is an arbitrary name for the bar; Waybar supports having multiple bars at the same time, but I only need one bar.
    \ueb24 is the muted icon.
    \uf1eb is the web icon
@@ -2083,7 +2080,7 @@ All things in NixOS are packages. The system is a package that depends on whatev
 Finish Firefox config: stuff in about:preferences(included in about:config?) about:addons about:logins about:policies(done?) about:config\
 Firefox css: https://www.reddit.com/r/FirefoxCSS/top/?t=all https://firefoxcss-store.github.io/index.html https://support.mozilla.org/en-US/kb/customize-your-new-tab-page#firefox:linux:fx129 https://support.mozilla.org/en-US/kb/customize-firefox-controls-buttons-and-toolbars#firefox:linux:fx129
 
-hyprland: [window rules](https://wiki.hyprland.org/Configuring/Window-Rules/), [master layout](https://wiki.hyprland.org/Configuring/Master-Layout/), [env vars](https://wiki.hyprland.org/Configuring/Environment-variables/), [toggle blur/ani](https://wiki.hyprland.org/Configuring/Uncommon-tips--tricks/#toggle-animationsbluretc-hotkey).\
+Minimizing windows in Hyprland or just using workspaces? Minimizing: https://github.com/hyprwm/Hyprland/issues/995 https://github.com/DreamMaoMao/hych/tree/main https://github.com/hyprwm/Hyprland/discussions/8281 https://wiki.hyprland.org/Configuring/Uncommon-tips--tricks/#minimize-windows-using-special-workspaces \
 Finish hyprland animation customization (layers, etc...)\
 
 Home manage git
