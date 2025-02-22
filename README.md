@@ -2103,6 +2103,7 @@ Firefox css: https://www.reddit.com/r/FirefoxCSS/top/?t=all https://firefoxcss-s
 
 Minimizing windows in Hyprland or just using workspaces? Minimizing: https://github.com/hyprwm/Hyprland/issues/995 https://github.com/DreamMaoMao/hych/tree/main https://github.com/hyprwm/Hyprland/discussions/8281 https://wiki.hyprland.org/Configuring/Uncommon-tips--tricks/#minimize-windows-using-special-workspaces \
 Finish hyprland animation customization (layers, etc...)\
+ADD HYPRLAND KEYBINDS TO MOVE WINDOWS BETWEEN WORKSPACES\
 
 finish waybar config: TOOLTIPS CAN BE STYLED \
 Fix cursor shrinking in firefox\
