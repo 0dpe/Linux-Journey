@@ -2074,9 +2074,11 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    ```
    Waybar automatically starts on startup mysteriously, so there needs to be neither Hyprland nor zsh configuration for autostarting Waybar.\
    Note: `bar` in `programs.waybar.settings.bar` is an arbitrary name for the bar; Waybar supports having multiple bars at the same time, but I only need one bar.
-   \ueb24 is the muted icon.
-   \uf1eb is the web icon
-1. Connect to internet. Use `# nixos-rebuild switch`.
+   \Uf057e \Uf0e08 is the muted icon.
+   \Uf091f, \Uf0922,5,8, \Uf029e no wifi
+   \Uf00af is the bluetooth icon, \Uf00b2 disabled, 
+   \Uf007a-f, \Uf0080-2, \Uf0079 are battery icons
+2. Connect to internet. Use `# nixos-rebuild switch`.
 
 ### WIP
 Using Python Environment
@@ -2105,18 +2107,17 @@ Home manage git
 
 Zsh frameworks? oh my zsh, prezto, zinit, antigen, \
 Zsh plugins (plugin managers as well?)\
-Packages for terminal: Neofetch alternative, fonts, improved ls find grep cat man etc..., \
+Packages for terminal: fonts, improved ls find grep cat man etc..., \
 git integration? \
 terminal file manager (any file manager)? \
 system monitoring?
 
 Microphone Control: \
-Keyboard Language Control: English, Chinese, Spanish. Remember to add bar indicator https://github.com/Alexays/Waybar/wiki/Module:-Hyprland#language\
+Keyboard Language Control: English, Chinese, Spanish. Remember to add bar indicator https://github.com/Alexays/Waybar/wiki/Module:-Hyprland#language Chinese needs an IME, https://discourse.nixos.org/t/how-to-setup-an-input-method-for-cjk-users/9533/3 https://discourse.nixos.org/t/pinyin-input-method-in-hyprland-wayland-for-simplified-chinese/49186/2 https://nixos.wiki/wiki/Fcitx5 \
 Camera Control: \
-Power Manager: Find battery percentage: `$ cat /sys/class/power_supply/BAT0/capacity`\
 Clipboard Manager: \
 Screenshot Utility: \
-Text / Code Editor: \
+Text / Code Editor: Micro, neovim, helix, vscode\
 Calculator: \
 Media Player: \
 Image Viewer: \
