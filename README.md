@@ -76,6 +76,7 @@ Manager | Animated | Transitions | Home <br> Manager
 ### Status bar
 Wayland status bars (all in nixpkgs):
 * [eww](https://elkowar.github.io/eww): ElKowars wacky widgets (extreme, complicated customizability with its own language)
+* [ags](https://github.com/Aylur/ags): Scaffolding CLI for Astal+TypeScript (similar to eww but with TypeScript)
 * [Yambar](https://codeberg.org/dnkl/yambar): Modular status panel for X11 and Wayland (similar to Waybar but not as popular and not as many modules; does not support Hyprland by default)
 * [xmobar](https://codeberg.org/xmobar/xmobar): A minimalist status bar (originally designed to work with xmonad; Wayland support was an afterthought)
 * :heavy_check_mark: [Waybar](https://github.com/Alexays/Waybar): Highly customizable Wayland bar for Sway and Wlroots based compositors.
@@ -1947,7 +1948,7 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    ```
    [`fonts.enableDefaultPackages`](https://search.nixos.org/options?channel=unstable&show=fonts.enableDefaultPackages "NixOS.org") installs some fonts like DejaVu; DejaVu was the font used by kitty before this configuration was set to `false` (use `$ kitty +list-fonts` to see the fonts available to kitty). If this configuration was set to `false` and no other fonts are in `fonts.packages`, then kitty's font rendering breaks.\
    Names in `fonts.fontconfig.defaultFonts` are found by finding the TrueType file and using [`$ fc-query font.ttf | grep '^\s\+family:' | cut -d'"' -f2`](https://nixos.wiki/wiki/Fonts#:~:text=%24%20fc%2Dquery%20DejaVuSans.ttf%20%7C%20grep%20%27%5E%5Cs%5C%2Bfamily%3A%27%20%7C%20cut%20%2Dd%27%22%27%20%2Df2 "NixOS Wiki"). To find the location of the TrueType file, use `# find / -iname "*font*"`.\
-   Note: Many symbols in Nerd Fonts have `\uxxxxx` unicodes like `\uf00af`. Using `$ echo "\uf00af"` does not work since there are more than 4 characters in `f00af`. To see it in the terminal, either use `$ echo "\Uf00af"` (with uppercase `U`) or convert `f00af`. This is a python script that converts Nerd Font unicodes:
+   Note: Many symbols in Nerd Fonts have `\Uxxxxx` unicodes like `\Uf00af`. Using `$ echo "\uf00af"` does not work since there are more than 4 characters in `f00af`. To see it in the terminal, either use `$ echo "\Uf00af"` (with uppercase `U`) or convert `f00af`. This is a python script that converts Nerd Font unicodes:
    ```python
    try:
        hex_input = input("Enter code from Nerd Fonts (like 'f00af'): ").strip().lower()
@@ -2072,13 +2073,13 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
      programs.home-manager.enable = true;
    }
    ```
-   Waybar automatically starts on startup mysteriously, so there needs to be neither Hyprland nor zsh configuration for autostarting Waybar.\
    Note: `bar` in `programs.waybar.settings.bar` is an arbitrary name for the bar; Waybar supports having multiple bars at the same time, but I only need one bar.
+   Waybar automatically starts on startup since it is inside `$ systemctl --user list-units`, so there needs to be neither Hyprland nor zsh configuration for autostarting Waybar. Automatically starting through systemctl though means that it does not have proper `$PATH`, meaning that it must use the full path of `bluetoothctl` (`/run/current-system/sw/bin/bluetoothctl`) to find `bluetoothctl`.\
    \Uf057e \Uf0e08 is the muted icon.
    \Uf091f, \Uf0922,5,8, \Uf029e no wifi
    \Uf00af is the bluetooth icon, \Uf00b2 disabled, 
    \Uf007a-f, \Uf0080-2, \Uf0079 are battery icons
-2. Connect to internet. Use `# nixos-rebuild switch`.
+1. Connect to internet. Use `# nixos-rebuild switch`.
 
 ### WIP
 Using Python Environment
@@ -2097,11 +2098,19 @@ All things in NixOS are packages. The system is a package that depends on whatev
 `# nix-collect-garbage -d` deletes generations and store objects.\
 `$ nix-collect-garbage -d` deletes home manager generations? https://discourse.nixos.org/t/home-manager-and-garbage-collection/41715
 
-Finish Firefox config: stuff in about:preferences(included in about:config?) about:addons about:logins about:policies(done?) about:config\
+Finish Firefox config: stuff in about:preferences(included in about:config?) about:addons about:logins about:policies(done?) about:config, every rebuild home manager fails and have to remove .mozilla; fix that\
 Firefox css: https://www.reddit.com/r/FirefoxCSS/top/?t=all https://firefoxcss-store.github.io/index.html https://support.mozilla.org/en-US/kb/customize-your-new-tab-page#firefox:linux:fx129 https://support.mozilla.org/en-US/kb/customize-firefox-controls-buttons-and-toolbars#firefox:linux:fx129
 
 Minimizing windows in Hyprland or just using workspaces? Minimizing: https://github.com/hyprwm/Hyprland/issues/995 https://github.com/DreamMaoMao/hych/tree/main https://github.com/hyprwm/Hyprland/discussions/8281 https://wiki.hyprland.org/Configuring/Uncommon-tips--tricks/#minimize-windows-using-special-workspaces \
 Finish hyprland animation customization (layers, etc...)\
+
+finish waybar config: TOOLTIPS CAN BE STYLED \
+Fix cursor shrinking in firefox\
+
+Properly manage colors: https://sw.kovidgoyal.net/kitty/conf/#the-color-table \
+https://github.com/Misterio77/flavours \
+https://github.com/warpwm/lule + https://github.com/Misterio77/nix-colors? \
+https://github.com/danth/stylix is a bit magical, it might interfere with transparency settings and it sets the wallpaper, font, and cursor too? \
 
 Home manage git
 
