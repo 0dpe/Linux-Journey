@@ -819,8 +819,9 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    +       "SUPER, Q, togglefloating"
    +       "SUPER, F, fullscreenstate, 2 0"
    +       "SUPER, K, exit"
-   +       "SUPER, left, workspace, -1"
-   +       "SUPER, right, workspace, +1"
+   +       "SUPER, tab, workspace, e+1"
+   +       "SUPER_SHIFT, tab, movetoworkspace, e+1"
+   +       "SUPER, E, movetoworkspace, emptyn"
    +     ];
    +     bindm = [
    +       "SHIFT, mouse:272, movewindow"
@@ -2105,18 +2106,18 @@ Firefox css: https://www.reddit.com/r/FirefoxCSS/top/?t=all https://firefoxcss-s
 
 Minimizing windows in Hyprland or just using workspaces? Minimizing: https://github.com/hyprwm/Hyprland/issues/995 https://github.com/DreamMaoMao/hych/tree/main https://github.com/hyprwm/Hyprland/discussions/8281 https://wiki.hyprland.org/Configuring/Uncommon-tips--tricks/#minimize-windows-using-special-workspaces \
 Finish hyprland animation customization (layers, etc...)\
-ADD HYPRLAND KEYBINDS TO MOVE WINDOWS BETWEEN WORKSPACES\
 
 finish waybar config: TOOLTIPS CAN BE STYLED \
 Fix cursor shrinking in firefox\
 
-Properly manage colors: https://sw.kovidgoyal.net/kitty/conf/#the-color-table \
+Properly manage colors: \
+Pywal alternative\
+https://sw.kovidgoyal.net/kitty/conf/#the-color-table \
 https://github.com/Misterio77/flavours \
 https://github.com/warpwm/lule + https://github.com/Misterio77/nix-colors? \
 https://github.com/danth/stylix is a bit magical, it might interfere with transparency settings and it sets the wallpaper, font, and cursor too? \
 
-Home manage git
-
+Home manage git\
 Zsh frameworks? oh my zsh, prezto, zinit, antigen, \
 Zsh plugins (plugin managers as well?)\
 Packages for terminal: fonts, improved ls find grep cat man etc..., \
@@ -2142,6 +2143,5 @@ Notification Daemon: \
 Application Launcher: \
 Authentication Agent: Starting method: manual (exec-once) Authentication agents are the things that pop up a window asking you for a password whenever an app wants to elevate its privileges.\
 https://gitlab.com/christosangel/ascii-matrix \
-Pywal alternative\
 Find wallpapers\
 Customize Grub
