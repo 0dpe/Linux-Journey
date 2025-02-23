@@ -90,6 +90,8 @@ Not included in Home Manager option documentation:
 * [Root Bar](https://hg.sr.ht/~scoopta/rootbar): Root Bar is a bar for wlroots based wayland compositors such as sway and was designed to address the lack of good bars for wayland.
 * [sfwbar](https://github.com/LBCrion/sfwbar): S* Floating Window Bar
 * [nwg-panel](https://github.com/nwg-piotr/nwg-panel): GTK3-based panel for sway and Hyprland Wayland compositors
+* [ashell](https://github.com/MalpenZibo/ashell): A ready to go Wayland status bar for Hyprland (only available through flake)
+* [Quickshell](https://quickshell.outfoxxed.me/): Flexible toolkit for making desktop shells with QtQuick, targeting Wayland and X11 (only available through flake)
 
 ## Installing NixOS
 
