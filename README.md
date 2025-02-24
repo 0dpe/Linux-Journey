@@ -2108,7 +2108,7 @@ Minimizing windows in Hyprland or just using workspaces? Minimizing: https://git
 Finish hyprland animation customization (layers, etc...)\
 
 finish waybar config: TOOLTIPS CAN BE STYLED \
-Fix cursor shrinking in firefox\
+Fix cursor shrinking in firefox: This is because in Home manager gtk.enable is not set to true. With it set to true and home.pointercursor.size set, it sets the size for gtk apps. But, what about non-gtk apps? `XCURSOR_THEME` & `XCURSOR_SIZE`? There are no nix options for cursor. Settings only come from home manager or hyprland. \
 
 Properly manage colors: \
 Pywal alternative\
