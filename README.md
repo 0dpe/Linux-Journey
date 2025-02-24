@@ -1151,6 +1151,7 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    +   pointerCursor = {
    +     package = pkgs.capitaine-cursors;
    +     name = "capitaine-cursors";
+   +     size = 22;
    +     gtk.enable = true;
    +     x11.enable = true;
    +     x11.defaultCursor = "default";
