@@ -672,7 +672,7 @@ Install Hyprland (and kitty) from nixpkgs for all users:
 1. Connect to internet. Use `# nixos-rebuild switch`.
 1. Reboot. Use `$ Hyprland` to see that Hyprland works. No crashes.
 
-Debugging kitty and xdg-desktop-portal:
+Fixing kitty and xdg-desktop-portal:
 1. In Hyprland, use `$ kitty` to see `[0.139] [glfw error 65544]: process_desktop_settings: failed with error: [org.freedesktop.DBus.Error.UnknownMethod] No such interface "org.freedesktop.portal.Settings" on object at path /org/freedesktop/portal/desktop`. A new terminal appears, but as soon as I use <kbd>ctrl</kbd>+<kbd>c</kbd> in the original terminal, the new terminal disappears. 
 1. Using `$ systemctl --user status dbus` shows no abnormalities, but using `$ systemctl --user status xdg-desktop-portal.service` shows (incomplete):
    ```
