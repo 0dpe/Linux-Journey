@@ -1141,8 +1141,6 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    
    let
      # ...
-  
-   + cursorSize = 22;
    
    in
    {
@@ -1583,9 +1581,9 @@ The swww wallpaper manager does not have a configuration file; all configuration
        enable = true;
        settings = {
          # ...
-         env = [
+         misc = {
            # ...
-         ];
+         };
    +     exec-once = [
    +       "swww-daemon --no-cache"
    +       "swww clear 000000 && ~/.swwwRandomizer /home/tim/Wallpapers 3600"
