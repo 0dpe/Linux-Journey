@@ -2130,7 +2130,7 @@ Keyboard Language Control: English, Chinese, Spanish. Remember to add bar indica
 Camera Control: \
 Clipboard Manager: \
 Screenshot Utility: \
-Text / Code Editor: Micro, neovim, helix, vscode\
+Text / Code Editor: Micro, neovim, helix, vscodium\
 Calculator: \
 Media Player: \
 Image Viewer: \
