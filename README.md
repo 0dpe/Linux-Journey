@@ -2151,7 +2151,7 @@ https://github.com/danth/stylix is a bit magical, it might interfere with transp
 Home manage git\
 Zsh frameworks? oh my zsh, prezto, zinit, antigen, \
 Zsh plugins (plugin managers as well?)\
-Packages for terminal: fonts, improved ls find grep cat man etc..., \
+Packages for terminal: improved ls find grep cat man etc..., \
 git integration? \
 terminal file manager (any file manager)? \
 system monitoring?
