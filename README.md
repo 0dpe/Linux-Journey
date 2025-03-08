@@ -2228,6 +2228,13 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    +       beirner.github-markdown-preview
    +       streetsidesoftware.code-spell-checker
    +     ];
+   +     userSettings = {
+   +       "window.dialogStyle" = "custom";
+   +       "window.titleBarStyle" = "custom";
+   +       "editor.minimap.enabled" = false;
+   +       "cSpell.maxNumberOfProblems" = 10000;
+   +       "markdown.preview.scrollPreviewWithEditor" = false;
+   +     };
    +   };
    + };
 
