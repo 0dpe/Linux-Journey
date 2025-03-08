@@ -1131,7 +1131,7 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
      programs = {
        # ...
      };
-   
+  
      system.stateVersion = "24.05";
    }
    ```
@@ -1676,8 +1676,7 @@ The swww wallpaper manager does not have a configuration file; all configuration
    
      environment = {
        systemPackages = with pkgs; [
-         kitty
-         capitaine-cursors
+         # ...
          swww
    +     oh-my-posh
        ];
@@ -2116,6 +2115,129 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    \Uf007a-f, \Uf0080-2, \Uf0079 are battery icons
 1. Connect to internet. Use `# nixos-rebuild switch`.
 
+### Using VSCode
+[VSCodium](https://github.com/VSCodium/vscodium "GitHub") is VSCode built without telemetry. 
+1. To install VSCodium, edit `configuration.nix`:
+   ```diff
+   { config, lib, pkgs, ... }:
+   
+   {
+     imports =
+       [
+         ./hardware-configuration.nix
+       ];
+   
+     boot.loader = {
+       # ...
+     };
+   
+     nix.settings.experimental-features = [ "nix-command" "flakes" ];
+   
+     networking = {
+       # ...
+     };
+   
+     time.timeZone = "America/New_York";
+   
+     services = {
+       # ...
+     };
+
+     security.rtkit.enable = true;
+
+     xdg.portal = {
+       # ...
+     };
+
+     users = {
+       # ...
+     };
+   
+     environment = {
+       systemPackages = with pkgs; [
+         # ...
+         on-my-posh
+   +     vscodium
+       ];
+       sessionVariables.NIXOS_OZONE_WL = "1";
+     };
+
+     fonts = {
+       # ...
+     };
+   
+     programs = {
+       # ...
+     };
+   
+     system.stateVersion = "24.05";
+   }
+   ```
+   [`vscodium-fhs`](https://nixos.wiki/wiki/Visual_Studio_Code#:~:text=Use%20VS%20Code,the%20above%20guidance.) sacrifices purity for convenience; it is not needed a for purely declarative configuration. 
+1. Connect to internet. Use `# nixos-rebuild switch`.
+1. To use Home Manager to configure VSCodium, edit `home.nix`:
+   ```diff
+   { config, lib, pkgs, ... }:
+   
+   let
+     # ...
+   
+   in
+   {
+     home = {
+       # ...
+     };
+
+     gtk = {
+       # ...
+     };
+
+     wayland.windowManager.hyprland = {
+       # ...
+     };
+
+     programs.kitty = {
+       # ...
+     };
+
+     programs.firefox = {
+       # ...
+     };
+
+     programs.zsh = {
+       # ...
+     };
+
+     programs.oh-my-posh = {
+       # ...
+     };
+
+     programs.waybar = {
+       # ...
+     };
+
+   + programs.vscode = {
+   +   enable = true;
+   +   package = pkgs.vscodium;
+   +   mutableExtensionsDir = false;
+   +   profiles.default = {
+   +     enableExtensionUpdateCheck = true;
+   +     enableUpdateCheck = true;
+   +     extensions = with pkgs.vscode-extensions; [
+   +       bbenoist.nix
+   +       beirner.github-markdown-preview
+   +       streetsidesoftware.code-spell-checker
+   +     ];
+   +   };
+   + };
+
+     programs.home-manager.enable = true;
+   }
+   ```
+   The profile name must be `default` since the options `programs.vscode.profiles.<name>.enableExtensionUpdateCheck` and `programs.vscode.profiles.<name>.enableUpdateCheck` are invalid for all profiles except `default`.\
+   Launching with `$ codium` shows warning messages with `is not in the list of known options, but still passed to Electron/Chromium`. This is [not](https://github.com/NixOS/nixpkgs/issues/271461 "GitHub") an issue.\
+   Similar to Firefox's `~/.mozilla`, the directory `~/.vscode-oss` must be removed in every rebuild if it has been changed by VSCodium for the Home Manager environment to successfully start.
+
 ### WIP
 Using Python Environment
 Python and Python packages can be installed system wide, but using [nix shells](https://youtu.be/0YBWhSNTgV8 "YouTube") is recommended. Nix shells can:
@@ -2133,7 +2255,7 @@ All things in NixOS are packages. The system is a package that depends on whatev
 `# nix-collect-garbage -d` deletes generations and store objects.\
 `$ nix-collect-garbage -d` deletes home manager generations? https://discourse.nixos.org/t/home-manager-and-garbage-collection/41715
 
-Finish Firefox config: stuff in about:preferences(included in about:config?) about:addons about:logins about:policies(done?) about:config, every rebuild home manager fails and have to remove .mozilla; fixable with https://discourse.nixos.org/t/way-to-automatically-override-home-manager-collisions/33038/6 \
+Finish Firefox config: stuff in about:preferences(included in about:config?) about:addons about:logins about:policies(done?) about:config, every rebuild home manager fails and have to remove .mozilla; fixable with https://discourse.nixos.org/t/way-to-automatically-override-home-manager-collisions/33038/6 same problem with VSCodium's `./vscode-oss`\
 Firefox css: https://www.reddit.com/r/FirefoxCSS/top/?t=all https://firefoxcss-store.github.io/index.html https://support.mozilla.org/en-US/kb/customize-your-new-tab-page#firefox:linux:fx129 https://support.mozilla.org/en-US/kb/customize-firefox-controls-buttons-and-toolbars#firefox:linux:fx129
 
 Minimizing windows in Hyprland or just using workspaces? Minimizing: https://github.com/hyprwm/Hyprland/issues/995 https://github.com/DreamMaoMao/hych/tree/main https://github.com/hyprwm/Hyprland/discussions/8281 https://wiki.hyprland.org/Configuring/Uncommon-tips--tricks/#minimize-windows-using-special-workspaces \
@@ -2161,7 +2283,7 @@ Keyboard Language Control: English, Chinese, Spanish. Remember to add bar indica
 Camera Control: \
 Clipboard Manager: \
 Screenshot Utility: \
-Text / Code Editor: Micro, neovim, helix, vscodium\
+Terminal Text / Code Editor: Micro, neovim, helix\
 Calculator: \
 Media Player: \
 Image Viewer: \
