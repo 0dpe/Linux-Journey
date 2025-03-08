@@ -870,6 +870,7 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    +         disable_while_typing = false;
    +         natural_scroll = true;
    +         tap-and-drag = false;
+   +         scroll_factor = 0.15;
    +       };
    +     };
    +     gestures = {
@@ -883,6 +884,9 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    +       background_color = 000000;
    +       middle_click_paste = false;
    +     };
+   +     windowrule = [
+   +       "scrolltouchpad 1.0, kitty"
+   +     ];
    +   };
    + };
 
@@ -1582,9 +1586,9 @@ The swww wallpaper manager does not have a configuration file; all configuration
        enable = true;
        settings = {
          # ...
-         misc = {
+         windowrule = [
            # ...
-         };
+         ];
    +     exec-once = [
    +       "swww-daemon --no-cache"
    +       "swww clear 000000 && ~/.swwwRandomizer /home/tim/Wallpapers 3600"
