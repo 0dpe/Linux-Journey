@@ -284,36 +284,15 @@ Enable flakes for NixOS:
    { config, lib, pkgs, ... }:
 
    {
-     imports =
-       [
-         ./hardware-configuration.nix
-       ];
-
-     boot.loader = {
-       # ...
-     };
+     # ...
      
    + nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-     networking = {
-       # ...
-     };
-
-     time.timeZone = "America/New_York";
-
-     services = {
-       # ...
-     };
-
-     users = {
-       # ...
-     };
 
    + programs = {
    +   git.enable = true;
    + };
 
-     system.stateVersion = "24.05";
+     # ...
    }
    ```
 1. Connect to internet. Use `# nixos-rebuild switch`.
@@ -397,6 +376,7 @@ Install Home Manager as a NixOS module:
      programs.home-manager.enable = true;
    }
    ```
+   Note: `home.nix` is in the same directory as `flake.nix` because `import ./home.nix` is specified in the flake.
 1. Connect to internet. Use `# nixos-rebuild switch`.\
    `flake.lock` is automatically updated and now contains version information about both `nixpkgs` and `home-manager`.\
    See [available options](https://nix-community.github.io/home-manager/options.xhtml "Home Manager Manual") to edit `home.nix`.
@@ -548,7 +528,7 @@ Fix:
    Wifi works again; using `$ nmcli device wifi list` shows that I am connected.
 
 Possible cause:\
-I did not completely shut down Windows 10 before booting into NixOS. Upon shutting down NixOS and booting into Windows 10, I see that Astrill VPN is still connected. So, Astrill VPN may have been connected while I first booted into NixOS; I disconnected Astrill VPN and shut down Windows 10, but upon booting into NixOS afterwards, the problem persisted. 
+I did not completely shut down Windows 10 before booting into NixOS. Upon shutting down NixOS and booting into Windows 10, I see that Astrill VPN is still connected. So, Astrill VPN may have been connected while I first booted into NixOS; I disconnected Astrill VPN and shut down Windows 10, but upon booting into NixOS afterwards, the problem persisted.
 
 ### Using Zsh
 In `configuration.nix`, add:
@@ -556,44 +536,22 @@ In `configuration.nix`, add:
 { config, lib, pkgs, ... }:
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-    ];
-
-  boot.loader = {
-    # ...
-  };
-
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  networking = {
-    # ...
-  };
-
-  time.timeZone = "America/New_York";
-
-  services = {
-    # ...
-  };
+  # ...
 
   users = {
-    users.tim = {
-      # ...
-    };
+    # ...
 +   defaultUserShell = pkgs.zsh;
   };
 
   programs = {
-    git.enable = true;
-
+    # ...
 +   zsh = {
 +     enable = true;
 +     autosuggestions.enable = true;
 +   };
   };
 
-  system.stateVersion = "24.05";
+  # ...
 }
 ```
 Connect to internet. Use `# nixos-rebuild switch` and reboot. Use `$ echo $SHELL` to see `/run/current-system/sw/bin/zsh`.\
@@ -608,7 +566,7 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 ```
-Since I don't need to further configure zsh (yet), I do not use Home Manager for zsh.
+Since I don't need to further configure zsh yet, I do not use Home Manager for zsh.
 
 ### Using [Hyprland](https://wiki.hyprland.org/ "Hyprland Wiki")
 Hyprland can be installed 2 ways:
@@ -623,30 +581,7 @@ Install Hyprland (and kitty) from nixpkgs for all users:
    { config, lib, pkgs, ... }:
    
    {
-     imports =
-       [
-         ./hardware-configuration.nix
-       ];
-   
-     boot.loader = {
-       # ...
-     };
-
-     nix.settings.experimental-features = [ "nix-command" "flakes" ];
-   
-     networking = {
-       # ...
-     };
-   
-     time.timeZone = "America/New_York";
-   
-     services = {
-       # ...
-     };
-   
-     users = {
-       # ...
-     };
+     # ...
    
    + environment = {
    +   systemPackages = with pkgs; [
@@ -656,16 +591,11 @@ Install Hyprland (and kitty) from nixpkgs for all users:
    + };
 
      programs = {
-       git.enable = true;
-   
-       zsh = {
-         # ...
-       };
-
+       # ...
    +   hyprland.enable = true;
      };
    
-     system.stateVersion = "24.05";
+     # ...
    }
    ```
    [kitty](https://search.nixos.org/packages?channel=24.05&show=kitty&from=0&size=50&sort=relevance&type=packages&query=kitty "NixOS.org Search") is the [default](https://wiki.hyprland.org/Getting-Started/Master-Tutorial/#install-hyprland "Hyprland Wiki") terminal emulator. Following [wiki](https://wiki.hyprland.org/Nix/ "Hyprland Wiki"), only 1 environment variable is defined. `XWayland` is enabled by [default](https://search.nixos.org/options?channel=unstable&show=programs.hyprland.xwayland.enable "NixOS.org").
@@ -698,25 +628,10 @@ Fixing kitty and xdg-desktop-portal:
    { config, lib, pkgs, ... }:
    
    {
-     imports =
-       [
-         ./hardware-configuration.nix
-       ];
-   
-     boot.loader = {
-       # ...
-     };
-   
-     nix.settings.experimental-features = [ "nix-command" "flakes" ];
-   
-     networking = {
-       # ...
-     };
-   
-     time.timeZone = "America/New_York";
+     # ...
    
      services = {
-       libinput.enable = true;
+       # ...
    +   pipewire.enable = true;
      };
    
@@ -727,19 +642,7 @@ Fixing kitty and xdg-desktop-portal:
    +   extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
    + };
 
-     users = {
-       # ...
-     };
-   
-     environment = {
-       # ...
-     };
-
-     programs = {
-       # ...
-     };
-   
-     system.stateVersion = "24.05";
+     # ...
    }
    ```
 1. Connect to internet. Use `# nixos-rebuild switch`.
@@ -804,9 +707,7 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
 
    +in
    {
-     home = {
-       # ...
-     };
+     # ...
 
    + wayland.windowManager.hyprland = {
    +   enable = true;
@@ -890,12 +791,11 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    +   };
    + };
 
-     programs.home-manager.enable = true;
+     # ...
    }
    ```
-   Since I am using Hyprland from `hyprland.pkgs`, I do not need to specify `wayland.windowManager.hyprland.package` for Home Manager.\
+   Since I am using Hyprland from `pkgs.hyprland`, I do not need to specify `wayland.windowManager.hyprland.package` for Home Manager.\
    Options that have syntax similar to Nix need to be wrapped in `""`.\
-   [Bind and flag(s)](https://wiki.hyprland.org/Configuring/Binds/#bind-flags "Hyprland Wiki") = [modifier key(s)](https://wiki.hyprland.org/Configuring/Variables/#variable-types "Hyprland Wiki"), other key(s), [action](https://wiki.hyprland.org/Configuring/Dispatchers/#list-of-dispatchers "Hyprland Wiki"), parameter(s).\
    Although trackpad (libinput) configuration can be done through `configuration.nix`, that [doesn't work](https://discourse.nixos.org/t/xorg-libinput-configuration-seems-to-be-ignored/15504) for me (`/etc/X11/xorg.conf` isn't generated), so I use Hyprland's options instead.\
    On the [Hyprland wiki](https://wiki.hyprland.org/Configuring/Variables/#touchpad:~:text=bool-,false,-Touchdevice), `touch-and-drag`'s default is marked as `false`, but in reality it's default is actually `true`, so I explicitly set it.
 1. Connect to internet. Use `# nixos-rebuild switch`.\
@@ -909,18 +809,10 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    ```diff
    { config, lib, pkgs, ... }:
    
-   let
-     # ...
-   
-   in
-   {
-     home = {
-       # ...
-     };
+   # ...
 
-     wayland.windowManager.hyprland = {
-       # ...
-     };
+   {
+     # ...
 
    + programs.kitty = {
    +   enable = true;
@@ -951,7 +843,7 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    +   '';
    + };
 
-     programs.home-manager.enable = true;
+     # ...
    }
    ```
    The `programs.kitty.shellIntegration.enableZshIntegration` Home Manager option is not set because it does not actually achieve [shell integration](https://sw.kovidgoyal.net/kitty/shell-integration/#shell-integration "Kitty Documentation"). Although kitty uses `"yes"` and `"no"`, Home Manager converts `true` and `false` to the strings. `''` defines multi-line strings in nix.
@@ -964,50 +856,10 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    { config, lib, pkgs, ... }:
    
    {
-     imports =
-       [
-         ./hardware-configuration.nix
-       ];
-   
-     boot.loader = {
-       # ...
-     };
-   
-     nix.settings.experimental-features = [ "nix-command" "flakes" ];
-   
-     networking = {
-       # ...
-     };
-   
-     time.timeZone = "America/New_York";
-   
-     services = {
-       # ...
-     };
-   
-     security.rtkit.enable = true;
-
-     xdg.portal = {
-       # ...
-     };
-
-     users = {
-       # ...
-     };
-   
-     environment = {
-       # ...
-     };
+     # ...
    
      programs = {
-       git.enable = true;
-
-       zsh = {
-         # ...
-       };
-
-       hyprland.enable = true;
-
+       # ...
    +   firefox = {
    +     enable = true;
    +     package = pkgs.firefox-bin;
@@ -1070,7 +922,7 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    +   };
      };
    
-     system.stateVersion = "24.05";
+     # ...
    }
    ```
    [Policies](https://mozilla.github.io/policy-templates/ "Mozilla's GitHub") (view in Firefox internal page with URL `about:policies`; stored in file(s) in `/nix/store/`) are usually declared to allow administrators to set and lock browser settings. `programs.firefox.policies` is declared in `configuration.nix` because the Home Manager option `programs.firefox.policies` does not work. Other profile specific Home Manager options in `programs.firefox.profiles` work.\
@@ -1093,65 +945,28 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    { config, lib, pkgs, ... }:
    
    {
-     imports =
-       [
-         ./hardware-configuration.nix
-       ];
-   
-     boot.loader = {
-       # ...
-     };
-   
-     nix.settings.experimental-features = [ "nix-command" "flakes" ];
-   
-     networking = {
-       # ...
-     };
-   
-     time.timeZone = "America/New_York";
-   
-     services = {
-       # ...
-     };
-
-     security.rtkit.enable = true;
-
-     xdg.portal = {
-       # ...
-     };
-
-     users = {
-       # ...
-     };
+     # ...
    
      environment = {
        systemPackages = with pkgs; [
-         kitty
+         # ...
    +     capitaine-cursors
        ];
-       sessionVariables.NIXOS_OZONE_WL = "1";
-     };
-   
-     programs = {
        # ...
      };
-  
-     system.stateVersion = "24.05";
+   
+     # ...
    }
    ```
    And edit `home.nix`:
    ```diff
    { config, lib, pkgs, ... }:
    
-   let
-     # ...
-   
-   in
+   # ...
+
    {
      home = {
-       username = "tim";
-       homeDirectory = "/home/tim";
-       stateVersion = "24.05";
+       # ...
    +   pointerCursor = {
    +     package = pkgs.capitaine-cursors;
    +     name = "capitaine-cursors";
@@ -1166,15 +981,7 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    +   enable = true;
    + };
 
-     wayland.windowManager.hyprland = {
-       # ...
-     };
-
-     programs.kitty = {
-       # ...
-     };
-
-     programs.home-manager.enable = true;
+     # ...
    }
    ```
    [`home.pointerCursor`](https://github.com/nix-community/home-manager/blob/master/modules/config/home-cursor.nix "GitHub") sets up many cursor configurations; it sets up `XCURSOR` environment variables which configure the cursor on Hyprland without Hyprcursor. Configuring environment variables need a reboot to apply.\
@@ -1186,26 +993,10 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    ```diff
    { config, lib, pkgs, ... }:
    
-   let
-     # ...
-   
-   in
+   # ...
+
    {
-     home = {
-       # ...
-     };
-
-     gtk = {
-       # ...
-     };
-
-     wayland.windowManager.hyprland = {
-       # ...
-     };
-
-     programs.kitty = {
-       # ...
-     };
+     # ...
 
    + programs.firefox = {
    +   enable = true;
@@ -1262,7 +1053,7 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    +   };
    + };
 
-     programs.home-manager.enable = true;
+     # ...
    }
    ```
    The default for `programs.firefox.package` is `pkgs.firefox`, not `pkgs.firefox-bin`, so if the option is not set, Home Manager will try to install `pkgs.firefox` instead of using `pkgs.firefox-bin` that's already installed through configuration in `configuration.nix`.\
@@ -1274,6 +1065,29 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    `programs.firefox.profiles.<name>.search.force` does not function as described in the [documentation](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.firefox.profiles._name_.search.force "Home Manager Manual"); the default search engines (Google, Bing, DuckDuckGo, Wikipedia (en)) still appear with the option set to `true`. On seemingly every launch, Firefox regenerates the file `~/.mozilla/firefox/<name>/search.json.mozlz4`, replacing Home Manager's symlink, adding the default search engines back into the file; the issue is [not resolved](https://github.com/nix-community/home-manager/issues/3698#issuecomment-1863664311 "GitHub"). The [`SearchEngines`](https://mozilla.github.io/policy-templates/#searchengines-this-policy-is-only-available-on-the-esr "Mozilla's GitHub") policy exists for Firefox ESR, and for security [reasons](https://github.com/mozilla/policy-templates/issues/706#issuecomment-1976702696 "GitHub") it will not be supported for rapid release. Default search engines are hidden with [metadata attributes](https://searchfox.org/mozilla-central/source/toolkit/components/search/nsISearchService.idl#128,144,470,479 "Firefox Source (Searchfox.org)") in `home.nix`; default engines cannot be removed completely, although [uninstalling](https://github.com/mozilla/policy-templates/issues/484 "GitHub") them through extension related policies could work. `programs.firefox.profiles.<name>.search.privateDefault` does not work, but the default is Google.\
    Remove the directories `~/.mozilla` and `~/.cache/mozilla`. Connect to internet. Use `# nixos-rebuild switch`.
 
+### Hosting Configurations on GitHub 
+Since the `nixos-rebuild` command [allows](https://nixos.wiki/wiki/Flakes#Using_nix_flakes_with_NixOS:~:text=To%20switch%20a,fast%20%5C%0A%20%20switch "NixOS Wiki") using a flake from remote locations, not just `/etc/nixos`, all files in `/etc/nixos` can be moved to a GitHub repository for the system to rebuild from. To do this, upload all the files (`flake.nix` `flake.lock` `configuration.nix` `hardware-configuration.nix` `home.nix` `hslaToRgba.nix`) in `/etc/nixos` to a GitHub repository. From now on, use `# nixos-rebuild switch --flake 'github:0dpe/Linux-Journey#ZHAN' --refresh` instead of just `# nixos-rebuild switch`, and rebuilds always require internet access.\
+Note: The [`--refresh`](https://www.reddit.com/r/NixOS/comments/1c2wh5j/nixosrebuild_doesnt_do_anything/ "Reddit") flag is required for `nixos-rebuild` to use the repository all the time. Without the flag, `nixos-rebuild` only checks the repository once in a one hour duration.\
+For shortening the command, add in `configuration.nix`:
+```diff
+{ config, lib, pkgs, ... }:
+
+{
+  # ...
+
+  environment = {
+    # ...
++   shellAliases = {
++     rebuild = "sudo nixos-rebuild switch --flake 'github:0dpe/Linux-Journey#ZHAN' --refresh";
++   };
+  };
+
+  # ...
+}
+```
+Note: `environment.shellAliases` requires a reboot to take effect.\
+To update the `flake.lock` file, use `$ nix flake update --flake github:0dpe/Linux-Journey --output-lock-file ~/flake.lock` and manually replace the old `flake.lock` in the repository with the new `~/flake.lock`.
+
 ### Controlling Screen Backlight
 Packages like `light` and `brightnessctl` work on Wayland and make changing screen brightness easy, but there is a simpler way to change screen brightness. The file `/sys/class/backlight/intel_backlight/brightness` contains an integer that defines the screen brightness. Use `$ cat /sys/class/backlight/intel_backlight/max_brightness` to see the max brightness is 24000 (a number <188 makes the backlight flicker or turn off). When the file `brightness` is modified, the screen brightness changes accordingly. However, the file `brightness` has permissions `-rw-r--r--` (file type, permissions(owner, group, others)), so only the root user can modify it. Use `$ sudo tee /sys/class/backlight/intel_backlight/brightness <<< MY_NUMBER` to modify the file manually.\
 Notes: Using `$ sudo echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_brightness` does not work because `sudo` elevates the command that follows it (`echo` in this case), not the redirector operator `>` which is handled by the command shell (zsh for me). `sudo` here does not affect the command shell's operations; `>` is supposed to write the output of `echo MY_NUMBER` to the file `brightness` but it's operated by the command shell which doesn't have permission. Using `# echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_brightness` works because while using commands as root, all operations, including the command shell's operations, are performed with root privileges. Also, to use the command without root, use `$ sudo sh -c 'echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_brightness'`. `<<<` (*here string*) is also a command shell operation, but in `$ sudo tee /sys/class/backlight/intel_backlight/brightness <<< MY_NUMBER` `tee` actually does the writing, and `tee` has elevated privileges. `<<<` only passes the string to `tee` for `tee` to modify the file `brightness`.
@@ -1282,100 +1096,45 @@ Notes: Using `$ sudo echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_b
    { config, lib, pkgs, ... }:
    
    {
-     imports =
-       [
-         ./hardware-configuration.nix
-       ];
-
-     boot.loader = {
-       # ...
-     };
-
-     nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-     networking = {
-       # ...
-     };
-
-     time.timeZone = "America/New_York";
+     # ...
 
      services = {
-       libinput.enable = true;
-       pipewire.enable = true;
+       # ...
    +   udev.extraRules = ''
    +     ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", MODE="0666", RUN+="${pkgs.coreutils}/bin/chmod a+w /sys/class/backlight/%k/brightness"
    +   '';
      };
    
-     security.rtkit.enable = true;
-
-     xdg.portal = {
-       # ...
-     };
-
-     users = {
-       # ...
-     };
-   
-     environment = {
-       # ...
-     };
-   
-     programs = {
-       # ...
-     };
-
-     system.stateVersion = "24.05";
+     # ...
    }
    ```
    `udev` is enabled by default.\
-   After connecting to internet and using `# nixos-rebuild switch`, and then rebooting, `/sys/class/backlight/intel_backlight/brightness` has permissions `-rw-rw-rw-`.
+   After rebuild the system and then rebooting, `/sys/class/backlight/intel_backlight/brightness` has permissions `-rw-rw-rw-`.
 1. To bind dynamic commands to keybinds to change screen brightness in Hyprland, edit `home.nix`:
    ```diff
    { config, lib, pkgs, ... }:
    
-   let
-     # ...
-   
-   in
-   {
-     home = {
-       # ...
-     };
+   # ...
 
-     gtk = {
-       # ...
-     };
+   {
+     # ...
 
      wayland.windowManager.hyprland = {
-       enable = true;
+       # ...
        settings = {
-         bind = [
-           # ...
-         ];
+         # ...
    +     binde = [
    +       "SUPER, MINUS, exec, val=$(< /sys/class/backlight/intel_backlight/brightness); tee /sys/class/backlight/intel_backlight/brightness <<< $((val <= 4188 ? 188 : val - 4000))"
    +       "SUPER, EQUAL, exec, val=$(< /sys/class/backlight/intel_backlight/brightness); tee /sys/class/backlight/intel_backlight/brightness <<< $((val >= 20000 ? 24000 : val + 4000))"
    +     ];
-         bindm = [
-           # ...
-         ];
          # ...
        };
      };
 
-     programs.kitty = {
-       # ...
-     };
-
-     programs.firefox = {
-       # ...
-     };
-
-     programs.home-manager.enable = true;
+     # ...
    }
    ```
-1. Connect to internet. Use `# nixos-rebuild switch`.
+1. Rebuild the system.
 
 ### Using a Display (Login) Manager
 Since I only have one user and one window manager or desktop environment, I do not need a graphical display manager, or any display manager at all.
@@ -1384,51 +1143,14 @@ Since I only have one user and one window manager or desktop environment, I do n
    { config, lib, pkgs, ... }:
    
    {
-     imports =
-       [
-         ./hardware-configuration.nix
-       ];
-
-     boot.loader = {
-       # ...
-     };
-
-     nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-     networking = {
-       # ...
-     };
-
-     time.timeZone = "America/New_York";
+     # ...
    
      services = {
-       libinput.enable = true;
-       pipewire.enable = true;
-       udev.extraRules = ''
-         # ...
-       '';
+       # ...
    +   getty.extraArgs = [ "--skip-login" "--login-options" "tim" ];
      };
    
-     security.rtkit.enable = true;
-
-     xdg.portal = {
-       # ...
-     };
-
-     users = {
-       # ...
-     };
-
-     environment = {
-       # ...
-     };
-
-     programs = {
-       # ...
-     };
-   
-     system.stateVersion = "24.05";
+     # ...
    }
    ```
    [`getty`](https://en.wikipedia.org/wiki/Getty_(Unix) "Wikipedia") (get-tty) manages TTYs.\
@@ -1437,30 +1159,10 @@ Since I only have one user and one window manager or desktop environment, I do n
    ```diff
    { config, lib, pkgs, ... }:
    
-   let
-     # ...
-   
-   in
+   # ...
+
    {
-     home = {
-       # ...
-     };
-
-     gtk = {
-       # ...
-     };
-
-     wayland.windowManager.hyprland = {
-       # ...
-     };
-
-     programs.kitty = {
-       # ...
-     };
-
-     programs.firefox = {
-       # ...
-     };
+     # ...
 
    + programs.zsh = {
    +   enable = true;
@@ -1471,13 +1173,13 @@ Since I only have one user and one window manager or desktop environment, I do n
    +   '';
    + };
 
-     programs.home-manager.enable = true;
+     # ...
    }
    ```
    Note: Options similar to `programs.zsh.profileExtra` exist for `configuration.nix`, but they are system wide.\
    Zsh executes a few files in a [specific order](https://github.com/sambacha/dotfiles2/blob/master/.github/shell-startup.png "Zsh Config Files Flowchart") on startup. the `.zprofile` file is executed on all login startups.\
    `-z` checks for zero length; if Hyprland is already running, `${DISPLAY}` will have length. In nix, `$`s inside multi-line strings can be escaped with `''`. `${XDG_VTNR}` indicates TTY#; `-eq` means "equal".\
-   Remove `/home/tim/.zshrc`, then connect to internet and use `# nixos-rebuild switch`.
+   Remove `/home/tim/.zshrc`, then rebuild the system.
 
 ### Using swww
 The swww wallpaper manager does not have a configuration file; all configurations are done through commands.
@@ -1486,51 +1188,17 @@ The swww wallpaper manager does not have a configuration file; all configuration
    { config, lib, pkgs, ... }:
    
    {
-     imports =
-       [
-         ./hardware-configuration.nix
-       ];
-   
-     boot.loader = {
-       # ...
-     };
-   
-     nix.settings.experimental-features = [ "nix-command" "flakes" ];
-   
-     networking = {
-       # ...
-     };
-   
-     time.timeZone = "America/New_York";
-   
-     services = {
-       # ...
-     };
-
-     security.rtkit.enable = true;
-
-     xdg.portal = {
-       # ...
-     };
-
-     users = {
-       # ...
-     };
+     # ...
    
      environment = {
        systemPackages = with pkgs; [
-         kitty
-         capitaine-cursors
+         # ...
    +     swww
        ];
-       sessionVariables.NIXOS_OZONE_WL = "1";
-     };
-   
-     programs = {
        # ...
      };
    
-     system.stateVersion = "24.05";
+     # ...
    }
    ```
 1. Use `$ mkdir /home/tim/Wallpapers` to create a directory for the wallpapers.
@@ -1538,18 +1206,11 @@ The swww wallpaper manager does not have a configuration file; all configuration
    ```diff
    { config, lib, pkgs, ... }:
    
-   let
-     # ...
-   
-   in
+   # ...
+
    {
      home = {
-       username = "tim";
-       homeDirectory = "/home/tim";
-       stateVersion = "24.05";
-       pointerCursor = {
-         # ...
-       };
+       # ...
    +   file = {
    +     ".swwwRandomizer" = {
    +       enable = true;
@@ -1578,17 +1239,12 @@ The swww wallpaper manager does not have a configuration file; all configuration
    +   };
      };
 
-     gtk = {
-       # ...
-     };
+     # ...
 
      wayland.windowManager.hyprland = {
-       enable = true;
+       # ...
        settings = {
          # ...
-         windowrule = [
-           # ...
-         ];
    +     exec-once = [
    +       "swww-daemon --no-cache"
    +       "swww clear 000000 && ~/.swwwRandomizer /home/tim/Wallpapers 3600"
@@ -1596,19 +1252,7 @@ The swww wallpaper manager does not have a configuration file; all configuration
        };
      };
 
-     programs.kitty = {
-       # ...
-     };
-
-     programs.firefox = {
-       # ...
-     };
-
-     programs.zsh = {
-       # ...
-     };
-
-     programs.home-manager.enable = true;
+     # ...
    }
    ```
    Home Manager's [`home.file.<name>.target`](https://nix-community.github.io/home-manager/options.xhtml#opt-home.file._name_.target "Home Manager Manual") option defines the path and name of the generated symlink or file relative to `~`. This option defaults to `~/<name>` when undefined.\
@@ -1638,7 +1282,7 @@ The swww wallpaper manager does not have a configuration file; all configuration
 
    The `--no-cache` flag is declared when starting `swww-daemon` because swww [does not yet](https://github.com/LGFae/swww/issues/336 "GitHub") remember options such as filter and resize for cached images.\
    Using `$ swww-daemon` for the first time on instillation or using `$ swww-daemon --no-cache` (to clear cache, use `$ swww clear-cache`) and then using `$ swww img /path/to/any/image` displays a black wallpaper. Using `$ swww query` shows that swww has attempted to display an image. Using any swww command to attempt to display something again fixes the black wallpaper. So, `swww clear 000000` is executed once in the start to arbitrarily display black. Putting `swww clear 000000` right after the shebang inside the script yields inconsistent results, indicating that the command is run too quickly, maybe before swww daemon has completely started, so `&&` is necessary in `exec-once`.\
-   Connect to internet. Use `# nixos-rebuild switch`.
+   Rebuild the system.
 
 ### Customizing Zsh Prompt
 [Oh My Posh](https://ohmyposh.dev/docs/ "Oh My Posh Documentation") is used for making shells look better. 
@@ -1647,86 +1291,27 @@ The swww wallpaper manager does not have a configuration file; all configuration
    { config, lib, pkgs, ... }:
    
    {
-     imports =
-       [
-         ./hardware-configuration.nix
-       ];
-   
-     boot.loader = {
-       # ...
-     };
-   
-     nix.settings.experimental-features = [ "nix-command" "flakes" ];
-   
-     networking = {
-       # ...
-     };
-   
-     time.timeZone = "America/New_York";
-   
-     services = {
-       # ...
-     };
-
-     security.rtkit.enable = true;
-
-     xdg.portal = {
-       # ...
-     };
-
-     users = {
-       # ...
-     };
+     # ...
    
      environment = {
        systemPackages = with pkgs; [
          # ...
-         swww
    +     oh-my-posh
        ];
-       sessionVariables.NIXOS_OZONE_WL = "1";
-     };
-   
-     programs = {
        # ...
      };
    
-     system.stateVersion = "24.05";
+     # ...
    }
    ```
-1. Connect to internet. Use `# nixos-rebuild switch`.
 1. To use Home Manager to configure Oh My Posh, edit `home.nix`:
    ```diff
    { config, lib, pkgs, ... }:
    
-   let
-     # ...
-   
-   in
+   # ...
+
    {
-     home = {
-       # ...
-     };
-
-     gtk = {
-       # ...
-     };
-
-     wayland.windowManager.hyprland = {
-       # ... 
-     };
-
-     programs.kitty = {
-       # ...
-     };
-
-     programs.firefox = {
-       # ...
-     };
-
-     programs.zsh = {
-       # ...
-     };
+     # ...
 
    + programs.oh-my-posh = {
    +   enable = true;
@@ -1776,39 +1361,24 @@ The swww wallpaper manager does not have a configuration file; all configuration
    +   };
    + };
 
-     programs.home-manager.enable = true;
+     # ...
    }
    ```
-   Note: While Oh My Posh's documentation suggests to edit `.zshrc`, Home Manager automatically does that. `❱` is `\u2771`; use `$ echo "\u2771"` to see the symbol.
-1. Connect to internet. Use `# nixos-rebuild switch`.
+   While Oh My Posh's documentation suggests to edit `.zshrc`, Home Manager automatically does that. `❱` is `\u2771`; use `$ echo "\u2771"` to see the symbol.
+1. Rebuild the system.
 
 ### Controlling Audio & Bluetooth
-For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Documentation") is used for managing audio. PipeWire is more modern compared to PulseAudio and JACK. While `services.pipewire.enable = true;` is already in my `configuration.nix`, it is recommended to add some extra options.\
+For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Documentation") is used for managing audio. PipeWire is more modern compared to PulseAudio and JACK. While `services.pipewire.enable = true;` is already in my `configuration.nix`, adding some extra options is recommended.\
 [BlueZ](https://www.bluez.org/about/) is the official standard bluetooth package.
 1. Edit `configuration.nix`:
    ```diff
    { config, lib, pkgs, ... }:
    
    {
-     imports =
-       [
-         ./hardware-configuration.nix
-       ];
-   
-     boot.loader = {
-       # ...
-     };
-   
-     nix.settings.experimental-features = [ "nix-command" "flakes" ];
-   
-     networking = {
-       # ...
-     };
-   
-     time.timeZone = "America/New_York";
+     # ...
    
      services = {
-       libinput.enable = true;
+       # ...
    -   pipewire.enable = true;
    +   pipewire = {
    +     enable = true;
@@ -1817,9 +1387,6 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    +     alsa.enable = true;
    +     alsa.support32Bit = true;
    +   };
-       udev.extraRules = ''
-         # ...
-       '';
        # ...
      };
 
@@ -1830,89 +1397,40 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    +   };
    + };
 
-     security.rtkit.enable = true;
-
-     xdg.portal = {
-       # ...
-     };
-
-     users = {
-       # ...
-     };
-   
-     environment = {
-       # ...
-     };
-   
-     programs = {
-       # ...
-     };
-   
-     system.stateVersion = "24.05";
+     # ...
    }
    ```
    [WirePlumber](https://pipewire.pages.freedesktop.org/wireplumber/index.html "WirePlumber Documentation") is PipeWire's *session manager*, a daemon that manages PipeWire.\
    `services.pipewire.pulse.enable = true;` allows PulseAudio applications to work with PipeWire. Likewise, ALSA configurations allow ALSA compatibility.\
    `hardware.bluetooth` configures BlueZ. To use bluetooth, use `$ bluetoothctl`; use `[bluetooth]# scan on`, `[bluetooth]# pair F8:4E:17:D3:E7:4A`, and `[bluetooth]# connect F8:4E:17:D3:E7:4A` to connect to `F8:4E:17:D3:E7:4A`. Use `[bluetooth]# trust F8:4E:17:D3:E7:4A` to automatically connect. Using `[bluetooth]# quit` will not terminate the connection. Use `$ bluetoothctl devices [Paired/Bonded/Trusted/Connected]` to see paired, bonded, trusted, or connected devices.
-1. Connect to internet. Use `# nixos-rebuild switch`.
 1. To bind the buttons <kbd>XF86AudioMute</kbd>, <kbd>XF86AudioLowerVolume</kbd>, and <kbd>XF86AudioRaiseVolume</kbd> to WirePlumber commands to manage volume through Hyprland, edit `home.nix`:
    ```diff
    { config, lib, pkgs, ... }:
-   
-   let
-     # ...
-   
-   in
-   {
-     home = {
-       # ...
-     };
 
-     gtk = {
-       # ...
-     };
+   # ...
+
+   {
+     # ...
 
      wayland.windowManager.hyprland = {
-       enable = true;
+       # ...
        settings = {
-         bind = [
-           # ...
-         ];
+         # ...
          binde = [
-           "SUPER, MINUS, exec, val=$(< /sys/class/backlight/intel_backlight/brightness); tee /sys/class/backlight/intel_backlight/brightness <<< $((val <= 4188 ? 188 : val - 4000))"
-           "SUPER, EQUAL, exec, val=$(< /sys/class/backlight/intel_backlight/brightness); tee /sys/class/backlight/intel_backlight/brightness <<< $((val >= 20000 ? 24000 : val + 4000))"
+           # ...
    +       ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_SINK@ toggle"
    +       ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_SINK@ 2%-"
    +       ", XF86AudioRaiseVolume, exec, wpctl get-volume @DEFAULT_SINK@ | awk '{if ($2 < 2.20) system(\"wpctl set-volume @DEFAULT_SINK 2%+\")}'"
-         ];
-         bindm = [
-           # ...
          ];
          # ...
        };
      };
 
-     programs.kitty = {
-       # ...
-     };
-
-     programs.firefox = {
-       # ...
-     };
-     
-     programs.zsh = {
-       # ...
-     };
-
-     programs.oh-my-posh = {
-       # ...
-     };
-
-     programs.home-manager.enable = true;
+     # ...
    }
    ```
    Note: `wpctl get-volume @DEFAULT_SINK@ | awk '{if ($2 < 2.20) system(\"wpctl set-volume @DEFAULT_SINK 2%+\")}'` or `$ wpctl get-volume @DEFAULT_SINK@ | awk '{if ($2 < 2.20) system("wpctl set-volume @DEFAULT_SINK@ 2%+")}'` raises the volume by 0.02 if the volume is lower than 2.20. Through testing, it seems that while values can go above 2.20 to infinity, values above 2.20 do not actually make the speakers louder.
-1. Connect to internet. Use `# nixos-rebuild switch`.
+1. Rebuild the system.
 
 ### Using Fonts
 1. Edit `configuration.nix`:
@@ -1920,40 +1438,7 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    { config, lib, pkgs, ... }:
    
    {
-     imports =
-       [
-         ./hardware-configuration.nix
-       ];
-   
-     boot.loader = {
-       # ...
-     };
-   
-     nix.settings.experimental-features = [ "nix-command" "flakes" ];
-   
-     networking = {
-       # ...
-     };
-   
-     time.timeZone = "America/New_York";
-   
-     services = {
-       # ...
-     };
-
-     security.rtkit.enable = true;
-
-     xdg.portal = {
-       # ...
-     };
-
-     users = {
-       # ...
-     };
-   
-     environment = {
-       # ...
-     };
+     # ...
 
    + fonts = {
    +   enableDefaultPackages = false;
@@ -1973,11 +1458,7 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    +   };
    + };
    
-     programs = {
-       # ...
-     };
-   
-     system.stateVersion = "24.05";
+     # ...
    }
    ```
    [`fonts.enableDefaultPackages`](https://search.nixos.org/options?channel=unstable&show=fonts.enableDefaultPackages "NixOS.org") installs some fonts like DejaVu; DejaVu was the font used by kitty before this configuration was set to `false` (use `$ kitty +list-fonts` to see the fonts available to kitty). If this configuration was set to `false` and no other fonts are in `fonts.packages`, then kitty's font rendering breaks.\
@@ -1997,7 +1478,7 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
        print(f"Error: {e}")
    ```
    For `f00af`, the script should output `\xf3\xb0\x82\xaf`. Use `$ echo "\xf3\xb0\x82\xaf"` and the symbol should render.
-1. Connect to internet. Use `# nixos-rebuild switch`.
+1. Rebuild the system.
 
 ### Using [Waybar](https://github.com/Alexays/Waybar "GitHub") (WIP)
 1. To install Waybar, edit `configuration.nix`:
@@ -2005,94 +1486,24 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    { config, lib, pkgs, ... }:
    
    {
-     imports =
-       [
-         ./hardware-configuration.nix
-       ];
-   
-     boot.loader = {
-       # ...
-     };
-   
-     nix.settings.experimental-features = [ "nix-command" "flakes" ];
-   
-     networking = {
-       # ...
-     };
-   
-     time.timeZone = "America/New_York";
-   
-     services = {
-       # ...
-     };
-
-     security.rtkit.enable = true;
-
-     xdg.portal = {
-       # ...
-     };
-
-     users = {
-       # ...
-     };
-   
-     environment = {
-       # ...
-     };
-
-     fonts = {
-       # ...
-     };
+     # ...
    
      programs = {
        # ...
-       firefox = {
-         # ...
-       };
-
    +   waybar.enable = true;
      };
    
-     system.stateVersion = "24.05";
+     # ...
    }
    ```
-1. Connect to internet. Use `# nixos-rebuild switch`.
 1. To use Home Manager to configure Waybar, edit `home.nix`:
    ```diff
    { config, lib, pkgs, ... }:
-   
-   let
-     # ...
-   
-   in
+
+   # ...
+
    {
-     home = {
-       # ...
-     };
-
-     gtk = {
-       # ...
-     };
-
-     wayland.windowManager.hyprland = {
-       # ...
-     };
-
-     programs.kitty = {
-       # ...
-     };
-
-     programs.firefox = {
-       # ...
-     };
-
-     programs.zsh = {
-       # ...
-     };
-
-     programs.oh-my-posh = {
-       # ...
-     };
+     # ...
 
    + programs.waybar = {
    +   enable = true;
@@ -2108,7 +1519,7 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    +   '';
    + };
 
-     programs.home-manager.enable = true;
+     # ...
    }
    ```
    Note: `bar` in `programs.waybar.settings.bar` is an arbitrary name for the bar; Waybar supports having multiple bars at the same time, but I only need one bar.
@@ -2117,7 +1528,7 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    \Uf091f, \Uf0922,5,8, \Uf029e no wifi
    \Uf00af is the bluetooth icon, \Uf00b2 disabled, 
    \Uf007a-f, \Uf0080-2, \Uf0079 are battery icons
-1. Connect to internet. Use `# nixos-rebuild switch`.
+1. Rebuild the system.
 
 ### Using VSCode
 [VSCodium](https://github.com/VSCodium/vscodium "GitHub") is VSCode built without telemetry. 
@@ -2126,99 +1537,28 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    { config, lib, pkgs, ... }:
    
    {
-     imports =
-       [
-         ./hardware-configuration.nix
-       ];
-   
-     boot.loader = {
-       # ...
-     };
-   
-     nix.settings.experimental-features = [ "nix-command" "flakes" ];
-   
-     networking = {
-       # ...
-     };
-   
-     time.timeZone = "America/New_York";
-   
-     services = {
-       # ...
-     };
-
-     security.rtkit.enable = true;
-
-     xdg.portal = {
-       # ...
-     };
-
-     users = {
-       # ...
-     };
+     # ...
    
      environment = {
        systemPackages = with pkgs; [
          # ...
-         on-my-posh
    +     vscodium
        ];
-       sessionVariables.NIXOS_OZONE_WL = "1";
+       # ...
      };
 
-     fonts = {
-       # ...
-     };
-   
-     programs = {
-       # ...
-     };
-   
-     system.stateVersion = "24.05";
+     # ...
    }
    ```
    [`vscodium-fhs`](https://nixos.wiki/wiki/Visual_Studio_Code#:~:text=Use%20VS%20Code,the%20above%20guidance.) sacrifices purity for convenience; it is not needed a for purely declarative configuration. 
-1. Connect to internet. Use `# nixos-rebuild switch`.
 1. To use Home Manager to configure VSCodium, edit `home.nix`:
    ```diff
    { config, lib, pkgs, ... }:
-   
-   let
-     # ...
-   
-   in
+
+   # ...
+
    {
-     home = {
-       # ...
-     };
-
-     gtk = {
-       # ...
-     };
-
-     wayland.windowManager.hyprland = {
-       # ...
-     };
-
-     programs.kitty = {
-       # ...
-     };
-
-     programs.firefox = {
-       # ...
-     };
-
-     programs.zsh = {
-       # ...
-     };
-
-     programs.oh-my-posh = {
-       # ...
-     };
-
-     programs.waybar = {
-       # ...
-     };
+     # ...
 
    + programs.vscode = {
    +   enable = true;
@@ -2242,12 +1582,13 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    +   };
    + };
 
-     programs.home-manager.enable = true;
+     # ...
    }
    ```
    The profile name must be `default` since the options `programs.vscode.profiles.<name>.enableExtensionUpdateCheck` and `programs.vscode.profiles.<name>.enableUpdateCheck` are invalid for all profiles except `default`.\
    Launching with `$ codium` shows warning messages with `is not in the list of known options, but still passed to Electron/Chromium`. This is [not](https://github.com/NixOS/nixpkgs/issues/271461 "GitHub") an issue.\
    Similar to Firefox's `~/.mozilla`, the directory `~/.vscode-oss` must be removed in every rebuild if it has been changed by VSCodium for the Home Manager environment to successfully start.
+1. Rebuild the system.
 
 ### WIP
 Using Python Environment
