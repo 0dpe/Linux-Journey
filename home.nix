@@ -114,7 +114,7 @@ in
 	  color_inactive = formatRgba shadowInactive;
 	};
         blur = {
-          size = 6;
+          size = 2;
           passes = 3;
         };
       };
