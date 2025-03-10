@@ -1613,6 +1613,8 @@ VSCode title bar minimize maximize close buttons can crash VSCode but they can't
 
 Minimizing windows in Hyprland or just using workspaces? Minimizing: https://github.com/hyprwm/Hyprland/issues/995 https://github.com/DreamMaoMao/hych/tree/main https://github.com/hyprwm/Hyprland/discussions/8281 https://wiki.hyprland.org/Configuring/Uncommon-tips--tricks/#minimize-windows-using-special-workspaces \
 Finish hyprland animation customization (layers, etc...)\
+https://github.com/alexhulbert/Hyprchroma \
+https://github.com/hyprland-community/awesome-hyprland/blob/main/README.md
 
 finish waybar config: TOOLTIPS CAN BE STYLED \
 
