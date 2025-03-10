@@ -66,6 +66,9 @@
       vscodium
     ];
     sessionVariables.NIXOS_OZONE_WL = "1";
+    shellAliases = {
+      rebuild = "sudo nixos-rebuild switch --flake 'github:0dpe/Linux-Journey#ZHAN' --refresh";
+    };
   };
 
   fonts = {
