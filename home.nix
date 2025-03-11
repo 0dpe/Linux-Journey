@@ -89,7 +89,7 @@
         border_size = 2;
         gaps_in = 4;
         gaps_out = 10;
-        "col.active_border" = "rgba(225, 225, 225, 1.000) rgba(255, 255, 255, 0.650) 45deg";
+        "col.active_border" = "rgb(225, 225, 225) rgba(255, 255, 255, 0.650) 45deg";
         "col.inactive_border" = "rgba(107, 127, 148, 0.500)";
         resize_on_border = true;
       };
