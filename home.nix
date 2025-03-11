@@ -3,7 +3,7 @@
 {
 
   imports = [
-    inputs.nix-colors.homeManagerModules.default;
+    inputs.nix-colors.homeManagerModules.default
   ];
 
   home = {
