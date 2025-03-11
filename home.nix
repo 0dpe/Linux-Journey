@@ -1,4 +1,4 @@
-{ pkgs, lib ... }:
+{ pkgs, lib, ... }:
 
 let
   hslaToRgba = import ./hslaToRgba.nix { inherit lib builtins; };
