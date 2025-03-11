@@ -1446,10 +1446,25 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
   };
 }
 ```
-[`@inputs`](https://youtu.be/HiTgbsFlPzs?t=274 "YouTube") here puts all the parameters in `{ nixpkgs, home-manager, ... }` inside `inputs`. [`specialArgs`](https://discourse.nixos.org/t/how-do-specialargs-work/50615/4 "NixOS Help") is a set of arguments passed to the `modules`; including `inputs` inside `specialArgs` passes `inputs` to  `configuration.nix`. Home Manager's version of `specialArgs` named [`extraSpecialArgs`](https://github.com/nix-community/home-manager/blob/7fb8678716c158642ac42f9ff7a18c0800fea551/nixos/common.nix#L16 "GitHub") combines  \
+[`@inputs`](https://youtu.be/HiTgbsFlPzs?t=274 "YouTube") here puts all the parameters in `{ nixpkgs, home-manager, ... }` inside `inputs`. [`specialArgs`](https://discourse.nixos.org/t/how-do-specialargs-work/50615/4 "NixOS Help") is a set of arguments passed to the `modules`; including `inputs` inside `specialArgs` passes `inputs` to  `configuration.nix`. Home Manager's version of `specialArgs` named [`extraSpecialArgs`](https://github.com/nix-community/home-manager/blob/7fb8678716c158642ac42f9ff7a18c0800fea551/nixos/common.nix#L16 "GitHub") passes `inputs` to `home.nix`.\
+Note: Trying to use `inputs` in `home.nix` without `extraSpecialArgs` in `flake.nix` results in an infinite recursion error for some reason. Trying to use `inputs` in `home.nix` without `specialArgs` in `flake.nix` results in no error. Trying to use `inputs` in `configuration.nix` without `specialArgs` in `flake.nix` also results in the same infinite recursion error.
 Edit `home.nix` to use Nix Colors:
 ```diff
+-{ pkgs, ... }:
++{ pkgs, inputs, config, ... }:
 
+{
+
++ imports = [
++   inputs.nix-colors.homeManagerModules.default
++ ];
+
++ colorScheme = inputs.nix-colors.colorSchemes.tokyo-night-terminal-dark;
+
+
+
+  # ...
+}
 ```
 
 ### Using [Waybar](https://github.com/Alexays/Waybar "GitHub") (WIP)
@@ -1584,7 +1599,9 @@ Finish hyprland animation customization (layers, etc...)\
 https://github.com/alexhulbert/Hyprchroma \
 https://github.com/hyprland-community/awesome-hyprland/blob/main/README.md
 
-finish waybar config: TOOLTIPS CAN BE STYLED \
+finish waybar config: TOOLTIPS CAN BE STYLED
+
+write github action to update flake.lock
 
 Properly manage colors: \
 Pywal alternative\
