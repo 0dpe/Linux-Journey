@@ -8,7 +8,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }: {
+  outputs = { nixpkgs, home-manager, ... }: {
     nixosConfigurations.ZHAN = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
