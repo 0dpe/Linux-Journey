@@ -21,6 +21,7 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.users.tim = import ./home.nix;
+          extraSpecialArgs = { inherit inputs; };
         }
       ];
     };
