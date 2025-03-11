@@ -1413,7 +1413,7 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
 1. Rebuild the system.
 
 ### Managing Colors
-[Nix colors](https://github.com/Misterio77/nix-colors "GitHub") exposes color schemes in the [Base16](https://tinted-theming.github.io/tinted-gallery "Tinted Gallery") framework for use in `.nix` files. Each Base16 theme contains 16 colors; there are many hand crafted themes, and Nix Colors has functionality for generating Base16 themes from images or wallpapers. Nix Colors is not in nixpkgs, so to install it, edit `flake.nix`:
+[Nix Colors](https://github.com/Misterio77/nix-colors "GitHub") exposes color schemes in the [Base16](https://tinted-theming.github.io/tinted-gallery "Tinted Gallery") framework for use in `.nix` files. Each Base16 theme contains 16 colors; there are many hand crafted themes, and Nix Colors has functionality for generating Base16 themes from images or wallpapers. Nix Colors is not in nixpkgs, so to install it, edit `flake.nix`:
 ```diff
 {
   description = "NixOS configuration flake";
