@@ -744,7 +744,7 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    ```
    Since I am using Hyprland from `pkgs.hyprland`, I do not need to specify `wayland.windowManager.hyprland.package` for Home Manager.\
    Options that have syntax similar to Nix need to be wrapped in `""`.\
-   Although trackpad (libinput) configuration can be done through `configuration.nix`, that [doesn't work](https://discourse.nixos.org/t/xorg-libinput-configuration-seems-to-be-ignored/15504) for me (`/etc/X11/xorg.conf` isn't generated), so I use Hyprland's options instead.\
+   Although trackpad (libinput) configuration can be done through `configuration.nix`, that [doesn't work](https://discourse.nixos.org/t/xorg-libinput-configuration-seems-to-be-ignored/15504 "NixOS Help") for me (`/etc/X11/xorg.conf` isn't generated), so I use Hyprland's options instead.\
    On the [Hyprland wiki](https://wiki.hyprland.org/Configuring/Variables/#touchpad:~:text=bool-,false,-Touchdevice), `touch-and-drag`'s default is marked as `false`, but in reality it's default is actually `true`, so I explicitly set it.
 1. Connect to internet. Use `# nixos-rebuild switch`.\
    An error occurs since a configuration file for Hyprland was automatically generated when installing Hyprland. Home Manager will not overwrite this existing configuration file.
@@ -1413,7 +1413,7 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
 1. Rebuild the system.
 
 ### Managing Colors
-[Nix colors](https://github.com/Misterio77/nix-colors "GitHub") exposes color schemes in the [Base16](https://tinted-theming.github.io/tinted-gallery/ "Tinted Gallery") framework for use in `.nix` files. Each Base16 theme contains 16 colors; there are many hand crafted themes, and Nix Colors has functionality for generating Base16 themes from images or wallpapers. Nix Colors is not in nixpkgs, so to install it, edit `flake.nix`:
+[Nix colors](https://github.com/Misterio77/nix-colors "GitHub") exposes color schemes in the [Base16](https://tinted-theming.github.io/tinted-gallery "Tinted Gallery") framework for use in `.nix` files. Each Base16 theme contains 16 colors; there are many hand crafted themes, and Nix Colors has functionality for generating Base16 themes from images or wallpapers. Nix Colors is not in nixpkgs, so to install it, edit `flake.nix`:
 ```diff
 {
   description = "NixOS configuration flake";
@@ -1439,13 +1439,18 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.users.tim = import ./home.nix;
++         home-manager.extraSpecialArgs = { inherit inputs; };
         }
       ];
     };
   };
 }
 ```
+[`@inputs`](https://youtu.be/HiTgbsFlPzs?t=274 "YouTube") here puts all the parameters in `{ nixpkgs, home-manager, ... }` inside `inputs`. [`specialArgs`](https://discourse.nixos.org/t/how-do-specialargs-work/50615/4 "NixOS Help") is a set of arguments passed to the `modules`; including `inputs` inside `specialArgs` passes `inputs` to  `configuration.nix`. Home Manager's version of `specialArgs` named [`extraSpecialArgs`](https://github.com/nix-community/home-manager/blob/7fb8678716c158642ac42f9ff7a18c0800fea551/nixos/common.nix#L16 "GitHub") combines  \
+Edit `home.nix` to use Nix Colors:
+```diff
 
+```
 
 ### Using [Waybar](https://github.com/Alexays/Waybar "GitHub") (WIP)
 1. To install Waybar, edit `configuration.nix`:
