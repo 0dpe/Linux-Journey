@@ -200,7 +200,7 @@ Installing NixOS minimal (no GNOME or KDE) on an HP ZHAN 66 Pro 14 G2:
    I'm using UEFI, and `boot.loader.systemd-boot.enable = true;` and `boot.loader.efi.canTouchEfiVariables = true;` have already been automatically uncommented, so I don't have to change that.\
    Uncomment or edit:
    ```nix
-   { config, lib, pkgs, ... }:
+   { pkgs, ... }:
 
    {
      imports =
@@ -281,7 +281,7 @@ An output for flakes used by NixOS is `nixosConfigurations`. So, I can declarati
 Enable flakes for NixOS:
 1. Flakes is still an experimental feature; enable it by adding in `configuration.nix`:
    ```diff
-   { config, lib, pkgs, ... }:
+   { pkgs, ... }:
 
    {
      # ...
@@ -309,7 +309,7 @@ Switch system configuration to a flake:
        nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
      };
 
-     outputs = { self, nixpkgs, ... }: {
+     outputs = { nixpkgs, ... }: {
        nixosConfigurations.ZHAN = nixpkgs.lib.nixosSystem {
          system = "x86_64-linux";
          modules = [
@@ -319,7 +319,7 @@ Switch system configuration to a flake:
      };
    }
    ```
-   The input is the nixpkgs unstable channel, the git repository. The output is `nixosConfigurations` of `ZHAN`. `ZHAN` is my hostname; with "flakes" experimental feature enabled, [`# nixos-rebuild switch`](https://nixos.wiki/wiki/Nixos-rebuild#with_Flakes "NixOS Wiki") by default looks for the file `/etc/nixos/flake.nix` and builds the `nixosConfigurations` item matching the current hostname of the OS. To specify a different flake directory and hostname, use `# nixos-rebuild switch --flake /path/to/flake#hostname`. `configuration.nix` is included; `.` is a navigation shortcut for the current directory (on a side note, `..` is the *parent* directory).
+   The input is the nixpkgs unstable channel, the git repository. The output is `nixosConfigurations` of `ZHAN`. `ZHAN` is my hostname; with the flakes experimental feature enabled, [`# nixos-rebuild switch`](https://nixos.wiki/wiki/Nixos-rebuild#with_Flakes "NixOS Wiki") by default looks for the file `/etc/nixos/flake.nix` and builds the `nixosConfigurations` item matching the current hostname of the OS. To specify a different flake directory and hostname, use `# nixos-rebuild switch --flake /path/to/flake#hostname`. `configuration.nix` is included; `.` is a navigation shortcut for the current directory (on a side note, `..` is the *parent* directory). 
 1. Connect to internet. Use `# nixos-rebuild switch`. Wait a few minutes.\
    A `flake.lock` file is generated in `/etc/nixos`; use `$ ls` to see `configuration.nix  flake.lock  flake.nix  hardware-configuration.nix`.
 
@@ -344,8 +344,8 @@ Install Home Manager as a NixOS module:
    +   home-manager.inputs.nixpkgs.follows = "nixpkgs";
      };
    
-   - outputs = { self, nixpkgs, ... }: {
-   + outputs = { self, nixpkgs, home-manager, ... }: {
+   - outputs = { nixpkgs, ... }: {
+   + outputs = { nixpkgs, home-manager, ... }: {
        nixosConfigurations.ZHAN = nixpkgs.lib.nixosSystem {
          system = "x86_64-linux";
          modules = [
@@ -361,10 +361,11 @@ Install Home Manager as a NixOS module:
      };
    }
    ```
-   Since Home Manager [isn't](https://discourse.nixos.org/t/why-isnt-more-of-home-manager-merged-into-nixpkgs/6096/12 "NixOS Help") part of the nixpkgs repository, it is installed through adding its channel in the inputs of the flake. `home-manager.inputs.nixpkgs.follows = "nixpkgs";` [reduces](https://drakerossman.com/blog/how-to-add-home-manager-to-nixos#how-to-add-home-manager-to-your-system:~:text=The%20home%2Dmanager,scenario%20is%20unlikely "Drake Rossman's Website") the number of inputs the flake depends on; packages installed through Home Manager will still be installed from the same `nixos-unstable` branch used for `configuration.nix`. [`useGlobalPkgs`](https://nix-community.github.io/home-manager/nixos-options.xhtml#nixos-opt-home-manager.useGlobalPkgs "Home Manager Manual") and [`useUserPackages`](https://nix-community.github.io/home-manager/nixos-options.xhtml#nixos-opt-home-manager.useUserPackages "Home Manager Manual") explained [here](https://nix-community.github.io/home-manager/index.xhtml#sec-install-nixos-module "Home Manager Manual").
+   Since Home Manager [isn't](https://discourse.nixos.org/t/why-isnt-more-of-home-manager-merged-into-nixpkgs/6096/12 "NixOS Help") part of the nixpkgs repository, it is installed through adding its channel in the inputs of the flake. `home-manager.inputs.nixpkgs.follows = "nixpkgs";` [reduces](https://drakerossman.com/blog/how-to-add-home-manager-to-nixos#how-to-add-home-manager-to-your-system:~:text=The%20home%2Dmanager,scenario%20is%20unlikely "Drake Rossman's Website") the number of inputs the flake depends on; packages installed through Home Manager will still be installed from the same `nixos-unstable` branch used for `configuration.nix`. [`useGlobalPkgs`](https://nix-community.github.io/home-manager/nixos-options.xhtml#nixos-opt-home-manager.useGlobalPkgs "Home Manager Manual") and [`useUserPackages`](https://nix-community.github.io/home-manager/nixos-options.xhtml#nixos-opt-home-manager.useUserPackages "Home Manager Manual") explained [here](https://nix-community.github.io/home-manager/index.xhtml#sec-install-nixos-module "Home Manager Manual"). Since Home Manager is inside `modules` of ``nixosSystem`, Home Manager will be rebuilt whenever the system is rebuilt, which is an effect of installing Home Manager as a NixOS module.\ 
+   Note: To install Home Manager standalone with flakes, `homeConfigurations.ZHAN = home-manager.lib.homeManagerConfiguration { # ... }` would be used inside `flake.nix` right beside `nixosConfigurations.ZHAN = nixpkgs.lib.nixosSystem { # ... }`. 
 1. Create and edit `/etc/nixos/home.nix` (unlike non-flake setups, `home.nix` must be present [before](https://nix-community.github.io/home-manager/index.xhtml#sec-flakes-prerequisites "Home Manager Manual") the flake is built):
    ```nix
-   { config, lib, pkgs, ... }:
+   { pkgs, ... }:
    
    {
      home = {
@@ -533,7 +534,7 @@ I did not completely shut down Windows 10 before booting into NixOS. Upon shutti
 ### Using Zsh
 In `configuration.nix`, add:
 ```diff
-{ config, lib, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   # ...
@@ -578,7 +579,7 @@ Note: There is a distinction between installing a package, and enabling or confi
 Install Hyprland (and kitty) from nixpkgs for all users:
 1. In `configuration.nix`, add:
    ```diff
-   { config, lib, pkgs, ... }:
+   { pkgs, ... }:
    
    {
      # ...
@@ -598,7 +599,8 @@ Install Hyprland (and kitty) from nixpkgs for all users:
      # ...
    }
    ```
-   [kitty](https://search.nixos.org/packages?channel=24.05&show=kitty&from=0&size=50&sort=relevance&type=packages&query=kitty "NixOS.org Search") is the [default](https://wiki.hyprland.org/Getting-Started/Master-Tutorial/#install-hyprland "Hyprland Wiki") terminal emulator. Following [wiki](https://wiki.hyprland.org/Nix/ "Hyprland Wiki"), only 1 environment variable is defined. `XWayland` is enabled by [default](https://search.nixos.org/options?channel=unstable&show=programs.hyprland.xwayland.enable "NixOS.org").
+   [kitty](https://search.nixos.org/packages?channel=24.05&show=kitty&from=0&size=50&sort=relevance&type=packages&query=kitty "NixOS.org Search") is the [default](https://wiki.hyprland.org/Getting-Started/Master-Tutorial/#install-hyprland "Hyprland Wiki") terminal emulator. Following [wiki](https://wiki.hyprland.org/Nix/ "Hyprland Wiki"), only 1 environment variable is defined. `XWayland` is enabled by [default](https://search.nixos.org/options?channel=unstable&show=programs.hyprland.xwayland.enable "NixOS.org").\
+   Note: Notice the `{ pkgs, ... }` at the start of `configuration.nix` and `home.nix`. Nix is a functional language; `configuration.nix` and `home.nix` are both functions, and `pkgs` and `...` are parameters. NixOS passes `configuration.nix` and `home.nix` the parameters during rebuild. `...` lets Nix know to have any parameters that might be needed, while `pkgs` is specifically included so that `pkgs` is defined when it is used in `systemPackages = with pkgs; [ # ... ]`. As `home.nix` does not have any usage of `pkgs` so far, technically, the first line of `home.nix` can be stripped down to just `{ ... }:`; however, `pkgs` will very likely be used in `home.nix` at some point. For more information about the Nix language, see [here](https://youtu.be/HiTgbsFlPzs "YouTube").
 1. Connect to internet. Use `# nixos-rebuild switch`.
 1. Reboot. Use `$ Hyprland` to see that Hyprland works. No crashes.
 
@@ -625,7 +627,7 @@ Fixing kitty and xdg-desktop-portal:
    This pipewire error can be fixed by adding `services.pipewire.enable = true;` to `configuration.nix`. After doing so, no xdg-desktop-portal errors occur.
 1. All additions to `configuration.nix` as a result of the errors:
    ```diff
-   { config, lib, pkgs, ... }:
+   { pkgs, ... }:
    
    {
      # ...
@@ -648,64 +650,10 @@ Fixing kitty and xdg-desktop-portal:
 1. Connect to internet. Use `# nixos-rebuild switch`.
 
 Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#opt-wayland.windowManager.hyprland.enable "Home Manager Manual") to configure [Hyprland](https://wiki.hyprland.org/Configuring/Configuring-Hyprland/ "Hyprland Wiki"):
-1. Create and edit `/etc/nixos/hslaToRgba.nix`:
-   ```nix
-   { lib, builtins }:
-
-   let
-     mod = x: y: x - y * (builtins.floor (x / y));
-     abs = x: if x < 0 then -x else x;
-
-     hslaToRgba = hsla:
-       let
-         h = mod hsla.h 360 / 60.0;
-         s = hsla.s;
-         l = hsla.l;
-         a = hsla.a;
-   
-         c = (1 - abs(2 * l - 1)) * s;
-         x = c * (1 - abs (mod h 2 - 1));
-         m = l - c / 2;
-   
-         rgb' =
-           if h < 1 then { r = c; g = x; b = 0; }
-           else if h < 2 then { r = x; g = c; b = 0; }
-           else if h < 3 then { r = 0; g = c; b = x; }
-           else if h < 4 then { r = 0; g = x; b = c; }
-           else if h < 5 then { r = x; g = 0; b = c; }
-           else { r = c; g = 0; b = x; };
-   
-         round = x: builtins.floor (x * 255 + 0.5);
-         r = round (rgb'.r + m);
-         g = round (rgb'.g + m);
-         b = round (rgb'.b + m);
-         alpha = round a;
-   
-         toHex = x: let 
-           hex = lib.toHexString (lib.min 255 (lib.max 0 x));
-         in if builtins.stringLength hex == 1 then "0${hex}" else hex;
-       in
-       "${toHex r}${toHex g}${toHex b}${toHex alpha}";
-   in
-   hslaToRgba
-   ```
-   Hyprland uses hexadecimal RGBA format to configure colors, which is not human readable. `hslaToRgba.nix` converts HSLA to hexadecimal RGBA. 
 1. Edit `home.nix`:
    ```diff
-   { config, lib, pkgs, ... }:
-   
-   +let
-   + hslaToRgba = import ./hslaToRgba.nix { inherit lib builtins; };
-   + formatRgba = color: "rgba(${hslaToRgba color})";
+   { pkgs, ... }:
 
-   + borderGradientDegree = 45;
-   + borderActive1 = { h = 0; s = 0.0; l = 1.0; a = 1; };
-   + borderActive2 = { h = 0; s = 0.0; l = 1.0; a = 0.65; };
-   + borderInactive = { h = 210; s = 0.16; l = 0.5; a = 0.5; };
-   + shadowActive = { h = 185; s = 0.5; l = 0.6; a = 0.1; };
-   + shadowInactive = { h = 0; s = 0.0; l = 0.2; a = 0.1; };
-
-   +in
    {
      # ...
 
@@ -746,8 +694,8 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    +       border_size = 2;
    +       gaps_in = 4;
    +       gaps_out = 10;
-   +       "col.active_border" = "${formatRgba borderActive1} ${formatRgba borderActive2} ${toString borderGradientDegree}deg";
-   +       "col.inactive_border" = formatRgba borderInactive;
+   +       "col.active_border" = "rgba(225,225,225,1) rgba(255,255,255,0.65) 45deg";
+   +       "col.inactive_border" = "rgba(107,127,148,0.5)";
    +       resize_on_border = true;
    +     };
    +     decoration = {
@@ -755,11 +703,11 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    +       shadow = {
    +         range = 6;
    +         render_power = 1;
-   +         color = formatRgba shadowActive;
-   +         color_inactive = formatRgba shadowInactive;
+   +         color = "rgba(102,196,204,0.1)";
+   +         color_inactive = "rgba(51,51,51,0.1)";
    +       };
    +       blur = {
-   +         size = 6;
+   +         size = 4;
    +         passes = 3;
    +       };
    +     };
@@ -797,7 +745,7 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    Since I am using Hyprland from `pkgs.hyprland`, I do not need to specify `wayland.windowManager.hyprland.package` for Home Manager.\
    Options that have syntax similar to Nix need to be wrapped in `""`.\
    Although trackpad (libinput) configuration can be done through `configuration.nix`, that [doesn't work](https://discourse.nixos.org/t/xorg-libinput-configuration-seems-to-be-ignored/15504) for me (`/etc/X11/xorg.conf` isn't generated), so I use Hyprland's options instead.\
-   On the [Hyprland wiki](https://wiki.hyprland.org/Configuring/Variables/#touchpad:~:text=bool-,false,-Touchdevice), `touch-and-drag`'s default is marked as `false`, but in reality it's default is actually `true`, so I explicitly set it.
+   On the [Hyprland wiki](https://wiki.hyprland.org/Configuring/Variables/#touchpad:~:text=bool-,false,-Touchdevice), `touch-and-drag`'s default is marked as `false`, but in reality it's default is actually `true`, so I explicitly set it.\
 1. Connect to internet. Use `# nixos-rebuild switch`.\
    An error occurs since a configuration file for Hyprland was automatically generated when installing Hyprland. Home Manager will not overwrite this existing configuration file.
 1. Use `$ rm ~/.config/hypr/hyprland.conf`, then `# nixos-rebuild switch` again.\
@@ -807,9 +755,7 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
 Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#opt-programs.kitty.enable "Home Manager Manual") to configure [kitty](https://sw.kovidgoyal.net/kitty/conf/ "Kitty Documentation"):
 1. Edit `home.nix`:
    ```diff
-   { config, lib, pkgs, ... }:
-   
-   # ...
+   { pkgs, ... }:
 
    {
      # ...
@@ -853,7 +799,7 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
 In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by NixOS. Installing `firefox-bin` instead of the normal non-precompiled version does not seem to make a difference during configuration with Home Manager or `configuration.nix`.
 1. To install `firefox-bin` for all users, edit `configuration.nix`:
    ```diff
-   { config, lib, pkgs, ... }:
+   { pkgs, ... }:
    
    {
      # ...
@@ -942,7 +888,7 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    ```
    Although Hyprland has Hyprcursor which is superior to XCursor, some applications like Firefox [don't support](https://wiki.hyprland.org/Hypr-Ecosystem/hyprcursor/#important-notes "Hyprland Wiki") Hyprcursor and will fall back to XCursor. I don't have any Hyprcursor themes installed, so Hyprland is also falling back to XCursor. I don't have any custom XCursor themes installed. To customize the cursor in XCursor, edit `configuration.nix`:
    ```diff
-   { config, lib, pkgs, ... }:
+   { pkgs, ... }:
    
    {
      # ...
@@ -960,9 +906,7 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    ```
    And edit `home.nix`:
    ```diff
-   { config, lib, pkgs, ... }:
-   
-   # ...
+   { pkgs, ... }:
 
    {
      home = {
@@ -991,9 +935,7 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    After connecting to internet and using `# nixos-rebuild switch`, running Firefox shows no error messages.
 1. To use Home Manager to configure Firefox, edit `home.nix`:
    ```diff
-   { config, lib, pkgs, ... }:
-   
-   # ...
+   { pkgs, ... }:
 
    {
      # ...
@@ -1066,11 +1008,11 @@ In nixpkgs, `*-bin` means precompiled binary; `*-unwrapped` means not wrapped by
    Remove the directories `~/.mozilla` and `~/.cache/mozilla`. Connect to internet. Use `# nixos-rebuild switch`.
 
 ### Hosting Configurations on GitHub 
-Since the `nixos-rebuild` command [allows](https://nixos.wiki/wiki/Flakes#Using_nix_flakes_with_NixOS:~:text=To%20switch%20a,fast%20%5C%0A%20%20switch "NixOS Wiki") using a flake from remote locations, not just `/etc/nixos`, all files in `/etc/nixos` can be moved to a GitHub repository for the system to rebuild from. To do this, upload all the files (`flake.nix` `flake.lock` `configuration.nix` `hardware-configuration.nix` `home.nix` `hslaToRgba.nix`) in `/etc/nixos` to a GitHub repository. From now on, use `# nixos-rebuild switch --flake github:0dpe/Linux-Journey#ZHAN --refresh` instead of just `# nixos-rebuild switch`, and rebuilds always require internet access. All files in `/etc/nixos` can be removed.\
+Since the `nixos-rebuild` command [allows](https://nixos.wiki/wiki/Flakes#Using_nix_flakes_with_NixOS:~:text=To%20switch%20a,fast%20%5C%0A%20%20switch "NixOS Wiki") using a flake from remote locations, not just `/etc/nixos`, all files in `/etc/nixos` can be moved to a GitHub repository for the system to rebuild from. To do this, upload all the files (`flake.nix` `flake.lock` `configuration.nix` `hardware-configuration.nix` `home.nix`) in `/etc/nixos` to a GitHub repository. From now on, use `# nixos-rebuild switch --flake github:0dpe/Linux-Journey#ZHAN --refresh` instead of just `# nixos-rebuild switch`, and rebuilds always require internet access. All files in `/etc/nixos` can be removed.\
 Note: The [`--refresh`](https://www.reddit.com/r/NixOS/comments/1c2wh5j/nixosrebuild_doesnt_do_anything/ "Reddit") flag is required for `nixos-rebuild` to use the repository all the time. Without the flag, `nixos-rebuild` only checks the repository once in a one hour duration.\
 For shortening the command, add in `configuration.nix`:
 ```diff
-{ config, lib, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   # ...
@@ -1093,7 +1035,7 @@ Packages like `light` and `brightnessctl` work on Wayland and make changing scre
 Notes: Using `$ sudo echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_brightness` does not work because `sudo` elevates the command that follows it (`echo` in this case), not the redirector operator `>` which is handled by the command shell (zsh for me). `sudo` here does not affect the command shell's operations; `>` is supposed to write the output of `echo MY_NUMBER` to the file `brightness` but it's operated by the command shell which doesn't have permission. Using `# echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_brightness` works because while using commands as root, all operations, including the command shell's operations, are performed with root privileges. Also, to use the command without root, use `$ sudo sh -c 'echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_brightness'`. `<<<` (*here string*) is also a command shell operation, but in `$ sudo tee /sys/class/backlight/intel_backlight/brightness <<< MY_NUMBER` `tee` actually does the writing, and `tee` has elevated privileges. `<<<` only passes the string to `tee` for `tee` to modify the file `brightness`.
 1. To allow modification of the file `brightness` without `sudo` for all users, edit `configuration.nix`:
    ```diff
-   { config, lib, pkgs, ... }:
+   { pkgs, ... }:
    
    {
      # ...
@@ -1112,9 +1054,7 @@ Notes: Using `$ sudo echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_b
    After rebuild the system and then rebooting, `/sys/class/backlight/intel_backlight/brightness` has permissions `-rw-rw-rw-`.
 1. To bind dynamic commands to keybinds to change screen brightness in Hyprland, edit `home.nix`:
    ```diff
-   { config, lib, pkgs, ... }:
-   
-   # ...
+   { pkgs, ... }:
 
    {
      # ...
@@ -1140,7 +1080,7 @@ Notes: Using `$ sudo echo MY_NUMBER > /sys/class/backlight/intel_backlight/max_b
 Since I only have one user and one window manager or desktop environment, I do not need a graphical display manager, or any display manager at all.
 1. To automate typing in the username, edit `configuration.nix`:
    ```diff
-   { config, lib, pkgs, ... }:
+   { pkgs, ... }:
    
    {
      # ...
@@ -1157,9 +1097,7 @@ Since I only have one user and one window manager or desktop environment, I do n
    `services.getty.autologinUser` is not used because it skips the password too.
 1. To start Hyprland automatically after login, edit `home.nix`:
    ```diff
-   { config, lib, pkgs, ... }:
-   
-   # ...
+   { pkgs, ... }:
 
    {
      # ...
@@ -1185,7 +1123,7 @@ Since I only have one user and one window manager or desktop environment, I do n
 The swww wallpaper manager does not have a configuration file; all configurations are done through commands.
 1. To install swww, edit `configuration.nix`:
    ```diff
-   { config, lib, pkgs, ... }:
+   { pkgs, ... }:
    
    {
      # ...
@@ -1204,9 +1142,7 @@ The swww wallpaper manager does not have a configuration file; all configuration
 1. Use `$ mkdir /home/tim/Wallpapers` to create a directory for the wallpapers.
 1. To autostart swww and automatically randomize wallpapers, edit `home.nix`:
    ```diff
-   { config, lib, pkgs, ... }:
-   
-   # ...
+   { pkgs, ... }:
 
    {
      home = {
@@ -1288,7 +1224,7 @@ The swww wallpaper manager does not have a configuration file; all configuration
 [Oh My Posh](https://ohmyposh.dev/docs/ "Oh My Posh Documentation") is used for making shells look better. 
 1. To install Oh My Posh, edit `configuration.nix`:
    ```diff
-   { config, lib, pkgs, ... }:
+   { pkgs, ... }:
    
    {
      # ...
@@ -1306,9 +1242,7 @@ The swww wallpaper manager does not have a configuration file; all configuration
    ```
 1. To use Home Manager to configure Oh My Posh, edit `home.nix`:
    ```diff
-   { config, lib, pkgs, ... }:
-   
-   # ...
+   { pkgs, ... }:
 
    {
      # ...
@@ -1372,7 +1306,7 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
 [BlueZ](https://www.bluez.org/about/) is the official standard bluetooth package.
 1. Edit `configuration.nix`:
    ```diff
-   { config, lib, pkgs, ... }:
+   { pkgs, ... }:
    
    {
      # ...
@@ -1405,9 +1339,7 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    `hardware.bluetooth` configures BlueZ. To use bluetooth, use `$ bluetoothctl`; use `[bluetooth]# scan on`, `[bluetooth]# pair F8:4E:17:D3:E7:4A`, and `[bluetooth]# connect F8:4E:17:D3:E7:4A` to connect to `F8:4E:17:D3:E7:4A`. Use `[bluetooth]# trust F8:4E:17:D3:E7:4A` to automatically connect. Using `[bluetooth]# quit` will not terminate the connection. Use `$ bluetoothctl devices [Paired/Bonded/Trusted/Connected]` to see paired, bonded, trusted, or connected devices.
 1. To bind the buttons <kbd>XF86AudioMute</kbd>, <kbd>XF86AudioLowerVolume</kbd>, and <kbd>XF86AudioRaiseVolume</kbd> to WirePlumber commands to manage volume through Hyprland, edit `home.nix`:
    ```diff
-   { config, lib, pkgs, ... }:
-
-   # ...
+   { pkgs, ... }:
 
    {
      # ...
@@ -1435,8 +1367,8 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
 ### Using Fonts
 1. Edit `configuration.nix`:
    ```diff
-   { config, lib, pkgs, ... }:
-   
+   { pkgs, ... }:
+
    {
      # ...
 
@@ -1480,10 +1412,45 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    For `f00af`, the script should output `\xf3\xb0\x82\xaf`. Use `$ echo "\xf3\xb0\x82\xaf"` and the symbol should render.
 1. Rebuild the system.
 
+### Managing Colors
+[Nix colors](https://github.com/Misterio77/nix-colors "GitHub") exposes color schemes in the [Base16](https://tinted-theming.github.io/tinted-gallery/ "Tinted Gallery") framework for use in `.nix` files. Each Base16 theme contains 16 colors; there are many hand crafted themes, and Nix Colors has functionality for generating Base16 themes from images or wallpapers. Nix Colors is not in nixpkgs, so to install it, edit `flake.nix`:
+```diff
+{
+  description = "NixOS configuration flake";
+
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
++   nix-colors.url = "github:misterio77/nix-colors";
+  };
+
+- outputs = { nixpkgs, home-manager, ... }: {
++ outputs = { nixpkgs, home-manager, ... }@inputs: {
+    nixosConfigurations.ZHAN = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
++     specialArgs = { inherit inputs; };
+      modules = [
+        ./configuration.nix
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.tim = import ./home.nix;
+        }
+      ];
+    };
+  };
+}
+```
+
+
 ### Using [Waybar](https://github.com/Alexays/Waybar "GitHub") (WIP)
 1. To install Waybar, edit `configuration.nix`:
    ```diff
-   { config, lib, pkgs, ... }:
+   { pkgs, ... }:
    
    {
      # ...
@@ -1498,9 +1465,7 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    ```
 1. To use Home Manager to configure Waybar, edit `home.nix`:
    ```diff
-   { config, lib, pkgs, ... }:
-
-   # ...
+   { pkgs, ... }:
 
    {
      # ...
@@ -1534,7 +1499,7 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
 [VSCodium](https://github.com/VSCodium/vscodium "GitHub") is VSCode built without telemetry. 
 1. To install VSCodium, edit `configuration.nix`:
    ```diff
-   { config, lib, pkgs, ... }:
+   { pkgs, ... }:
    
    {
      # ...
@@ -1553,9 +1518,7 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    [`vscodium-fhs`](https://nixos.wiki/wiki/Visual_Studio_Code#:~:text=Use%20VS%20Code,the%20above%20guidance.) sacrifices purity for convenience; it is not needed a for purely declarative configuration. 
 1. To use Home Manager to configure VSCodium, edit `home.nix`:
    ```diff
-   { config, lib, pkgs, ... }:
-
-   # ...
+   { pkgs, ... }:
 
    {
      # ...
