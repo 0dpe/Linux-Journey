@@ -1412,7 +1412,7 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    For `f00af`, the script should output `\xf3\xb0\x82\xaf`. Use `$ echo "\xf3\xb0\x82\xaf"` and the symbol should render.
 1. Rebuild the system.
 
-### Managing Colors
+### Managing Colors (WIP)
 [Nix Colors](https://github.com/Misterio77/nix-colors "GitHub") exposes color schemes in the [Base16](https://tinted-theming.github.io/tinted-gallery "Tinted Gallery") framework for use in `.nix` files. Each Base16 theme contains 16 colors; there are many hand crafted themes, and Nix Colors has functionality for generating Base16 themes from images or wallpapers. Nix Colors is not in nixpkgs, so to install it, edit `flake.nix`:
 ```diff
 {
@@ -1447,7 +1447,7 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
 }
 ```
 [`@inputs`](https://youtu.be/HiTgbsFlPzs?t=274 "YouTube") here puts all the parameters in `{ nixpkgs, home-manager, ... }` inside `inputs`. [`specialArgs`](https://discourse.nixos.org/t/how-do-specialargs-work/50615/4 "NixOS Help") is a set of arguments passed to the `modules`; including `inputs` inside `specialArgs` passes `inputs` to  `configuration.nix`. Home Manager's version of `specialArgs` named [`extraSpecialArgs`](https://github.com/nix-community/home-manager/blob/7fb8678716c158642ac42f9ff7a18c0800fea551/nixos/common.nix#L16 "GitHub") passes `inputs` to `home.nix`.\
-Note: Trying to use `inputs` in `home.nix` without `extraSpecialArgs` in `flake.nix` results in an infinite recursion error for some reason. Trying to use `inputs` in `home.nix` without `specialArgs` in `flake.nix` results in no error. Trying to use `inputs` in `configuration.nix` without `specialArgs` in `flake.nix` also results in the same infinite recursion error.
+Note: Trying to use `inputs` in `home.nix` without `extraSpecialArgs` in `flake.nix` results in an infinite recursion error for some reason. Trying to use `inputs` in `home.nix` without `specialArgs` in `flake.nix` results in no error. Trying to use `inputs` in `configuration.nix` without `specialArgs` in `flake.nix` also results in the same infinite recursion error.\
 Edit `home.nix` to use Nix Colors:
 ```diff
 -{ pkgs, ... }:
