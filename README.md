@@ -1485,7 +1485,7 @@ Edit `home.nix` to use Nix Colors:
    ```
 1. To use Home Manager to configure Waybar, edit `home.nix`:
    ```diff
-   { pkgs, ... }:
+   { pkgs, inputs, config, ... }:
 
    {
      # ...
@@ -1538,7 +1538,7 @@ Edit `home.nix` to use Nix Colors:
    [`vscodium-fhs`](https://nixos.wiki/wiki/Visual_Studio_Code#:~:text=Use%20VS%20Code,the%20above%20guidance.) sacrifices purity for convenience; it is not needed a for purely declarative configuration. 
 1. To use Home Manager to configure VSCodium, edit `home.nix`:
    ```diff
-   { pkgs, ... }:
+   { pkgs, inputs, config, ... }:
 
    {
      # ...
@@ -1585,8 +1585,6 @@ Flakes can be used with `shell.nix` to define the input nixpkgs channel.
 
 All things in NixOS are packages. The system is a package that depends on whatever packages you install (like Firefox). Packages are built with stdenv.mkDerivation. mkShell is just a wrapper of stdenv.mkDerivation. 
 
-
-
 `# nix-collect-garbage -d` deletes generations and store objects.\
 `$ nix-collect-garbage -d` deletes home manager generations? https://discourse.nixos.org/t/home-manager-and-garbage-collection/41715
 
@@ -1602,13 +1600,6 @@ https://github.com/hyprland-community/awesome-hyprland/blob/main/README.md
 finish waybar config: TOOLTIPS CAN BE STYLED
 
 write github action to update flake.lock
-
-Properly manage colors: \
-Pywal alternative\
-https://sw.kovidgoyal.net/kitty/conf/#the-color-table \
-https://github.com/Misterio77/flavours \
-https://github.com/warpwm/lule + https://github.com/Misterio77/nix-colors? \
-https://github.com/danth/stylix is a bit magical, it might interfere with transparency settings and it sets the wallpaper, font, and cursor too? \
 
 Home manage git\
 Zsh frameworks? oh my zsh, prezto, zinit, antigen, \
