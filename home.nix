@@ -1,22 +1,10 @@
 { pkgs, lib, ... }:
 
-let
-  hslaToRgba = import ./hslaToRgba.nix { inherit lib builtins; };
-  formatRgba = color: "rgba(${hslaToRgba color})";
-
-  borderGradientDegree = 45;
-  borderActive1 = { h = 0; s = 0.0; l = 1.0; a = 1; };
-  borderActive2 = { h = 0; s = 0.0; l = 1.0; a = 0.65; };
-  borderInactive = { h = 210; s = 0.16; l = 0.5; a = 0.5; };
-  shadowActive = { h = 185; s = 0.5; l = 0.6; a = 0.1; };
-  shadowInactive = { h = 0; s = 0.0; l = 0.2; a = 0.1; };
- 
-in
 {
   home = {
     username = "tim";
     homeDirectory = "/home/tim";
-    stateVersion = "24.05"; # Do not change
+    stateVersion = "24.05";
     pointerCursor = {
       package = pkgs.capitaine-cursors;
       name = "capitaine-cursors";
@@ -101,8 +89,8 @@ in
         border_size = 2;
         gaps_in = 4;
         gaps_out = 10;
-        "col.active_border" = "${formatRgba borderActive1} ${formatRgba borderActive2} ${toString borderGradientDegree}deg";
-        "col.inactive_border" = formatRgba borderInactive;
+        "col.active_border" = "rgba(225, 225, 225, 1) rgba(255, 255, 255, 0.65) 45deg";
+        "col.inactive_border" = "rgba(107, 127, 148, 0.5)";
         resize_on_border = true;
       };
       decoration = {
@@ -110,8 +98,8 @@ in
 	shadow = {
 	  range = 6;
 	  render_power = 1;
-	  color = formatRgba shadowActive;
-	  color_inactive = formatRgba shadowInactive;
+	  color = "rgba(102, 196, 204, 0.1)";
+	  color_inactive = "rgba(51, 51, 51, 0.1)";
 	};
         blur = {
           size = 4;
