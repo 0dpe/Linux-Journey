@@ -251,13 +251,13 @@
             {
               type = "session";
               style = "plain";
-              foreground = "white";
+              foreground = "#${config.colorScheme.palette.base0B}";
               template = "{{ .UserName }}";
             }
             {
               type = "path";
               style = "plain";
-              foreground = "white";
+              foreground = "#${config.colorScheme.palette.base0C}";
               properties = {
                 style = "full";
               };
@@ -265,7 +265,7 @@
             {
               type = "text";
               style = "plain";
-              foreground = "white";
+              foreground = "#${config.colorScheme.palette.base03}";
               template = "❱";
             }
           ];
@@ -278,7 +278,7 @@
             {
               type = "executiontime";
               style = "plain";
-              foreground = "white";
+              foreground = "#${config.colorScheme.palette.base04}";
             }
           ];
         }
