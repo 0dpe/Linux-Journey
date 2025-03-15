@@ -251,7 +251,7 @@
             {
               type = "session";
               style = "plain";
-              foreground = "#${config.colorScheme.palette.base09}";
+              foreground = "#${config.colorScheme.palette.base0D}";
               template = "{{ .UserName }}";
             }
             {
