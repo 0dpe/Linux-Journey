@@ -1028,7 +1028,32 @@ For shortening the command, add in `configuration.nix`:
 }
 ```
 Note: `environment.shellAliases` requires a reboot to take effect.\
-To update the `flake.lock` file, use `$ nix flake update --flake github:0dpe/Linux-Journey --output-lock-file ~/flake.lock` and manually replace the old `flake.lock` in the repository with the new `~/flake.lock`.
+To automatically update the `flake.lock` file in the GitHub repository, add a GitHub action to the repository. Create and edit `.github/workflows/Update Flake Lock.yml`:
+```yml
+name: Update Flake Lock
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0'
+
+jobs:
+  update-flake-lock:
+    runs-on: ubuntu-latest
+    steps:
+  
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+    
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+    
+      - name: Update flake.lock
+        uses: DeterminateSystems/update-flake-lock@main
+        with:
+          pr-title: "Update Flake Lock"
+```
+Note: To manually update the `flake.lock` file, use `$ nix flake update --flake github:0dpe/Linux-Journey --output-lock-file ~/flake.lock` and replace the old `flake.lock` in the repository with the new `~/flake.lock`.
 
 ### Controlling Screen Backlight
 Packages like `light` and `brightnessctl` work on Wayland and make changing screen brightness easy, but there is a simpler way to change screen brightness. The file `/sys/class/backlight/intel_backlight/brightness` contains an integer that defines the screen brightness. Use `$ cat /sys/class/backlight/intel_backlight/max_brightness` to see the max brightness is 24000 (a number <188 makes the backlight flicker or turn off). When the file `brightness` is modified, the screen brightness changes accordingly. However, the file `brightness` has permissions `-rw-r--r--` (file type, permissions(owner, group, others)), so only the root user can modify it. Use `$ sudo tee /sys/class/backlight/intel_backlight/brightness <<< MY_NUMBER` to modify the file manually.\
@@ -1446,7 +1471,7 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
   };
 }
 ```
-[`@inputs`](https://youtu.be/HiTgbsFlPzs?t=274 "YouTube") here puts all the parameters in `{ nixpkgs, home-manager, ... }` inside `inputs`. [`specialArgs`](https://discourse.nixos.org/t/how-do-specialargs-work/50615/4 "NixOS Help") is a set of arguments passed to the `modules`; including `inputs` inside `specialArgs` passes `inputs` to  `configuration.nix`. Home Manager's version of `specialArgs` named [`extraSpecialArgs`](https://github.com/nix-community/home-manager/blob/7fb8678716c158642ac42f9ff7a18c0800fea551/nixos/common.nix#L16 "GitHub") passes `inputs` to `home.nix`.\
+[`@inputs`](https://youtu.be/HiTgbsFlPzs?t=274 "YouTube") here puts all the parameters in `{ nixpkgs, home-manager, ... }` inside `inputs`. [`specialArgs`](https://discourse.nixos.org/t/how-do-specialargs-work/50615/4 "NixOS Help") is a set of arguments passed to the `modules`; including `inputs` inside `specialArgs` passes `inputs` to  `configuration.nix`. Home Manager's version of `specialArgs` named [`extraSpecialArgs`](https://github.com/nix-community/home-manager/blob/4e12151c9e014e2449e0beca2c0e9534b96a26b4/nixos/common.nix#L16 "GitHub") passes `inputs` to `home.nix`.\
 Note: Trying to use `inputs` in `home.nix` without `extraSpecialArgs` in `flake.nix` results in an infinite recursion error for some reason. Trying to use `inputs` in `home.nix` without `specialArgs` in `flake.nix` results in no error. Trying to use `inputs` in `configuration.nix` without `specialArgs` in `flake.nix` also results in the same infinite recursion error.\
 Edit `home.nix` to use Nix Colors:
 ```diff
@@ -1598,8 +1623,6 @@ https://github.com/alexhulbert/Hyprchroma \
 https://github.com/hyprland-community/awesome-hyprland/blob/main/README.md
 
 finish waybar config: TOOLTIPS CAN BE STYLED
-
-write github action to update flake.lock
 
 Home manage git\
 Zsh frameworks? oh my zsh, prezto, zinit, antigen, \
