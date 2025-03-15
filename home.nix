@@ -265,7 +265,7 @@
             {
               type = "text";
               style = "plain";
-              foreground = "#${config.colorScheme.palette.base06}";
+              foreground = "#${config.colorScheme.palette.base05}";
               template = "❱";
             }
           ];
