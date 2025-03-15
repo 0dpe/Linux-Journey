@@ -251,7 +251,7 @@
             {
               type = "session";
               style = "plain";
-              foreground = "#${config.colorScheme.palette.base0B}";
+              foreground = "#${config.colorScheme.palette.base09}";
               template = "{{ .UserName }}";
             }
             {
@@ -265,7 +265,7 @@
             {
               type = "text";
               style = "plain";
-              foreground = "#${config.colorScheme.palette.base03}";
+              foreground = "#${config.colorScheme.palette.base06}";
               template = "❱";
             }
           ];
