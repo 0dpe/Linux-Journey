@@ -340,10 +340,10 @@
         font-family: monospace;
       }
       .modules-right {
-        background: rgba(0, 0, 0, 0.7);
+        background: rgba(0, 0, 0, 0.3);
       }
       .modules-left {
-        background: rgba(0, 0, 0, 0.7);
+        background: rgba(0, 0, 0, 0.3);
       }
     '';
   };
