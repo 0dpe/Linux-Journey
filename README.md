@@ -1568,6 +1568,20 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    {
      # ...
 
+     wayland.windowManager.hyprland = {
+       # ...
+       settings = {
+         # ...
+   +     layerrule = [
+   +       "blur, waybar"
+   +       "ignorealpha 0, waybar"
+   +     ];
+         # ...
+       };
+     };
+
+     # ...
+
    + programs.waybar = {
    +   enable = true;
    +   settings.bar = {
@@ -1578,14 +1592,25 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    +     spacing = 0;
    +   };
    +   style = ''
-   +     
+   +     window#waybar { all: unset; }
+   +     * {
+   +       font-size: 13px;
+   +       font-family: monospace;
+   +     }
+   +     .modules-right {
+   +       background: rgba(0, 0, 0, 0.3);
+   +     }
+   +     .modules-left {
+   +       background: rgba(0, 0, 0, 0.3);
+   +     }
    +   '';
    + };
 
      # ...
    }
    ```
-   Note: `bar` in `programs.waybar.settings.bar` is an arbitrary name for the bar; Waybar supports having multiple bars at the same time, but I only need one bar.
+   Waybar is a [layer](https://wiki.hyprland.org/Configuring/Window-Rules/#layer-rules "Hyprland Wiki"); use `$ hyprctl layers` to see `namespace: waybar` included.\
+   `bar` in `programs.waybar.settings.bar` is an arbitrary name for the bar; Waybar supports having multiple bars at the same time, but I only need one bar.\
    Waybar automatically starts on startup since it is inside `$ systemctl --user list-units`, so there needs to be neither Hyprland nor zsh configuration for autostarting Waybar. Automatically starting through systemctl though means that it does not have proper `$PATH`, meaning that it must use the full path of `bluetoothctl` (`/run/current-system/sw/bin/bluetoothctl`) to find `bluetoothctl`.\
    \Uf057e \Uf0e08 is the muted icon.
    \Uf091f, \Uf0922,5,8, \Uf029e no wifi
