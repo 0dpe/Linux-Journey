@@ -334,13 +334,18 @@
       };
     };
     style = ''
+      window#waybar { all: unset; }
       * {
         font-size: 13px;
         font-family: monospace;
       }
-      window#waybar {
-        all: unset;
+      .modules-left {
+        padding: 7px;
+        margin: 10 0 5 10;
       }
+      .modules-right {
+        background: hsl(0, 0%, 0% / 50%)
+      };
     '';
   };
 
