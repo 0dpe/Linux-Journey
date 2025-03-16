@@ -339,8 +339,11 @@
         font-size: 13px;
         font-family: monospace;
       }
-      box {
-        background: rgba(0, 0, 0, 0.5);
+      .modules-right {
+        background: rgba(0, 0, 0, 0.7);
+      }
+      .modules-left {
+        background: rgba(0, 0, 0, 0.7);
       }
     '';
   };
