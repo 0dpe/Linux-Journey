@@ -138,6 +138,10 @@
       windowrule = [
         "scrolltouchpad 1.0, kitty"
       ];
+      layerrule = [
+        "blur, waybar"
+        "ignorealpha 0, waybar"
+      ];
       exec-once = [
         "swww-daemon --no-cache"
         "swww clear 000000 && ~/.swwwRandomizer /home/tim/Wallpapers 3600"
@@ -331,6 +335,7 @@
     };
     style = ''
       * {
+        font-size: 15px;
         font-family: monospace;
       }
     '';
