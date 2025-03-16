@@ -339,11 +339,7 @@
         font-size: 13px;
         font-family: monospace;
       }
-      .modules-left {
-        padding: 7px;
-        margin: 10 0 5 10;
-      }
-      .modules-right {
+      box {
         background: rgba(0, 0, 0, 0.5);
       }
     '';
