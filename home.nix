@@ -344,7 +344,7 @@
         margin: 10 0 5 10;
       }
       .modules-right {
-        background: hsl(0, 0%, 0% / 50%)
+        background: rgb(0, 0, 0 / 50%)
       };
     '';
   };
