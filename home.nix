@@ -337,8 +337,8 @@
       };
     };
     style = ''
-      window#waybar { all: unset; }
       * {
+        all: unset;
         font: 12px "JetBrainsMonoNL Nerd Font Mono", monospace;
       }
       .modules-right {
@@ -355,7 +355,6 @@
         padding: 0em 0.5em 0em 0.5em;
       }
       #workspaces button {
-        all: unset;
         color: rgba(255, 255, 255, 0.4);
         padding: 0em 0.45em 0em 0.45em;
         transition: color 0.1s linear;
@@ -371,13 +370,15 @@
         color: rgba(255, 0, 0, 0.8);
       }
       #wireplumber {
-        padding: 0em 0.4em 0em 0.8em;
+        padding: 0em 0.4em 0em 0.9em;
+        transition: text-shadow 0.1s linear;
       }
       #wireplumber:hover {
         text-shadow: rgba(0, 0, 0, 0.7) 0em 0em 0.4em;
         transition: text-shadow 0.2s ease;
       }
       #bluetooth {
+        
       }
       #network {
       }
