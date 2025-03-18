@@ -354,26 +354,32 @@
       };
     };
     style = ''
-      window#waybar {
-        --background: rgba(${builtins.toString (lib.fromHexString (builtins.substring 0 2 config.colorScheme.palette.base00))}, ${builtins.toString (lib.fromHexString (builtins.substring 2 2 config.colorScheme.palette.base00))}, ${builtins.toString (lib.fromHexString (builtins.substring 4 2 config.colorScheme.palette.base00))}, 0.3);
-      }
       * {
         all: unset;
         font: 12px "JetBrainsMonoNL Nerd Font Mono", monospace;
       }
       tooltip {
-        background: var(--background);
+        background: rgba(${builtins.toString (lib.fromHexString (builtins.substring 0 2 config.colorScheme.palette.base00))},
+                         ${builtins.toString (lib.fromHexString (builtins.substring 2 2 config.colorScheme.palette.base00))},
+                         ${builtins.toString (lib.fromHexString (builtins.substring 4 2 config.colorScheme.palette.base00))},
+                         0.3);;
         border-radius: 9px;
       }
       .modules-right {
-        background: var(--background);
+        background: rgba(${builtins.toString (lib.fromHexString (builtins.substring 0 2 config.colorScheme.palette.base00))},
+                         ${builtins.toString (lib.fromHexString (builtins.substring 2 2 config.colorScheme.palette.base00))},
+                         ${builtins.toString (lib.fromHexString (builtins.substring 4 2 config.colorScheme.palette.base00))},
+                         0.3);;
         margin: 7px 9px 0px 0px;
         padding-top: 0.45em;
         padding-bottom: 0.45em;
         border-radius: 9px;
       }
       .modules-left {
-        background: var(--background);
+        background: rgba(${builtins.toString (lib.fromHexString (builtins.substring 0 2 config.colorScheme.palette.base00))},
+                         ${builtins.toString (lib.fromHexString (builtins.substring 2 2 config.colorScheme.palette.base00))},
+                         ${builtins.toString (lib.fromHexString (builtins.substring 4 2 config.colorScheme.palette.base00))},
+                         0.3);;
         margin: 7px 0px 0px 9px;
         padding-top: 0.45em;
         padding-bottom: 0.45em;
