@@ -344,19 +344,23 @@
       .modules-right {
         background: rgba(0, 0, 0, 0.3);
         margin: 7px 9px 0px 0px;
-        border-radius: 9px
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
+        border-radius: 9px;
       }
       .modules-left {
         background: rgba(0, 0, 0, 0.3);
         margin: 7px 0px 0px 9px;
-        border-radius: 9px
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
+        border-radius: 9px;
       }
       #workspaces {
-        padding: 0em 0.5em 0em 0.5em;
       }
       #workspaces button {
         color: rgba(255, 255, 255, 0.4);
-        padding: 0em 0.45em 0em 0.45em;
+        padding-right: 0.5em;
+        padding-left: 0.5em;
         transition: color 0.1s linear;
       }
       #workspaces button:hover {
