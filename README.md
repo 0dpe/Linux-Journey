@@ -1615,8 +1615,8 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    \uf111 is the workspace circle
    \Uf057e \Uf0e08 is the muted icon.
    \Uf091f, \Uf0922,5,8, \Uf029e no wifi
-   \Uf00af is the bluetooth icon, \Uf00b2 disabled, 
-   \Uf007a-f, \Uf0080-2, \Uf0079 are battery icons
+   \Uf00af is the bluetooth icon, \Uf00b2 disabled
+   \Uf007a-f, \Uf0080-2, \Uf0079 are battery icons, \Uf140b charging lightning
    \Uf01da download, \Uf0552 upload
 1. Rebuild the system.
 
