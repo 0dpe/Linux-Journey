@@ -337,7 +337,7 @@
     style = ''
       window#waybar { all: unset; }
       * {
-        font: 12px sans-serif;
+        font: 12px "JetBrainsMonoNL Nerd Font", monospace;
       }
       .modules-right {
         background: rgba(0, 0, 0, 0.3);
