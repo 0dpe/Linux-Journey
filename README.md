@@ -1617,6 +1617,7 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    \Uf091f, \Uf0922,5,8, \Uf029e no wifi
    \Uf00af is the bluetooth icon, \Uf00b2 disabled, 
    \Uf007a-f, \Uf0080-2, \Uf0079 are battery icons
+   \Uf01da download, \Uf0552 upload
 1. Rebuild the system.
 
 ### Using VSCode
