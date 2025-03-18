@@ -345,6 +345,10 @@
         tooltip-format = "{calendar}";
         calendar = {
           mode = "month";
+          format = {
+            months = "{:%B}";
+            today = "<span weight='bold' underline='single'>{}</span>"
+          };
         };
       };
     };
@@ -363,6 +367,7 @@
         padding-top: 0.45em;
         padding-bottom: 0.45em;
         border-radius: 9px;
+        transition: width 0.2s ease;
       }
       .modules-left {
         background: rgba(0, 0, 0, 0.3);
@@ -370,6 +375,7 @@
         padding-top: 0.45em;
         padding-bottom: 0.45em;
         border-radius: 9px;
+        transition: width 0.2s ease;
       }
       #workspaces {
         padding-right: 0.45em;
