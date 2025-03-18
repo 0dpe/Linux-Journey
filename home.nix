@@ -358,6 +358,7 @@
         border-radius: 10px
       }
       #workspaces {
+        transition: all 0.5s ease;
       }
       #workspaces button {
         all: unset;
@@ -366,7 +367,6 @@
       }
       #workspaces button:hover {
         background: rgba(0, 0, 0, 0.5);
-        transition: all 0.5s ease;
       }
       #workspaces button.active {
         color: rgba(225, 225, 225, 0.9);
