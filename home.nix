@@ -311,7 +311,7 @@
       };
       bluetooth = {
         format-disabled = "Controller Disabled";
-        format-off = "<span size='120%' line_height='0.1'>󰂲</span>";
+        format-off = "<span size='120%' line_height='0.1' rise='-3000'>󰂲</span>";
         format-on = "󰂯";
         format-connected = "{device_alias} 󰂯";
         on-click-right = "/run/current-system/sw/bin/bluetoothctl power $(bluetoothctl show | grep -q 'Powered: yes' && echo off || echo on)";
