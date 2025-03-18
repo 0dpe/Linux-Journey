@@ -341,7 +341,7 @@
       }
       .modules-right {
         background: rgba(0, 0, 0, 0.3);
-        padding: 1rem;
+        padding: 0.5em;
       }
       .modules-left {
         background: rgba(0, 0, 0, 0.3);
