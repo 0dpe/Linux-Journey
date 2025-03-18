@@ -354,10 +354,12 @@
       };
     };
     style = ''
+      window#waybar {
+        --background: rgba(${builtins.toString (lib.fromHexString (builtins.substring 0 2 config.colorScheme.palette.base00))}, ${builtins.toString (lib.fromHexString (builtins.substring 2 2 config.colorScheme.palette.base00))}, ${builtins.toString (lib.fromHexString (builtins.substring 4 2 config.colorScheme.palette.base00))}, 0.3);
+      }
       * {
         all: unset;
         font: 12px "JetBrainsMonoNL Nerd Font Mono", monospace;
-        --background: rgba(${builtins.toString (lib.fromHexString (builtins.substring 0 2 config.colorScheme.palette.base00))}, ${builtins.toString (lib.fromHexString (builtins.substring 2 2 config.colorScheme.palette.base00))}, ${builtins.toString (lib.fromHexString (builtins.substring 4 2 config.colorScheme.palette.base00))}, 0.3);
       }
       tooltip {
         background: var(--background);
