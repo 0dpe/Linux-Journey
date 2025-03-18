@@ -364,9 +364,10 @@
         all: unset;
         color: rgba(255, 255, 255, 0.4);
         padding: 0em 0.5em 0em 0.5em;
+        transition: color 0.1s linear;
       }
       #workspaces button:hover {
-        text-shadow: rgba(0, 0, 0, 0.8) 0em 0em 0.55em;
+        text-shadow: rgba(0, 0, 0, 0.8) 0em 0em 0.5em;
         transition: text-shadow 0.1s linear;
       }
       #workspaces button.active {
@@ -376,10 +377,10 @@
         color: rgba(255, 0, 0, 0.8);
       }
       #wireplumber {
-        padding: 0em 0.2em 0em 0.2em;
+        padding: 0em 0.2em 0em 1em;
       }
       #bluetooth {
-        padding: 0em 0.5em 0em 1em;
+        padding: 0em 0.5em 0em 0.5em;
       }
       #network {
       }
