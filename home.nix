@@ -300,13 +300,7 @@
       spacing = 0;
       "hyprland/workspaces" = {
         show-special = true;
-        format = "{icon}";
-        format-icons = {
-          active = "";
-          default = "";
-          empty = "";
-          special = "";
-        };
+        format = "";
       };
       wireplumber = {
         format = "{volume}% 󰕾";
@@ -368,7 +362,7 @@
       }
       #workspaces button:hover {
         text-shadow: rgba(0, 0, 0, 0.8) 0em 0em 0.4em;
-        transition: text-shadow 0.1s linear;
+        transition: text-shadow 0.2s ease;
       }
       #workspaces button.active {
         color: rgb(225, 225, 225);
