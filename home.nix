@@ -311,7 +311,7 @@
       };
       bluetooth = {
         format-disabled = "Controller Disabled";
-        format-off = "󰂲";
+        format-off = "<span size='120%'>󰂲</span>";
         format-on = "󰂯";
         format-connected = "{device_alias} 󰂯";
         on-click-right = "/run/current-system/sw/bin/bluetoothctl power $(bluetoothctl show | grep -q 'Powered: yes' && echo off || echo on)";
@@ -319,7 +319,7 @@
         tooltip-format-off = "{controller_alias} {status}";
         tooltip-format-on = "{controller_alias} {status}";
         tooltip-format-connected = "{controller_alias} {status} {device_enumerate}";
-        tooltip-format-enumerate-connected = "{device_alius}\t{device_address}";
+        tooltip-format-enumerate-connected = "{device_alias}\t{device_address}";
       };
       network = {
         format-wifi = "{essid} {icon}";
