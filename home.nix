@@ -346,7 +346,6 @@
         calendar = {
           mode = "month";
           format = {
-            months = "{:%B}";
             today = "<u>{}</u>";
           };
         };
