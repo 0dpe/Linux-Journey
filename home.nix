@@ -345,7 +345,6 @@
       * {
         font-size: 12px;
         font-family: monospace;
-        transition: all 0.5s ease;
       }
       .modules-right {
         background: rgba(0, 0, 0, 0.3);
@@ -366,7 +365,10 @@
         padding: 0em 0.8em 0em 0.8em;
       }
       #workspaces button:hover {
-        background: rgba(0, 0, 0, 0.5);
+        background: rgba(0, 0, 0, 0.3);
+        transition: background 0.5s ease;
+        border-radius: inherit;
+        padding: inherit;
       }
       #workspaces button.active {
         color: rgba(225, 225, 225, 0.9);
