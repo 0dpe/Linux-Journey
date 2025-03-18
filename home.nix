@@ -348,12 +348,12 @@
       }
       .modules-right {
         background: rgba(0, 0, 0, 0.35);
-        margin: 0.6em 0.6em 0em 0.6em;
+        margin: 0.6em 0.65em 0em 0em;
         border-radius: 0.8em
       }
       .modules-left {
         background: rgba(0, 0, 0, 0.35);
-        margin: 0.6em 0.6em 0em 0.6em;
+        margin: 0.6em 0em 0em 0.65em;
         border-radius: 0.8em
       }
       #workspaces {
