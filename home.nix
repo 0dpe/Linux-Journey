@@ -345,7 +345,7 @@
       }
       .modules-left {
         background: rgba(0, 0, 0, 0.3);
-        margin: 2rem 2rem 2rem 2rem;
+        margin: 0.5em 0.5em 0.5em 0.5em;
       }
     '';
   };
