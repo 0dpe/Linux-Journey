@@ -310,13 +310,17 @@
         tooltip = false;
       };
       bluetooth = {
-        format-off = "<span size='90%' line_height='0.1' rise='400'>󰂲</span>";
         format-disabled = "󰂲";
+        format-off = "󰂲";
         format-on = "󰂯";
-        format-connected = "{device_alias} <span size='95%' line_height='0.1' rise='500'>󰂯</span>";
+        format-connected = "{device_alias} 󰂯";
         on-click-right = "/run/current-system/sw/bin/bluetoothctl power $(bluetoothctl show | grep -q 'Powered: yes' && echo off || echo on)";
         on-click = "/run/current-system/sw/bin/bluetoothctl connect F8:4E:17:D3:E7:4A";
-        tooltip-format = "{status}";
+        tooltip-format-disabled = "Disabled {status} {controller_alias}";
+        tooltip-format-off = "Off {status} {controller_alias}";
+        tooltip-format-on = "On {status} {controller_alias}";
+        tooltip-format-connected = "{device_enumerate}";
+        tooltip-format-enumerate-connected = "{device_alius}\t{device_address}";
       };
       network = {
         format-wifi = "{essid} {icon}";
