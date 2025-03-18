@@ -300,6 +300,13 @@
       spacing = 0;
       "hyprland/workspaces" = {
         show-special = true;
+        format = "{icon}";
+        format-icons = {
+          active = "";
+          default = "";
+          empty = "";
+          special = "";
+        };
       };
       wireplumber = {
         format = "{volume}% 󰕾";
