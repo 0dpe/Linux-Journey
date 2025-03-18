@@ -333,8 +333,8 @@
         interval = 10;
         bat = "BAT0";
         full-at = 97;
-        format = "{capacity}%<span size='80%'> </span><span size='90%' line_height='0.1' rise='300'>{icon}</span>";
-        format-charging = "{capacity}%<span size='80%'> </span><span size='90%' line_height='0.1' rise='300'>{icon}</span><span size='30%'> </span>󱐋";
+        format = "{capacity}%<span size='80%'> </span><span size='92%' line_height='0.1' rise='400'>{icon}</span>";
+        format-charging = "{capacity}%<span size='80%'> </span><span size='92%' line_height='0.1' rise='400'>{icon}</span><span size='20%'> </span><span size='90%' line_height='0.1' rise='400'>󱐋</span>";
         format-icons = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
         states = { low = 96; };
         tooltip = false;
@@ -411,7 +411,7 @@
         padding-left: 0.9em;
       }
       #battery.discharging.low {
-        color: rgb(255, 60, 60);
+        color: rgb(255, 100, 100);
       }
       #clock {
         padding-right: 0.9em;
