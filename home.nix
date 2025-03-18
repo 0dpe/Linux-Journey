@@ -333,7 +333,7 @@
         bat = "BAT0";
         full-at = 97;
         format = "{capacity}% {icon}";
-        format-charging = "{capacity}% {icon}󱐋"
+        format-charging = "{capacity}% {icon}󱐋";
         format-icons = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
         states = { low = 96; };
         tooltip = false;
