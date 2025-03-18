@@ -350,27 +350,33 @@
         background: rgba(0, 0, 0, 0.3);
         margin: 7px 9px 0px 0px;
         padding: 0.5em 0em 0.5em 0em;
-        border-radius: 10px
+        border-radius: 9px
       }
       .modules-left {
         background: rgba(0, 0, 0, 0.3);
         margin: 7px 0px 0px 9px;
-        border-radius: 10px
+        border-radius: 9px
       }
       #workspaces {
       }
       #workspaces button {
         all: unset;
         color: rgba(255, 255, 255, 0.4);
-        padding: 0em 0.8em 0em 0.8em;
-        transition: background 0.4s ease;
+        padding: 0em 0.5em 0em 0.5em;
+        transition: background 0.1s ease;
       }
       #workspaces button:hover {
         background: rgba(0, 0, 0, 0.3);
         transition: background 0.4s ease;
       }
       #workspaces button.active {
-        color: rgba(225, 225, 225, 0.9);
+        color: rgba(225, 225, 225, 0);
+      }
+      #workspaces button.empty {
+        color: rgba(0, 0, 0, 0.2);
+      }
+      #workspaces button.urgent {
+        color: rgba(255, 0, 0, 0.8);
       }
       #wireplumber {
         padding: 0em 0.2em 0em 0.2em;
