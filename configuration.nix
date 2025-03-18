@@ -77,6 +77,7 @@
       nerd-fonts.go-mono
       nerd-fonts.roboto-mono
       nerd-fonts.lilex
+      nerd-fonts.jetbrains-mono
       nerd-fonts.dejavu-sans-mono
       noto-fonts
       twemoji-color-font
