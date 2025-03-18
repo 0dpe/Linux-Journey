@@ -381,9 +381,9 @@
         padding-left: 0.45em;
       }
       #workspaces button {
-        color: (${builtins.toString (lib.fromHexString (builtins.substring 0 2 config.colorScheme.palette.base08))},
-                ${builtins.toString (lib.fromHexString (builtins.substring 2 2 config.colorScheme.palette.base08))}, 
-                ${builtins.toString (lib.fromHexString (builtins.substring 4 2 config.colorScheme.palette.base08))}, 
+        color: (${builtins.toString (lib.fromHexString (builtins.substring 0 2 config.colorScheme.palette.base08))}, \
+                ${builtins.toString (lib.fromHexString (builtins.substring 2 2 config.colorScheme.palette.base08))}, \
+                ${builtins.toString (lib.fromHexString (builtins.substring 4 2 config.colorScheme.palette.base08))}, \
                 0.4);
         padding-right: 0.45em;
         padding-left: 0.45em;
