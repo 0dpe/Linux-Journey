@@ -304,8 +304,8 @@
         format = "";
       };
       wireplumber = {
-        format = "{volume}% <span size='135%' line_height='0.1' rise='-1.2pt'>󰕾</span>";
-        format-muted = "{volume}% 󰸈";
+        format = "{volume}% <span size='135%' line_height='0.1' rise='-1000'>󰕾</span>";
+        format-muted = "{volume}% <span size='135%' line_height='0.1' rise='-1.2pt'>󰸈</span>";
         on-click = "/run/current-system/sw/bin/wpctl set-mute @DEFAULT_SINK@ toggle";
         scroll-step = "0.1";
         tooltip = false;
@@ -344,7 +344,6 @@
       .modules-right {
         background: rgba(0, 0, 0, 0.3);
         margin: 7px 9px 0px 0px;
-        padding: 0.5em 0em 0.5em 0em;
         border-radius: 9px
       }
       .modules-left {
