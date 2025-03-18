@@ -313,7 +313,7 @@
         format-off = "<span size='90%' line_height='0.1' rise='400'>󰂲</span>";
         format-disabled = "󰂲";
         format-on = "󰂯";
-        format-connected = "{device_alias} <span size='90%' stretch='ultraexpanded' line_height='0.1' rise='400'>󰂯</span>";
+        format-connected = "{device_alias} <span size='95%' line_height='0.1' rise='500'>󰂯</span>";
         on-click-right = "/run/current-system/sw/bin/bluetoothctl power $(bluetoothctl show | grep -q 'Powered: yes' && echo off || echo on)";
         on-click = "/run/current-system/sw/bin/bluetoothctl connect F8:4E:17:D3:E7:4A";
         tooltip-format = "{status}";
@@ -383,7 +383,12 @@
         text-shadow: rgba(0, 0, 0, 0.7) 0em 0em 0.4em;
       }
       #bluetooth {
-        
+        padding-right: 0.9em;
+        padding-left: 0.9em;
+        transition: text-shadow 0.1s linear;
+      }
+      #bluetooth:hover {
+        text-shadow: rgba(0, 0, 0, 0.7) 0em 0em 0.4em;
       }
       #network {
       }
