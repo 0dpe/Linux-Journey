@@ -305,6 +305,7 @@
       wireplumber = {
         format = "{volume}% 󰕾";
         format-muted = "{volume}% 󰸈";
+        on-click = "wpctl set-mute @DEFAULT_SINK@ toggle";
         scroll-step = "0.1";
         tooltip = false;
       };
