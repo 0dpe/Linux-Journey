@@ -381,7 +381,10 @@
         padding-left: 0.45em;
       }
       #workspaces button {
-        color: #${config.colorScheme.palette.base07}80;
+        color: (${builtins.substring 0 2 config.colorScheme.palette.base08},
+                ${builtins.substring 2 2 config.colorScheme.palette.base08}, 
+                ${builtins.substring 4 2 config.colorScheme.palette.base08}, 
+                0.4);
         padding-right: 0.45em;
         padding-left: 0.45em;
         transition: all 0.1s linear;
