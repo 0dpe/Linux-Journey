@@ -399,7 +399,10 @@
         transition: all 0.1s linear;
       }
       #workspaces button:hover {
-        text-shadow: #${config.colorScheme.palette.base00} 0em 0em 0.4em;
+        text-shadow: rgba(${builtins.toString (lib.fromHexString (builtins.substring 0 2 config.colorScheme.palette.base07))},
+                          ${builtins.toString (lib.fromHexString (builtins.substring 2 2 config.colorScheme.palette.base07))},
+                          ${builtins.toString (lib.fromHexString (builtins.substring 4 2 config.colorScheme.palette.base07))},
+                          0.7) 0em 0em 0.4em;
       }
       #workspaces button.active {
         color: #${config.colorScheme.palette.base07};
@@ -424,7 +427,10 @@
         transition: text-shadow 0.1s linear;
       }
       #bluetooth:hover {
-        text-shadow: rgba(0, 0, 0, 0.7) 0em 0em 0.4em;
+        text-shadow: rgba(${builtins.toString (lib.fromHexString (builtins.substring 0 2 config.colorScheme.palette.base07))},
+                          ${builtins.toString (lib.fromHexString (builtins.substring 2 2 config.colorScheme.palette.base07))},
+                          ${builtins.toString (lib.fromHexString (builtins.substring 4 2 config.colorScheme.palette.base07))},
+                          0.7) 0em 0em 0.4em;
       }
       #network {
         padding-right: 0.9em;
@@ -443,7 +449,10 @@
         transition: text-shadow 0.1s linear;
       }
       #clock:hover {
-        text-shadow: rgba(0, 0, 0, 0.7) 0em 0em 0.4em;
+        text-shadow: rgba(${builtins.toString (lib.fromHexString (builtins.substring 0 2 config.colorScheme.palette.base07))},
+                          ${builtins.toString (lib.fromHexString (builtins.substring 2 2 config.colorScheme.palette.base07))},
+                          ${builtins.toString (lib.fromHexString (builtins.substring 4 2 config.colorScheme.palette.base07))},
+                          0.7) 0em 0em 0.4em;
       }
     '';
   };
