@@ -354,23 +354,29 @@
       };
     };
     style = ''
+      :root {
+        --background: rgba(${builtins.toString (lib.fromHexString (builtins.substring 0 2 config.colorScheme.palette.base00))},
+                           ${builtins.toString (lib.fromHexString (builtins.substring 2 2 config.colorScheme.palette.base00))},
+                           ${builtins.toString (lib.fromHexString (builtins.substring 4 2 config.colorScheme.palette.base00))},
+                           0.3);
+      }
       * {
         all: unset;
         font: 12px "JetBrainsMonoNL Nerd Font Mono", monospace;
       }
       tooltip {
-        background: rgba(0, 0, 0, 0.3);
+        background: var(--background);
         border-radius: 9px;
       }
       .modules-right {
-        background: rgba(0, 0, 0, 0.3);
+        background: var(--background);
         margin: 7px 9px 0px 0px;
         padding-top: 0.45em;
         padding-bottom: 0.45em;
         border-radius: 9px;
       }
       .modules-left {
-        background: rgba(0, 0, 0, 0.3);
+        background: var(--background);
         margin: 7px 0px 0px 9px;
         padding-top: 0.45em;
         padding-bottom: 0.45em;
@@ -381,9 +387,9 @@
         padding-left: 0.45em;
       }
       #workspaces button {
-        color: rgba(${builtins.toString (lib.fromHexString (builtins.substring 0 2 config.colorScheme.palette.base08))},
-                    ${builtins.toString (lib.fromHexString (builtins.substring 2 2 config.colorScheme.palette.base08))},
-                    ${builtins.toString (lib.fromHexString (builtins.substring 4 2 config.colorScheme.palette.base08))},
+        color: rgba(${builtins.toString (lib.fromHexString (builtins.substring 0 2 config.colorScheme.palette.base07))},
+                    ${builtins.toString (lib.fromHexString (builtins.substring 2 2 config.colorScheme.palette.base07))},
+                    ${builtins.toString (lib.fromHexString (builtins.substring 4 2 config.colorScheme.palette.base07))},
                     0.4);
         padding-right: 0.45em;
         padding-left: 0.45em;
