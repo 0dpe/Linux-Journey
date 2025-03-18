@@ -310,7 +310,7 @@
         tooltip = false;
       };
       bluetooth = {
-        format-off = "<span stretch='ultraexpanded' line_height='0.1' rise='400'>󰂲</span>";
+        format-off = "<span size='90%' line_height='0.1' rise='400'>󰂲</span>";
         format-disabled = "󰂲";
         format-on = "󰂯";
         format-connected = "{device_alias} <span stretch='expanded' line_height='0.1' rise='600'>󰂯</span>";
