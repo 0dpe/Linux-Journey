@@ -358,7 +358,7 @@
         border-radius: 9px
       }
       #workspaces {
-        all: unset;
+        padding: 0em 0.5em 0em 0.5em;
       }
       #workspaces button {
         all: unset;
@@ -366,16 +366,10 @@
         padding: 0em 0.5em 0em 0.5em;
       }
       #workspaces button:hover {
-        text-shadow: rgb(0, 0, 0) 0em 0em 0.5em;
-        transition: text-shadow 0.1s linear 0s;
+        text-shadow: rgba(0, 0, 0, 0.8) 0em 0em 0.55em;
+        transition: text-shadow 0.1s linear;
       }
       #workspaces button.active {
-        color: rgb(225, 225, 225);
-      }
-      #workspaces button.empty {
-        color: rgba(0, 0, 0, 0.1);
-      }
-      #workspaces button.empty.active {
         color: rgb(225, 225, 225);
       }
       #workspaces button.urgent {
@@ -385,7 +379,7 @@
         padding: 0em 0.2em 0em 0.2em;
       }
       #bluetooth {
-        padding: 0em 0.5em 0em 0.5em;
+        padding: 0em 0.5em 0em 1em;
       }
       #network {
       }
