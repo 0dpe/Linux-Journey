@@ -325,7 +325,7 @@
         format-wifi = "{essid} {icon}";
         format-disconnected = "󰤮";
         format-icons = [ "󰤟" "󰤢" "󰤥" "󰤨" ];
-        tooltip-format-wifi = "{bandwidthUpBytes} 󰕒\n{bandwidthDownBytes 󰇚";
+        tooltip-format-wifi = "{bandwidthUpBytes} 󰕒\n{bandwidthDownBytes} 󰇚";
       };
       battery = {
         bat = "BAT0";
