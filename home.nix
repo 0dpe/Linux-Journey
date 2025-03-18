@@ -304,8 +304,8 @@
         format = "";
       };
       wireplumber = {
-        format = "{volume}% <span size='135%' line_height='0.1' rise='-1500' letter_spacing='0'>󰕾</span>";
-        format-muted = "{volume}% <span size='135%' line_height='0.1' rise='-1.2pt' letter_spacing='0'>󰸈</span>";
+        format = "{volume}%<span size='135%' line_height='0.1' rise='-1500' letter_spacing='0'> 󰕾</span>";
+        format-muted = "{volume}%<span size='135%' line_height='0.1' rise='-1.2pt' letter_spacing='0'> 󰸈</span>";
         on-click = "/run/current-system/sw/bin/wpctl set-mute @DEFAULT_SINK@ toggle";
         scroll-step = "0.1";
         tooltip = false;
