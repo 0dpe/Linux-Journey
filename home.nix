@@ -330,11 +330,11 @@
         tooltip-format-disconnected = "Disconnected";
       };
       battery = {
-        interva = 10;
+        interval = 10;
         bat = "BAT0";
         full-at = 97;
-        format = "{capacity}% {icon}";
-        format-charging = "{capacity}% {icon}󱐋";
+        format = "{capacity}%<span size='80%'> </span><span size='90%' line_height='0.1' rise='300'>{icon}</span>";
+        format-charging = "{capacity}%<span size='80%'> </span><span size='90%' line_height='0.1' rise='300'>{icon}</span><span size='30%'> </span>󱐋";
         format-icons = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
         states = { low = 96; };
         tooltip = false;
