@@ -341,9 +341,11 @@
       }
       .modules-right {
         background: rgba(0, 0, 0, 0.3);
+        padding: 1rem;
       }
       .modules-left {
         background: rgba(0, 0, 0, 0.3);
+        margin: 2rem 2rem 2rem 2rem;
       }
     '';
   };
