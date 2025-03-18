@@ -343,21 +343,22 @@
     style = ''
       window#waybar { all: unset; }
       * {
-        font-size: 13px;
+        font-size: 12px;
         font-family: monospace;
       }
       .modules-right {
         background: rgba(0, 0, 0, 0.3);
-        margin: 0.6em 0.65em 0em 0em;
+        margin: 0.6em 0.7em 0em 0em;
+        padding: 0.5em 0em 0.5em 0em;
         border-radius: 0.8em
       }
       .modules-left {
         background: rgba(0, 0, 0, 0.3);
-        margin: 0.6em 0em 0em 0.65em;
+        margin: 0.6em 0em 0em 0.7em;
         border-radius: 0.8em
       }
       #workspaces {
-        
+        padding: 0em 0.5em 0em 0.5em;
       }
       #workspaces button {
         all: unset;
@@ -374,7 +375,7 @@
         padding: 0em 0.2em 0em 0.2em;
       }
       #bluetooth {
-        padding: 0em 0.1em 0em 0.1em;
+        padding: 0em 0.5em 0em 0.5em;
       }
       #network {
       }
