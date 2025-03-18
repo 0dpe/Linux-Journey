@@ -358,6 +358,7 @@
         border-radius: 9px
       }
       #workspaces {
+        all: unset;
       }
       #workspaces button {
         all: unset;
@@ -365,8 +366,8 @@
         padding: 0em 0.5em 0em 0.5em;
       }
       #workspaces button:hover {
-        text-shadow: rgb(255, 255, 255) 0em 0em 0.6em;
-        transition: text-shadow 0.3s ease 0s;
+        text-shadow: rgb(0, 0, 0) 0em 0em 0.5em;
+        transition: text-shadow 0.1s linear 0s;
       }
       #workspaces button.active {
         color: rgb(225, 225, 225);
