@@ -1,7 +1,6 @@
 { pkgs, inputs, config, ... }:
 
 {
-
   imports = [
     inputs.nix-colors.homeManagerModules.default
   ];
@@ -304,19 +303,20 @@
         format = "";
       };
       wireplumber = {
-        format = "{volume}%<span size='70%'> </span><span size='135%' line_height='0.1' rise='-1200'>󰕾</span>";
-        format-muted = "{volume}%<span size='70%'> </span><span size='135%' line_height='0.1' rise='-1200'>󰸈</span>";
+        format = "{volume}%<span size='80%'> </span><span size='135%' line_height='0.1' rise='-1200'>󰕾</span>";
+        format-muted = "{volume}%<span size='80%'> </span><span size='135%' line_height='0.1' rise='-1200'>󰸈</span>";
         on-click = "/run/current-system/sw/bin/wpctl set-mute @DEFAULT_SINK@ toggle";
         scroll-step = "0.1";
         tooltip = false;
       };
       bluetooth = {
-        format-off = "󰂲";
+        format-off = "<span stretch='expanded' line_height='0.1' rise='600'>󰂲</span>";
+        format-disabled = "󰂲";
         format-on = "󰂯";
-        format-connected = "{device_alias} 󰂯";
+        format-connected = "{device_alias} <span stretch='expanded' line_height='0.1' rise='600'>󰂯</span>";
         on-click-right = "/run/current-system/sw/bin/bluetoothctl power $(bluetoothctl show | grep -q 'Powered: yes' && echo off || echo on)";
         on-click = "/run/current-system/sw/bin/bluetoothctl connect F8:4E:17:D3:E7:4A";
-        tooltip = false;
+        tooltip-format = "{status}";
       };
       network = {
         format-wifi = "{essid} {icon}";
@@ -375,7 +375,7 @@
         color: rgba(255, 0, 0, 0.8);
       }
       #wireplumber {
-        padding-right: 0.45em;
+        padding-right: 0.9em;
         padding-left: 0.9em;
         transition: text-shadow 0.1s linear;
       }
