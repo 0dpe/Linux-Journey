@@ -322,7 +322,8 @@
         tooltip-format-enumerate-connected = "{device_alias} {device_address}";
       };
       network = {
-        format-wifi = "{essid} {icon}";
+        interval = 10;
+        format-wifi = "{essid}<span size='80%'> </span><span size='135%' line_height='0.1' rise='-1200'>{icon}</span>";
         format-disconnected = "󰤮";
         format-icons = [ "󰤟" "󰤢" "󰤥" "󰤨" ];
         tooltip-format-wifi = "{bandwidthUpBytes} 󰕒\n{bandwidthDownBytes} 󰇚";
