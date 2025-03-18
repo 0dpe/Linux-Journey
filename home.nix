@@ -411,7 +411,7 @@
         padding-left: 0.9em;
       }
       #battery.discharging.low {
-        color = rgb(255, 60, 60);
+        color: rgb(255, 60, 60);
       }
       #clock {
         padding-right: 0.9em;
