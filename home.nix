@@ -341,11 +341,11 @@
       }
       .modules-right {
         background: rgba(0, 0, 0, 0.3);
-        padding: 0.5em;
+        padding: 0.2em;
       }
       .modules-left {
         background: rgba(0, 0, 0, 0.3);
-        margin: 0.5em 0.5em 0.5em 0.5em;
+        margin: 0.4em 0.4em 0.4em 0.4em;
       }
     '';
   };
