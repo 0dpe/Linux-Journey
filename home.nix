@@ -371,10 +371,13 @@
         color: rgba(255, 0, 0, 0.8);
       }
       #wireplumber {
-        padding: 0em 0.2em 0em 1em;
+        padding: 0em 0.4em 0em 0.8em;
+      }
+      #wireplumber:hover {
+        text-shadow: rgba(0, 0, 0, 0.7) 0em 0em 0.4em;
+        transition: text-shadow 0.2s ease;
       }
       #bluetooth {
-        padding: 0em 0.5em 0em 0.5em;
       }
       #network {
       }
