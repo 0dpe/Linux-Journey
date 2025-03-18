@@ -347,7 +347,7 @@
       tooltip {
         background: rgba(0, 0, 0, 0.3);
         border-radius: 9px;
-        margin-top: 0.5em;
+        padding: 1em 1em 1em 1em;
       }
       .modules-right {
         background: rgba(0, 0, 0, 0.3);
