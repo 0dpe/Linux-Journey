@@ -304,7 +304,7 @@
         format = "";
       };
       wireplumber = {
-        format = "{volume}% <span font='12' line_height='10'>󰕾</span>";
+        format = "{volume}% <span font='12' line_height='0.5'>󰕾</span>";
         format-muted = "{volume}% 󰸈";
         on-click = "/run/current-system/sw/bin/wpctl set-mute @DEFAULT_SINK@ toggle";
         scroll-step = "0.1";
