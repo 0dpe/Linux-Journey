@@ -350,10 +350,13 @@
         border-radius: 0.8em
       }
       #workspaces {
+        padding: 0em 0.5em 0em 0.5em;
       }
       #wireplumber {
+        padding: 0em 0.2em 0em 0.2em;
       }
       #bluetooth {
+        padding: 0em 0.1em 0em 0.1em;
       }
       #network {
       }
