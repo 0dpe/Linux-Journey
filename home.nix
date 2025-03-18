@@ -337,8 +337,7 @@
     style = ''
       window#waybar { all: unset; }
       * {
-        font-size: 12px;
-        font-family: monospace;
+        font: 12px sans-serif;
       }
       .modules-right {
         background: rgba(0, 0, 0, 0.3);
@@ -361,7 +360,7 @@
         transition: color 0.1s linear;
       }
       #workspaces button:hover {
-        text-shadow: rgba(0, 0, 0, 0.8) 0em 0em 0.4em;
+        text-shadow: rgba(0, 0, 0, 0.7) 0em 0em 0.4em;
         transition: text-shadow 0.2s ease;
       }
       #workspaces button.active {
