@@ -347,7 +347,7 @@
           mode = "month";
           format = {
             months = "{:%B}";
-            today = "<span weight='bold' underline='single'>{}</span>";
+            today = "<u>{}</u>";
           };
         };
       };
