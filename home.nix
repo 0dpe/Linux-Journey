@@ -304,8 +304,8 @@
         format = "";
       };
       wireplumber = {
-        format = "{volume}% <span size='135%' line_height='0.1' rise='-1200'>󰕾</span>";
-        format-muted = "{volume}%<span size='50%'> </span><span size='135%' line_height='0.1' rise='-1200'>󰸈</span>";
+        format = "{volume}%<span size='70%'> </span><span size='135%' line_height='0.1' rise='-1200'>󰕾</span>";
+        format-muted = "{volume}%<span size='70%'> </span><span size='135%' line_height='0.1' rise='-1200'>󰸈</span>";
         on-click = "/run/current-system/sw/bin/wpctl set-mute @DEFAULT_SINK@ toggle";
         scroll-step = "0.1";
         tooltip = false;
@@ -339,7 +339,7 @@
     style = ''
       window#waybar { all: unset; }
       * {
-        font: 20px "JetBrainsMonoNL Nerd Font Mono", monospace;
+        font: 12px "JetBrainsMonoNL Nerd Font Mono", monospace;
       }
       .modules-right {
         background: rgba(0, 0, 0, 0.3);
