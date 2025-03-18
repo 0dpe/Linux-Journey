@@ -363,12 +363,11 @@
         all: unset;
         color: rgba(255, 255, 255, 0.4);
         padding: 0em 0.8em 0em 0.8em;
+        transition: background 0.4s ease;
       }
       #workspaces button:hover {
         background: rgba(0, 0, 0, 0.3);
-        transition: background 0.5s ease;
-        border-radius: inherit;
-        padding: inherit;
+        transition: background 0.4s ease;
       }
       #workspaces button.active {
         color: rgba(225, 225, 225, 0.9);
