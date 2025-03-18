@@ -333,10 +333,9 @@
         bat = "BAT0";
         full-at = 97;
         format = "{capacity}% {icon}";
+        format-charging = "{capacity}% {icon}󱐋"
         format-icons = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
-        states = {
-          low = 96;
-        };
+        states = { low = 96; };
         tooltip = false;
       };
       clock = {
@@ -410,8 +409,8 @@
         padding-right: 0.9em;
         padding-left: 0.9em;
       }
-      #battery.low {
-        color: rgb(255, 50, 50);
+      #battery.discharging.low {
+        text-shadow: rgba(255, 0, 0, 0.7) 0em 0em 0.4em;
       }
       #clock {
         padding-right: 0.9em;
