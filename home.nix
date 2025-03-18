@@ -344,23 +344,23 @@
       .modules-right {
         background: rgba(0, 0, 0, 0.3);
         margin: 7px 9px 0px 0px;
-        padding-top: 0.5em;
-        padding-bottom: 0.5em;
+        padding-top: 0.45em;
+        padding-bottom: 0.45em;
         border-radius: 9px;
       }
       .modules-left {
         background: rgba(0, 0, 0, 0.3);
         margin: 7px 0px 0px 9px;
-        padding-top: 0.5em;
-        padding-bottom: 0.5em;
+        padding-top: 0.45em;
+        padding-bottom: 0.45em;
         border-radius: 9px;
       }
       #workspaces {
+        padding-right: 0.9em;
+        padding-left: 0.9em;
       }
       #workspaces button {
         color: rgba(255, 255, 255, 0.4);
-        padding-right: 0.5em;
-        padding-left: 0.5em;
         transition: color 0.1s linear;
       }
       #workspaces button:hover {
@@ -374,12 +374,12 @@
         color: rgba(255, 0, 0, 0.8);
       }
       #wireplumber {
-        padding: 0em 0.4em 0em 0.9em;
+        padding-right: 0.45em;
+        padding-left: 0.9em;
         transition: text-shadow 0.1s linear;
       }
       #wireplumber:hover {
         text-shadow: rgba(0, 0, 0, 0.7) 0em 0em 0.4em;
-        transition: text-shadow 0.2s ease;
       }
       #bluetooth {
         
