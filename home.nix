@@ -330,6 +330,7 @@
         tooltip-format-disconnected = "Disconnected";
       };
       battery = {
+        interva = 10;
         bat = "BAT0";
         full-at = 97;
         format = "{capacity}% {icon}";
@@ -410,7 +411,7 @@
         padding-left: 0.9em;
       }
       #battery.discharging.low {
-        text-shadow: rgba(255, 0, 0, 0.7) 0em 0em 0.4em;
+        color = rgb(255, 60, 60);
       }
       #clock {
         padding-right: 0.9em;
