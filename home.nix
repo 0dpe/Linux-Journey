@@ -140,7 +140,6 @@
       ];
       layerrule = [
         "blur, waybar"
-        "ignorealpha 0, waybar"
       ];
       exec-once = [
         "swww-daemon --no-cache"
@@ -363,14 +362,13 @@
         all: unset;
         color: rgba(255, 255, 255, 0.4);
         padding: 0em 0.5em 0em 0.5em;
-        transition: background 0.1s ease;
       }
       #workspaces button:hover {
-        background: rgba(0, 0, 0, 0.3);
-        transition: background 0.4s ease;
+        text-shadow: rgb(0, 0, 0) 0px 0px 6px;
+        transition: all 0.3s ease;
       }
       #workspaces button.active {
-        color: rgba(225, 225, 225, 0);
+        color: rgb(225, 225, 225);
       }
       #workspaces button.empty {
         color: rgba(0, 0, 0, 0.2);
