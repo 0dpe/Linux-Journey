@@ -356,16 +356,17 @@
         border-radius: 9px;
       }
       #workspaces {
-        padding-right: 0.9em;
-        padding-left: 0.9em;
+        padding-right: 0.45em;
+        padding-left: 0.45em;
       }
       #workspaces button {
         color: rgba(255, 255, 255, 0.4);
-        transition: color 0.1s linear;
+        padding-right: 0.45em;
+        padding-left: 0.45em;
+        transition: all 0.1s linear;
       }
       #workspaces button:hover {
         text-shadow: rgba(0, 0, 0, 0.7) 0em 0em 0.4em;
-        transition: text-shadow 0.2s ease;
       }
       #workspaces button.active {
         color: rgb(225, 225, 225);
