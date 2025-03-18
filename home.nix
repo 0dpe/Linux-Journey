@@ -345,10 +345,9 @@
         font: 12px "JetBrainsMonoNL Nerd Font Mono", monospace;
       }
       tooltip {
-        all: unset;
         background: rgba(0, 0, 0, 0.3);
         border-radius: 9px;
-        padding: 1em 1em 1em 1em;
+        font-size: 9px;
       }
       .modules-right {
         background: rgba(0, 0, 0, 0.3);
