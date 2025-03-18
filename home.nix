@@ -296,7 +296,7 @@
       layer = "top";
       position = "top";
       modules-left = [ "hyprland/workspaces" ];
-      modules-right = ["wireplumber" "bluetooth" "network" "battery" "clock" ];
+      modules-right = [ "wireplumber" "bluetooth" "network" "battery" "clock" ];
       spacing = 0;
       "hyprland/workspaces" = {
         show-special = true;
