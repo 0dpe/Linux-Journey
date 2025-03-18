@@ -341,13 +341,13 @@
       }
       .modules-right {
         background: rgba(0, 0, 0, 0.35);
-        margin: 0.5em 0.5em 0.5em 0.5em;
-        border-radius: 0.85em
+        margin: 0.7em 0.7em 0em 0.7em;
+        border-radius: 0.8em
       }
       .modules-left {
         background: rgba(0, 0, 0, 0.35);
-        margin: 0.5em 0.5em 0.5em 0.5em;
-        border-radius: 0.85em
+        margin: 0.6em 0.6em 0em 0.6em;
+        border-radius: 0.8em
       }
       #workspaces {
       }
