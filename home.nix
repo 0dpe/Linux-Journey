@@ -347,17 +347,28 @@
         font-family: monospace;
       }
       .modules-right {
-        background: rgba(0, 0, 0, 0.35);
+        background: rgba(0, 0, 0, 0.3);
         margin: 0.6em 0.65em 0em 0em;
         border-radius: 0.8em
       }
       .modules-left {
-        background: rgba(0, 0, 0, 0.35);
+        background: rgba(0, 0, 0, 0.3);
         margin: 0.6em 0em 0em 0.65em;
         border-radius: 0.8em
       }
       #workspaces {
-        padding: 0em 0.5em 0em 0.5em;
+        
+      }
+      #workspaces button {
+        all: unset;
+        color: rgba(255, 255, 255, 0.4);
+      }
+      #workspaces button:hover {
+        background: rgba(0, 0, 0, 0.5);
+        transition: all 0.5s ease;
+      }
+      #workspaces button.active {
+        color: rgba(225, 225, 225, 0.9);
       }
       #wireplumber {
         padding: 0em 0.2em 0em 0.2em;
