@@ -336,7 +336,9 @@
         format = "{capacity}%<span size='80%'> </span><span size='92%' line_height='0.1' rise='500'>{icon}</span>";
         format-charging = "{capacity}%<span size='80%'> </span><span size='92%' line_height='0.1' rise='500'>{icon}</span><span size='20%'> </span><span size='90%' line_height='0.1' rise='600'>󱐋</span>";
         format-icons = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
-        states = { low = 20; };
+        states = {
+          low = 90;
+        };
         tooltip = false;
       };
       clock = {
@@ -418,12 +420,12 @@
         padding-left: 0.9em;
       }
       #battery.discharging.low {
-        color: rgb(255, 100, 100);
+        color: #${config.colorScheme.palette.base08};
       }
       #clock {
         padding-right: 0.9em;
         padding-left: 0.9em;
-        transition: all 0.2s linear;
+        transition: text-shadow 0.1s linear;
       }
       #clock:hover {
         text-shadow: rgba(0, 0, 0, 0.7) 0em 0em 0.4em;
