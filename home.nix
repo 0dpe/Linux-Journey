@@ -293,6 +293,7 @@
   programs.waybar = {
     enable = true;
     settings.bar = {
+      reload_style_on_change = true;
       layer = "top";
       position = "top";
       modules-left = [ "hyprland/workspaces" ];
@@ -303,9 +304,9 @@
         format = "";
       };
       wireplumber = {
-        format = "{volume}% 󰕾";
+        format = "{volume}% <span font="15">󰕾</span>";
         format-muted = "{volume}% 󰸈";
-        on-click = "wpctl set-mute @DEFAULT_SINK@ toggle";
+        on-click = "/run/current-system/sw/bin/wpctl set-mute @DEFAULT_SINK@ toggle";
         scroll-step = "0.1";
         tooltip = false;
       };
