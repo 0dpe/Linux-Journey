@@ -340,14 +340,26 @@
         font-family: monospace;
       }
       .modules-right {
-        background: rgba(0, 0, 0, 0.3);
-        padding: 0.2em;
-        border-radius: 1em;
+        background: rgba(0, 0, 0, 0.35);
+        margin: 0.5em 0.5em 0.5em 0.5em;
+        border-radius: 0.85em
       }
       .modules-left {
-        background: rgba(0, 0, 0, 0.3);
-        margin: 0.4em 0.4em 0.4em 0.4em;
-        border-radius: 0.8em
+        background: rgba(0, 0, 0, 0.35);
+        margin: 0.5em 0.5em 0.5em 0.5em;
+        border-radius: 0.85em
+      }
+      #workspaces {
+      }
+      #wireplumber {
+      }
+      #bluetooth {
+      }
+      #network {
+      }
+      #battery {
+      }
+      #clock {
       }
     '';
   };
