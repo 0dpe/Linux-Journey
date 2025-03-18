@@ -327,12 +327,16 @@
         format-disconnected = "<span size='135%' line_height='0.1' rise='-6000'>󰤮</span>";
         format-icons = [ "󰤟" "󰤢" "󰤥" "󰤨" ];
         tooltip-format-wifi = "{bandwidthUpBytes} 󰕒\n{bandwidthDownBytes} 󰇚";
+        tooltip-format-disconnected = "Disconnected";
       };
       battery = {
         bat = "BAT0";
         full-at = 97;
         format = "{capacity}% {icon}";
         format-icons = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
+        states = {
+          low = 96;
+        };
         tooltip = false;
       };
       clock = {
@@ -403,8 +407,15 @@
         padding-left: 0.9em;
       }
       #battery {
+        padding-right: 0.9em;
+        padding-left: 0.9em;
+      }
+      #battery.low {
+        color: rgba(255, 50, 50);
       }
       #clock {
+        padding-right: 0.9em;
+        padding-left: 0.9em;
       }
     '';
   };
