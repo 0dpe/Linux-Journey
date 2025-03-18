@@ -318,14 +318,14 @@
         on-click = "/run/current-system/sw/bin/bluetoothctl connect F8:4E:17:D3:E7:4A";
         tooltip-format-off = "{controller_alias} {status}";
         tooltip-format-on = "{controller_alias} {status}";
-        tooltip-format-connected = "<span size='80%'>{controller_alias} {status}\n{device_enumerate}</span>";
+        tooltip-format-connected = "{controller_alias} {status}\n{device_enumerate}";
         tooltip-format-enumerate-connected = "{device_alias} {device_address}";
       };
       network = {
         format-wifi = "{essid} {icon}";
         format-disconnected = "󰤮";
         format-icons = [ "󰤟" "󰤢" "󰤥" "󰤨" ];
-        tooltip = false;
+        tooltip-format-wifi = "{bandwidthUpBytes} 󰕒\n{bandwidthDownBytes 󰇚";
       };
       battery = {
         bat = "BAT0";
@@ -398,7 +398,8 @@
         text-shadow: rgba(0, 0, 0, 0.7) 0em 0em 0.4em;
       }
       #network {
-        
+        padding-right: 0.9em;
+        padding-left: 0.9em;
       }
       #battery {
       }
