@@ -366,7 +366,7 @@
         padding-top: 0.45em;
         padding-bottom: 0.45em;
         border-radius: 9px;
-        transition: width 0.2s ease;
+        transition: all 0.5s ease;
       }
       .modules-left {
         background: rgba(0, 0, 0, 0.3);
@@ -374,7 +374,7 @@
         padding-top: 0.45em;
         padding-bottom: 0.45em;
         border-radius: 9px;
-        transition: width 0.2s ease;
+        transition: all 0.5s ease;
       }
       #workspaces {
         padding-right: 0.45em;
