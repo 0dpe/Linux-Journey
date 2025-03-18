@@ -363,11 +363,11 @@
       #workspaces button {
         all: unset;
         color: rgba(255, 255, 255, 0.4);
-        padding: 0em 0.5em 0em 0.5em;
+        padding: 0em 0.45em 0em 0.45em;
         transition: color 0.1s linear;
       }
       #workspaces button:hover {
-        text-shadow: rgba(0, 0, 0, 0.8) 0em 0em 0.5em;
+        text-shadow: rgba(0, 0, 0, 0.8) 0em 0em 0.4em;
         transition: text-shadow 0.1s linear;
       }
       #workspaces button.active {
