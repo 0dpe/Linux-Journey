@@ -413,7 +413,10 @@
         transition: text-shadow 0.1s linear;
       }
       #wireplumber:hover {
-        text-shadow: rgba(0, 0, 0, 0.7) 0em 0em 0.4em;
+        text-shadow: rgba(${builtins.toString (lib.fromHexString (builtins.substring 0 2 config.colorScheme.palette.base07))},
+                          ${builtins.toString (lib.fromHexString (builtins.substring 2 2 config.colorScheme.palette.base07))},
+                          ${builtins.toString (lib.fromHexString (builtins.substring 4 2 config.colorScheme.palette.base07))},
+                          0.7) 0em 0em 0.4em;
       }
       #bluetooth {
         padding-right: 0.9em;
