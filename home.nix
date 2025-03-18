@@ -318,7 +318,7 @@
         on-click = "/run/current-system/sw/bin/bluetoothctl connect F8:4E:17:D3:E7:4A";
         tooltip-format-off = "{controller_alias} {status}";
         tooltip-format-on = "{controller_alias} {status}";
-        tooltip-format-connected = "{controller_alias} {status}\n{device_enumerate}";
+        tooltip-format-connected = "<span size='80%'>{controller_alias} {status}\n{device_enumerate}</span>";
         tooltip-format-enumerate-connected = "{device_alias} {device_address}";
       };
       network = {
@@ -347,7 +347,6 @@
       tooltip {
         background: rgba(0, 0, 0, 0.3);
         border-radius: 9px;
-        font-size: 9px !important;
       }
       .modules-right {
         background: rgba(0, 0, 0, 0.3);
@@ -399,6 +398,7 @@
         text-shadow: rgba(0, 0, 0, 0.7) 0em 0em 0.4em;
       }
       #network {
+        
       }
       #battery {
       }
