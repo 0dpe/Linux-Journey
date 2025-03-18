@@ -346,7 +346,7 @@
         calendar = {
           mode = "month";
           format = {
-            today = "<u>{}</u>";
+            today = "<u><b>{}</b></u>";
           };
         };
       };
@@ -366,7 +366,6 @@
         padding-top: 0.45em;
         padding-bottom: 0.45em;
         border-radius: 9px;
-        transition: all 0.5s ease;
       }
       .modules-left {
         background: rgba(0, 0, 0, 0.3);
@@ -374,7 +373,6 @@
         padding-top: 0.45em;
         padding-bottom: 0.45em;
         border-radius: 9px;
-        transition: all 0.5s ease;
       }
       #workspaces {
         padding-right: 0.45em;
@@ -425,7 +423,7 @@
       #clock {
         padding-right: 0.9em;
         padding-left: 0.9em;
-        transition: text-shadow 0.1s linear;
+        transition: all 0.2s linear;
       }
       #clock:hover {
         text-shadow: rgba(0, 0, 0, 0.7) 0em 0em 0.4em;
