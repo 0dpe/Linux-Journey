@@ -348,21 +348,21 @@
       }
       .modules-right {
         background: rgba(0, 0, 0, 0.3);
-        margin: 0.6em 0.7em 0em 0em;
+        margin: 7px 9px 0px 0px;
         padding: 0.5em 0em 0.5em 0em;
-        border-radius: 0.8em
+        border-radius: 10px
       }
       .modules-left {
         background: rgba(0, 0, 0, 0.3);
-        margin: 0.6em 0em 0em 0.7em;
-        border-radius: 0.8em
+        margin: 7px 0px 0px 9px;
+        border-radius: 10px
       }
       #workspaces {
-        padding: 0em 0.5em 0em 0.5em;
       }
       #workspaces button {
         all: unset;
         color: rgba(255, 255, 255, 0.4);
+        padding: 0em 1em 0em 1em;
       }
       #workspaces button:hover {
         background: rgba(0, 0, 0, 0.5);
