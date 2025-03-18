@@ -304,7 +304,7 @@
         format = "";
       };
       wireplumber = {
-        format = "{volume}% <span font='13' line_height='0.1'>󰕾</span>";
+        format = "{volume}% <span scale='1.3' line_height='0.1'>󰕾</span>";
         format-muted = "{volume}% 󰸈";
         on-click = "/run/current-system/sw/bin/wpctl set-mute @DEFAULT_SINK@ toggle";
         scroll-step = "0.1";
@@ -339,7 +339,7 @@
     style = ''
       window#waybar { all: unset; }
       * {
-        font: 18px "JetBrainsMonoNL Nerd Font Mono", monospace;
+        font: 12px "JetBrainsMonoNL Nerd Font Mono", monospace;
       }
       .modules-right {
         background: rgba(0, 0, 0, 0.3);
