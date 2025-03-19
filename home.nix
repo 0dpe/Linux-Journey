@@ -7,7 +7,7 @@ let
       g = lib.fromHexString (builtins.substring 2 2 color);
       b = lib.fromHexString (builtins.substring 4 2 color);
     in
-    "${builtins.toString r}, ${builtins.toString g}, ${builtins.toString b}";
+    "${builtins.toString r},${builtins.toString g},${builtins.toString b}";
 in
 {
   imports = [
@@ -104,8 +104,8 @@ in
         border_size = 2;
         gaps_in = 4;
         gaps_out = 10;
-        "col.active_border" = "rgba(${hexToRgba config.colorScheme.palette.base07}, 1) rgba(${hexToRgba config.colorScheme.palette.base07}, 0.65) 45deg";
-        "col.inactive_border" = "rgba(${hexToRgba config.colorScheme.palette.base05}, 0.5)";
+        "col.active_border" = "rgba(${hexToRgba config.colorScheme.palette.base07},1) rgba(${hexToRgba config.colorScheme.palette.base07},0.65) 45deg";
+        "col.inactive_border" = "rgba(${hexToRgba config.colorScheme.palette.base05},0.5)";
         resize_on_border = true;
       };
       decoration = {
