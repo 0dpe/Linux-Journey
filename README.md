@@ -1583,7 +1583,7 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    ```
 1. Update `flake.lock` and rebuild the system.
 
-### Using [Waybar](https://github.com/Alexays/Waybar "GitHub") (WIP)
+### Using [Waybar](https://github.com/Alexays/Waybar "GitHub")
 1. To install Waybar, edit `configuration.nix`:
    ```diff
    { pkgs, ... }:
@@ -1771,14 +1771,13 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    Waybar is a [layer](https://wiki.hyprland.org/Configuring/Window-Rules/#layer-rules "Hyprland Wiki"); use `$ hyprctl layers` to see `namespace: waybar` included.\
    `bar` in `programs.waybar.settings.bar` is an arbitrary name for the bar; Waybar supports having multiple bars at the same time, but I only need one bar.\
    Waybar automatically starts on startup since it is inside `$ systemctl --user list-units`, so there needs to be neither Hyprland nor zsh configuration for autostarting Waybar. Automatically starting through systemctl though means that it does not have proper `$PATH`, meaning that it must use the full path of `wpctl` and `bluetoothctl` to find them.\
-   In `programs.waybar.style`, CSS variables cannot be declared.\
-   [Nerd Fonts](https://www.nerdfonts.com/cheat-sheet "NerdFonts.com") symbols used:
-   * `\uf111` is the workspace circle
-   * `\Uf057e` `\Uf0e08` is the muted icon.
-   * \Uf091f, \Uf0922,5,8, \Uf029e no wifi
-   * \Uf00af is the bluetooth icon, \Uf00b2 disabled
-   * \Uf007a-f, \Uf0080-2, \Uf0079 are battery icons, \Uf140b charging lightning
-   * \Uf01da download, \Uf0552 upload
+   In `programs.waybar.style`, although colors are often repeated, CSS variables cannot be declared.\
+   [Nerd Fonts](https://www.nerdfonts.com/cheat-sheet "NerdFonts.com") symbols used in the order in `home.nix`:
+   * Workspaces: `\uf111`
+   * Wireplumber: `\Uf057e` `\Uf0e08`
+   * Bluetooth: `\Uf00af` `\Uf00b2`
+   * Network: `\Uf092e` `\Uf091f` `\Uf0922` `\Uf0925` `\Uf0928` `\Uf0552` `\Uf01da`
+   * Battery: `\Uf140b` `\Uf007a-f` `\Uf0080` `\Uf0081` `\Uf0082` `\Uf0079`
 1. Rebuild the system.
 
 ### Using VSCode
