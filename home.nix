@@ -392,6 +392,7 @@ in
       }
       #workspaces button {
         color: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.4);
+        text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 1) 0em 0em 0.5em;
         padding-right: 0.45em;
         padding-left: 0.45em;
         transition: all 0.1s linear;
