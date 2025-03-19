@@ -1515,9 +1515,9 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
            # ...
            shadow = {
              # ...
-	 -         color = "rgba(102,196,204,0.1)";
+   -         color = "rgba(102,196,204,0.1)";
    +         color = "rgba(${hexToRgba config.colorScheme.palette.base05},0.2)";
-	 -         color_inactive = "rgba(51,51,51,0.1)";
+   -         color_inactive = "rgba(51,51,51,0.1)";
    +         color_inactive = "rgba(${hexToRgba config.colorScheme.palette.base03},0.2)";
            };
          };
