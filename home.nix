@@ -113,7 +113,7 @@ in
 	shadow = {
 	  range = 6;
 	  render_power = 1;
-	  color = "rgba(${hexToRgba config.colorScheme.palette.base05},0.3)";
+	  color = "rgba(${hexToRgba config.colorScheme.palette.base05},0.2)";
 	  color_inactive = "rgba(${hexToRgba config.colorScheme.palette.base03},0.2)";
 	};
         blur = {
