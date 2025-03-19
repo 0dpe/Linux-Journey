@@ -369,7 +369,7 @@ in
       }
       tooltip {
         background: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3);
-        text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 1) 0em 0em 0.5em;
+        text-shadow: #${hexToRgba config.colorScheme.palette.base00} 0em 0em 0.4em;
         border-radius: 9px;
       }
       .modules-right {
@@ -392,7 +392,7 @@ in
       }
       #workspaces button {
         color: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.4);
-        text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 1) 0em 0em 0.5em;
+        text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.5) 0em 0em 0.4em;
         padding-right: 0.45em;
         padding-left: 0.45em;
         transition: all 0.1s linear;
@@ -407,6 +407,7 @@ in
         color: #${config.colorScheme.palette.base08};
       }
       #wireplumber {
+        text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.5) 0em 0em 0.4em;
         padding-right: 0.9em;
         padding-left: 0.9em;
         transition: text-shadow 0.1s linear;
@@ -415,6 +416,7 @@ in
         text-shadow: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.7) 0em 0em 0.4em;
       }
       #bluetooth {
+        text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.5) 0em 0em 0.4em;
         padding-right: 0.9em;
         padding-left: 0.9em;
         transition: text-shadow 0.1s linear;
@@ -423,10 +425,12 @@ in
         text-shadow: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.7) 0em 0em 0.4em;
       }
       #network {
+        text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.5) 0em 0em 0.4em;
         padding-right: 0.9em;
         padding-left: 0.9em;
       }
       #battery {
+        text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.5) 0em 0em 0.4em;
         padding-right: 0.9em;
         padding-left: 0.9em;
       }
@@ -434,6 +438,7 @@ in
         color: #${config.colorScheme.palette.base08};
       }
       #clock {
+        text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.5) 0em 0em 0.4em;
         padding-right: 0.9em;
         padding-left: 0.9em;
         transition: text-shadow 0.1s linear;
