@@ -380,7 +380,7 @@ in
         padding-bottom: 0.45em;
         border-radius: 9px;
       }
-      .modules-right:not(:last-child)::after {
+      .modules-right:after {
         content: "";
         width: 3px;
         height: 60%;
