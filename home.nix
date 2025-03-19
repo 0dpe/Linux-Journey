@@ -104,8 +104,8 @@ in
         border_size = 2;
         gaps_in = 4;
         gaps_out = 10;
-        "col.active_border" = "rgba(225,225,225,1) rgba(255,255,255,0.650) 45deg";
-        "col.inactive_border" = "rgba(107,127,148,0.500)";
+        "col.active_border" = "${hexToRgba config.colorScheme.palette.base07 1} ${hexToRgba config.colorScheme.palette.base07 0.65} 45deg";
+        "col.inactive_border" = "${hexToRgba config.colorScheme.palette.base05 0.5}";
         resize_on_border = true;
       };
       decoration = {
@@ -113,8 +113,8 @@ in
 	shadow = {
 	  range = 6;
 	  render_power = 1;
-	  color = "rgba(102,196,204,0.1)";
-	  color_inactive = "rgba(51,51,51,0.1)";
+	  color = "${hexToRgba config.colorScheme.palette.base07 0.65}";
+	  color_inactive = "${hexToRgba config.colorScheme.palette.base05 0.5}";
 	};
         blur = {
           size = 4;
