@@ -1,5 +1,14 @@
 { pkgs, inputs, config, lib, ... }:
 
+let
+  hexToRgba = color: opacity:
+    let
+      r = lib.fromHexString (builtins.substring 0 2 color);
+      g = lib.fromHexString (builtins.substring 2 2 color);
+      b = lib.fromHexString (builtins.substring 4 2 color);
+    in
+    "rgba(${builtins.toString r}, ${builtins.toString g}, ${bultins.toString b}, ${builtins.toString opacity})";
+in
 {
   imports = [
     inputs.nix-colors.homeManagerModules.default
@@ -376,10 +385,7 @@
         border-radius: 9px;
       }
       .modules-left {
-        background: rgba(${builtins.toString (lib.fromHexString (builtins.substring 0 2 config.colorScheme.palette.base00))},
-                         ${builtins.toString (lib.fromHexString (builtins.substring 2 2 config.colorScheme.palette.base00))},
-                         ${builtins.toString (lib.fromHexString (builtins.substring 4 2 config.colorScheme.palette.base00))},
-                         0.3);;
+        background: ${hexToRgba config.colorScheme.palette.base00 0.3};
         margin: 7px 0px 0px 9px;
         padding-top: 0.45em;
         padding-bottom: 0.45em;
