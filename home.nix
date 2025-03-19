@@ -366,6 +366,7 @@ in
       * {
         all: unset;
         font: 12px "JetBrainsMonoNL Nerd Font Mono", monospace;
+        text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.4) 0em 0em 0.4em;
       }
       tooltip {
         background: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3);
