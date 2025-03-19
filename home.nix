@@ -369,7 +369,7 @@ in
       }
       tooltip {
         background: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3);
-        text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.8) 0em 0em 0.4em;
+        text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 1) 0em 0em 0.5em;
         border-radius: 9px;
       }
       .modules-right {
