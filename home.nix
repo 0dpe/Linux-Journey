@@ -104,7 +104,7 @@ in
         border_size = 2;
         gaps_in = 4;
         gaps_out = 10;
-        "col.active_border" = "${hexToRgba config.colorScheme.palette.base07 '1'} ${hexToRgba config.colorScheme.palette.base07 '0.65'} 45deg";
+        "col.active_border" = "${hexToRgba config.colorScheme.palette.base07 \'1\'} ${hexToRgba config.colorScheme.palette.base07 \'0.65\'} 45deg";
         "col.inactive_border" = "${hexToRgba config.colorScheme.palette.base05 '0.5'}";
         resize_on_border = true;
       };
