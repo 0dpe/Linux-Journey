@@ -374,6 +374,7 @@ in
       }
       .modules-right {
         background: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3);
+        text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.5) 0em 0em 0.4em;
         margin: 7px 9px 0px 0px;
         padding-top: 0.45em;
         padding-bottom: 0.45em;
@@ -438,7 +439,6 @@ in
         color: #${config.colorScheme.palette.base08};
       }
       #clock {
-        text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.5) 0em 0em 0.4em;
         padding-right: 0.9em;
         padding-left: 0.9em;
         transition: text-shadow 0.1s linear;
