@@ -744,6 +744,7 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    ```
    Since I am using Hyprland from `pkgs.hyprland`, I do not need to specify `wayland.windowManager.hyprland.package` for Home Manager.\
    Options that have syntax similar to Nix need to be wrapped in `""`.\
+   When defining colors with `rgba()`, there must be no whitespace.\
    Although trackpad (libinput) configuration can be done through `configuration.nix`, that [doesn't work](https://discourse.nixos.org/t/xorg-libinput-configuration-seems-to-be-ignored/15504 "NixOS Help") for me (`/etc/X11/xorg.conf` isn't generated), so I use Hyprland's options instead.\
    On the [Hyprland wiki](https://wiki.hyprland.org/Configuring/Variables/#touchpad:~:text=bool-,false,-Touchdevice), `touch-and-drag`'s default is marked as `false`, but in reality it's default is actually `true`, so I explicitly set it.
 1. Connect to internet. Use `# nixos-rebuild switch`.\
@@ -1478,8 +1479,17 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
 1. Edit `home.nix` to use Nix Colors:
    ```diff
    -{ pkgs, ... }:
-   +{ pkgs, inputs, config, ... }:
-   
+   +{ pkgs, inputs, config, lib, ... }:
+
+   +let
+   + hexToRgba = color: opacity: 
+   +   let
+   +     r = lib.fromHexString (builtins.substring 0 2 color);
+   +     g = lib.fromHexString (builtins.substring 2 2 color);
+   +     b = lib.fromHexString (builtins.substring 4 2 color);
+   +   in
+   +   "${builtins.toString r},${builtins.toString g},${builtins.toString b}";
+   +in
    {
    + imports = [
    +   inputs.nix-colors.homeManagerModules.default
@@ -1489,6 +1499,34 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    
      # ...
    
+     wayland.windowManager.hyprland = {
+       # ...
+       settings = {
+         # ...
+         general = {
+           # ...
+   -       "col.active_border" = "rgba(225,225,225,1) rgba(255,255,255,0.650) 45deg";
+   +       "col.active_border" = "rgba(${hexToRgba config.colorScheme.palette.base07},1) rgba(${hexToRgba config.colorScheme.palette.base07},0.65) 45deg";
+   -       "col.inactive_border" = "rgba(107,127,148,0.5)";
+   +       "col.inactive_border" = "rgba(${hexToRgba config.colorScheme.palette.base03},0.6)";
+           # ...
+         };
+         decoration = {
+           # ...
+           shadow = {
+             # ...
+	 -         color = "rgba(102,196,204,0.1)";
+   +         color = "rgba(${hexToRgba config.colorScheme.palette.base05},0.2)";
+	 -         color_inactive = "rgba(51,51,51,0.1)";
+   +         color_inactive = "rgba(${hexToRgba config.colorScheme.palette.base03},0.2)";
+           };
+         };
+         # ...
+       };
+     };
+
+     # ...
+
      programs.oh-my-posh = {
        # ...
        settings = {
@@ -1612,12 +1650,14 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    Waybar is a [layer](https://wiki.hyprland.org/Configuring/Window-Rules/#layer-rules "Hyprland Wiki"); use `$ hyprctl layers` to see `namespace: waybar` included.\
    `bar` in `programs.waybar.settings.bar` is an arbitrary name for the bar; Waybar supports having multiple bars at the same time, but I only need one bar.\
    Waybar automatically starts on startup since it is inside `$ systemctl --user list-units`, so there needs to be neither Hyprland nor zsh configuration for autostarting Waybar. Automatically starting through systemctl though means that it does not have proper `$PATH`, meaning that it must use the full path of `wpctl` and `bluetoothctl` to find them.\
-   \uf111 is the workspace circle
-   \Uf057e \Uf0e08 is the muted icon.
-   \Uf091f, \Uf0922,5,8, \Uf029e no wifi
-   \Uf00af is the bluetooth icon, \Uf00b2 disabled
-   \Uf007a-f, \Uf0080-2, \Uf0079 are battery icons, \Uf140b charging lightning
-   \Uf01da download, \Uf0552 upload
+   In `programs.waybar.style`, CSS variables cannot be declared.\
+   [Nerd Fonts](https://www.nerdfonts.com/cheat-sheet "NerdFonts.com") symbols used:
+   * `\uf111` is the workspace circle
+   * `\Uf057e` `\Uf0e08` is the muted icon.
+   * \Uf091f, \Uf0922,5,8, \Uf029e no wifi
+   * \Uf00af is the bluetooth icon, \Uf00b2 disabled
+   * \Uf007a-f, \Uf0080-2, \Uf0079 are battery icons, \Uf140b charging lightning
+   * \Uf01da download, \Uf0552 upload
 1. Rebuild the system.
 
 ### Using VSCode
@@ -1701,8 +1741,6 @@ Minimizing windows in Hyprland or just using workspaces? Minimizing: https://git
 Finish hyprland animation customization (layers, etc...)\
 https://github.com/alexhulbert/Hyprchroma \
 https://github.com/hyprland-community/awesome-hyprland/blob/main/README.md
-
-finish waybar config: TOOLTIPS CAN BE STYLED
 
 Home manage git\
 Zsh frameworks? oh my zsh, prezto, zinit, antigen, \
