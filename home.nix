@@ -104,8 +104,8 @@ in
         border_size = 2;
         gaps_in = 4;
         gaps_out = 10;
-        "col.active_border" = "${hexToRgba config.colorScheme.palette.base07 1} ${hexToRgba config.colorScheme.palette.base07 0.65} 45deg";
-        "col.inactive_border" = "${hexToRgba config.colorScheme.palette.base05 0.5}";
+        "col.active_border" = "${hexToRgba config.colorScheme.palette.base07 '1'} ${hexToRgba config.colorScheme.palette.base07 '0.65'} 45deg";
+        "col.inactive_border" = "${hexToRgba config.colorScheme.palette.base05 '0.5'}";
         resize_on_border = true;
       };
       decoration = {
@@ -113,8 +113,8 @@ in
 	shadow = {
 	  range = 6;
 	  render_power = 1;
-	  color = "${hexToRgba config.colorScheme.palette.base07 0.65}";
-	  color_inactive = "${hexToRgba config.colorScheme.palette.base05 0.5}";
+	  color = "${hexToRgba config.colorScheme.palette.base07 '0.65'}";
+	  color_inactive = "${hexToRgba config.colorScheme.palette.base05 '0.5'}";
 	};
         blur = {
           size = 4;
@@ -368,18 +368,18 @@ in
         font: 12px "JetBrainsMonoNL Nerd Font Mono", monospace;
       }
       tooltip {
-        background: ${hexToRgba config.colorScheme.palette.base00 0.3};
+        background: ${hexToRgba config.colorScheme.palette.base00 '0.3'};
         border-radius: 9px;
       }
       .modules-right {
-        background: ${hexToRgba config.colorScheme.palette.base00 0.3};
+        background: ${hexToRgba config.colorScheme.palette.base00 '0.3'};
         margin: 7px 9px 0px 0px;
         padding-top: 0.45em;
         padding-bottom: 0.45em;
         border-radius: 9px;
       }
       .modules-left {
-        background: ${hexToRgba config.colorScheme.palette.base00 0.3};
+        background: ${hexToRgba config.colorScheme.palette.base00 '0.3'};
         margin: 7px 0px 0px 9px;
         padding-top: 0.45em;
         padding-bottom: 0.45em;
@@ -390,13 +390,13 @@ in
         padding-left: 0.45em;
       }
       #workspaces button {
-        color: ${hexToRgba config.colorScheme.palette.base07 0.4};
+        color: ${hexToRgba config.colorScheme.palette.base07 '0.4'};
         padding-right: 0.45em;
         padding-left: 0.45em;
         transition: all 0.1s linear;
       }
       #workspaces button:hover {
-        text-shadow: ${hexToRgba config.colorScheme.palette.base07 0.7} 0em 0em 0.4em;
+        text-shadow: ${hexToRgba config.colorScheme.palette.base07 '0.7'} 0em 0em 0.4em;
       }
       #workspaces button.active {
         color: #${config.colorScheme.palette.base07};
@@ -410,7 +410,7 @@ in
         transition: text-shadow 0.1s linear;
       }
       #wireplumber:hover {
-        text-shadow: ${hexToRgba config.colorScheme.palette.base07 0.7} 0em 0em 0.4em;
+        text-shadow: ${hexToRgba config.colorScheme.palette.base07 '0.7'} 0em 0em 0.4em;
       }
       #bluetooth {
         padding-right: 0.9em;
@@ -418,7 +418,7 @@ in
         transition: text-shadow 0.1s linear;
       }
       #bluetooth:hover {
-        text-shadow: ${hexToRgba config.colorScheme.palette.base07 0.7} 0em 0em 0.4em;
+        text-shadow: ${hexToRgba config.colorScheme.palette.base07 '0.7'} 0em 0em 0.4em;
       }
       #network {
         padding-right: 0.9em;
@@ -437,7 +437,7 @@ in
         transition: text-shadow 0.1s linear;
       }
       #clock:hover {
-        text-shadow: ${hexToRgba config.colorScheme.palette.base07 0.7} 0em 0em 0.4em;
+        text-shadow: ${hexToRgba config.colorScheme.palette.base07 '0.7'} 0em 0em 0.4em;
       }
     '';
   };
