@@ -7,7 +7,7 @@ let
       g = lib.fromHexString (builtins.substring 2 2 color);
       b = lib.fromHexString (builtins.substring 4 2 color);
     in
-    "rgba(${builtins.toString r}, ${builtins.toString g}, ${bultins.toString b}, ${builtins.toString opacity})";
+    "rgba(${builtins.toString r}, ${builtins.toString g}, ${builtins.toString b}, ${builtins.toString opacity})";
 in
 {
   imports = [
