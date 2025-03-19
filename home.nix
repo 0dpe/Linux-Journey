@@ -382,6 +382,7 @@ in
       }
       .modules-left {
         background: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3);
+        text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.5) 0em 0em 0.4em;
         margin: 7px 0px 0px 9px;
         padding-top: 0.45em;
         padding-bottom: 0.45em;
@@ -393,7 +394,6 @@ in
       }
       #workspaces button {
         color: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.4);
-        text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.5) 0em 0em 0.4em;
         padding-right: 0.45em;
         padding-left: 0.45em;
         transition: all 0.1s linear;
@@ -408,7 +408,6 @@ in
         color: #${config.colorScheme.palette.base08};
       }
       #wireplumber {
-        text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.5) 0em 0em 0.4em;
         padding-right: 0.9em;
         padding-left: 0.9em;
         transition: text-shadow 0.1s linear;
@@ -417,7 +416,6 @@ in
         text-shadow: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.7) 0em 0em 0.4em;
       }
       #bluetooth {
-        text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.5) 0em 0em 0.4em;
         padding-right: 0.9em;
         padding-left: 0.9em;
         transition: text-shadow 0.1s linear;
@@ -426,12 +424,10 @@ in
         text-shadow: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.7) 0em 0em 0.4em;
       }
       #network {
-        text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.5) 0em 0em 0.4em;
         padding-right: 0.9em;
         padding-left: 0.9em;
       }
       #battery {
-        text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.5) 0em 0em 0.4em;
         padding-right: 0.9em;
         padding-left: 0.9em;
       }
