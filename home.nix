@@ -380,6 +380,15 @@ in
         padding-bottom: 0.45em;
         border-radius: 9px;
       }
+      .modules-right:not(:last-child)::after {
+        content: "";
+        width: 3px;
+        height: 60%;
+        background-color: #FFF;
+        position: absolute;
+        right: -9em;
+        top: 25%;
+      }
       .modules-left {
         background: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3);
         text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.5) 0em 0em 0.4em;
