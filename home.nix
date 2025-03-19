@@ -380,14 +380,10 @@ in
         padding-bottom: 0.45em;
         border-radius: 9px;
       }
-      .modules-right:after {
-        content: "";
-        width: 3px;
+      .modules-right:not(:last-child) {
+        border-right: 4px solid #FFF
         height: 60%;
-        background-color: #FFF;
-        position: absolute;
-        right: -9em;
-        top: 25%;
+        align-self: center;
       }
       .modules-left {
         background: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3);
