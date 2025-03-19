@@ -381,7 +381,7 @@ in
         border-radius: 9px;
       }
       .modules-right:not(:last-child) {
-        border-right: 4px solid #FFF
+        border-right: 4px solid #F00;
         height: 60%;
         align-self: center;
       }
