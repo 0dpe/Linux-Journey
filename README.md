@@ -1603,6 +1603,7 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    ```diff
    { pkgs, inputs, config, ... }:
 
+   # ...
    {
      # ...
 
@@ -1623,23 +1624,143 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    + programs.waybar = {
    +   enable = true;
    +   settings.bar = {
+   +     reload_style_on_change = true;
    +     layer = "top";
    +     position = "top";
-   +     modules-left = [ "" ];
-   +     modules-right = [ "" ];
+   +     modules-left = [ "hyprland/workspaces" ];
+   +     modules-right = [ "wireplumber" "bluetooth" "network" "battery" "clock" ];
    +     spacing = 0;
+   +     "hyprland/workspaces" = {
+   +       show-special = true;
+   +       format = "";
+   +     };
+   +     wireplumber = {
+   +       format = "{volume}%<span size='80%'> </span><span size='135%' line_height='0.1' rise='-1200'>󰕾</span>";
+   +       format-muted = "{volume}%<span size='80%'> </span><span size='135%' line_height='0.1' rise='-1200'>󰸈</span>";
+   +       on-click = "/run/current-system/sw/bin/wpctl set-mute @DEFAULT_SINK@ toggle";
+   +       scroll-step = "0.1";
+   +       tooltip = false;
+   +     };
+   +     bluetooth = {
+   +       format-disabled = "Controller Disabled";
+   +       format-off = "<span size='120%' line_height='0.1' rise='-6800'>󰂲</span>";
+   +       format-on = "󰂯";
+   +       format-connected = "{device_alias} 󰂯";
+   +       on-click-right = "/run/current-system/sw/bin/bluetoothctl power $(bluetoothctl show | grep -q 'Powered: yes' && echo off || echo on)";
+   +       on-click = "/run/current-system/sw/bin/bluetoothctl connect F8:4E:17:D3:E7:4A";
+   +       tooltip-format-off = "{controller_alias} {status}";
+   +       tooltip-format-on = "{controller_alias} {status}";
+   +       tooltip-format-connected = "{controller_alias} {status}\n{device_enumerate}";
+   +       tooltip-format-enumerate-connected = "{device_alias} {device_address}";
+   +     };
+   +     network = {
+   +       interval = 10;
+   +       format-wifi = "{essid}<span size='80%'> </span><span size='135%' line_height='0.1' rise='-1200'>{icon}</span>";
+   +       format-disconnected = "<span size='135%' line_height='0.1' rise='-6000'>󰤮</span>";
+   +       format-icons = [ "󰤟" "󰤢" "󰤥" "󰤨" ];
+   +       tooltip-format-wifi = "{bandwidthUpBytes} 󰕒\n{bandwidthDownBytes} 󰇚";
+   +       tooltip-format-disconnected = "Disconnected";
+   +     };
+   +     battery = {
+   +       interval = 10;
+   +       bat = "BAT0";
+   +       full-at = 97;
+   +       format = "{capacity}%<span size='80%'> </span><span size='92%' line_height='0.1' rise='500'>{icon}</span>";
+   +       format-charging = "{capacity}%<span size='80%'> </span><span size='92%' line_height='0.1' rise='500'>{icon}</span><span size='20%'> </span><span size='90%' line_height='0.1' rise='600'>󱐋</span>";
+   +       format-icons = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
+   +       states = {
+   +         low = 20;
+   +       };
+   +       tooltip = false;
+   +     };
+   +     clock = {
+   +       format = "{:%R}";
+   +       format-alt = "{:%b %d %R}";
+   +       tooltip-format = "{calendar}";
+   +       calendar = {
+   +         mode = "month";
+   +         format = {
+   +           today = "<u><b>{}</b></u>";
+   +         };
+   +       };
+   +     };
    +   };
    +   style = ''
-   +     window#waybar { all: unset; }
    +     * {
-   +       font-size: 13px;
-   +       font-family: monospace;
+   +       all: unset;
+   +       font: 12px "JetBrainsMonoNL Nerd Font Mono", monospace;
+   +     }
+   +     tooltip {
+   +       background: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3);
+   +       border-radius: 9px;
    +     }
    +     .modules-right {
-   +       background: rgba(0, 0, 0, 0.3);
+   +       background: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3);
+   +       margin: 7px 9px 0px 0px;
+   +       padding-top: 0.45em;
+   +       padding-bottom: 0.45em;
+   +       border-radius: 9px;
    +     }
    +     .modules-left {
-   +       background: rgba(0, 0, 0, 0.3);
+   +       background: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3);
+   +       margin: 7px 0px 0px 9px;
+   +       padding-top: 0.45em;
+   +       padding-bottom: 0.45em;
+   +       border-radius: 9px;
+   +     }
+   +     #workspaces {
+   +       padding-right: 0.45em;
+   +       padding-left: 0.45em;
+   +     }
+   +     #workspaces button {
+   +       color: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.4);
+   +       padding-right: 0.45em;
+   +       padding-left: 0.45em;
+   +       transition: all 0.1s linear;
+   +     }
+   +     #workspaces button:hover {
+   +       text-shadow: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.7) 0em 0em 0.4em;
+   +     }
+   +     #workspaces button.active {
+   +       color: #${config.colorScheme.palette.base07};
+   +     }
+   +     #workspaces button.urgent {
+   +       color: #${config.colorScheme.palette.base08};
+   +     }
+   +     #wireplumber {
+   +       padding-right: 0.9em;
+   +       padding-left: 0.9em;
+   +       transition: text-shadow 0.1s linear;
+   +     }
+   +     #wireplumber:hover {
+   +       text-shadow: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.7) 0em 0em 0.4em;
+   +     }
+   +     #bluetooth {
+   +       padding-right: 0.9em;
+   +       padding-left: 0.9em;
+   +       transition: text-shadow 0.1s linear;
+   +     }
+   +     #bluetooth:hover {
+   +       text-shadow: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.7) 0em 0em 0.4em;
+   +     }
+   +     #network {
+   +       padding-right: 0.9em;
+   +       padding-left: 0.9em;
+   +     }
+   +     #battery {
+   +       padding-right: 0.9em;
+   +       padding-left: 0.9em;
+   +     }
+   +     #battery.discharging.low {
+   +       color: #${config.colorScheme.palette.base08};
+   +     }
+   +     #clock {
+   +       padding-right: 0.9em;
+   +       padding-left: 0.9em;
+   +       transition: text-shadow 0.1s linear;
+   +     }
+   +     #clock:hover {
+   +       text-shadow: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.7) 0em 0em 0.4em;
    +     }
    +   '';
    + };
@@ -1684,7 +1805,8 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
 1. To use Home Manager to configure VSCodium, edit `home.nix`:
    ```diff
    { pkgs, inputs, config, ... }:
-
+   
+   # ...
    {
      # ...
 
