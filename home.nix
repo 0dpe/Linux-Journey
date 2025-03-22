@@ -412,6 +412,7 @@ in
         padding-left: 0.9em;
         transition: text-shadow 0.1s linear;
 
+        border: 5px solid rgba(125,185,153,0.5);
         border-image-source: image(rgb(255,255,255));
         border-image-slice: 30%;
       }
