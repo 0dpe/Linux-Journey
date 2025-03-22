@@ -382,7 +382,7 @@ in
         border-radius: 9px;
       }
       .modules-left {
-        color: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.4);
+        color: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.1);
         background: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3);
         text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.5) 0em 0em 0.4em;
         margin: 7px 0px 0px 9px;
@@ -413,7 +413,7 @@ in
         padding-left: 0.9em;
         transition: text-shadow 0.1s linear;
 
-        border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.3) 15%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.3) 85%, transparent 100%);
+        border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.2) 25%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.2) 75%, transparent 100%);
         border-image-width: 0.13em;
         border-image-slice: 0% 100% 0% 0%;
       }
