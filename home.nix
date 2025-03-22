@@ -373,6 +373,7 @@ in
         border-radius: 9px;
       }
       .modules-right {
+        color: #${config.colorScheme.palette.base07};
         background: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3);
         text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.5) 0em 0em 0.4em;
         margin: 7px 9px 0px 0px;
@@ -381,6 +382,7 @@ in
         border-radius: 9px;
       }
       .modules-left {
+        color: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.4);
         background: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3);
         text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.5) 0em 0em 0.4em;
         margin: 7px 0px 0px 9px;
@@ -393,7 +395,6 @@ in
         padding-left: 0.45em;
       }
       #workspaces button {
-        color: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.4);
         padding-right: 0.45em;
         padding-left: 0.45em;
         transition: all 0.1s linear;
@@ -412,8 +413,8 @@ in
         padding-left: 0.9em;
         transition: text-shadow 0.1s linear;
 
-        border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.4) 10%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.4) 90%, transparent 100%);
-        border-image-width: 0.125em;
+        border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.3) 15%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.3) 85%, transparent 100%);
+        border-image-width: 0.13em;
         border-image-slice: 0% 100% 0% 0%;
       }
       #wireplumber:hover {
