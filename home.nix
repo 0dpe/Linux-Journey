@@ -414,7 +414,6 @@ in
 
         border-image-source: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 100%, rgba(0,0,0,0) 100%);
         border-image-width: 0.25em;
-        border-image-outset: 0.125em;
         border-image-slice: 0% 100% 0% 0%;
       }
       #wireplumber:hover {
