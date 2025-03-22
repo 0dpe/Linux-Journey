@@ -412,7 +412,7 @@ in
         padding-right: 0.9em;
         padding-left: 0.9em;
         transition: text-shadow 0.1s linear;
-        border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.2) 25%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.2) 75%, transparent 100%);
+        border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.1) 25%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.1) 75%, transparent 100%);
         border-image-width: 0.13em;
         border-image-slice: 0% 100% 0% 0%;
       }
@@ -423,7 +423,7 @@ in
         padding-right: 0.9em;
         padding-left: 0.9em;
         transition: text-shadow 0.1s linear;
-        border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.2) 25%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.2) 75%, transparent 100%);
+        border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.1) 25%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.1) 75%, transparent 100%);
         border-image-width: 0.13em;
         border-image-slice: 0% 100% 0% 0%;
       }
@@ -433,7 +433,7 @@ in
       #network {
         padding-right: 0.9em;
         padding-left: 0.9em;
-        border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.2) 25%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.2) 75%, transparent 100%);
+        border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.1) 25%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.1) 75%, transparent 100%);
         border-image-width: 0.13em;
         border-image-slice: 0% 100% 0% 0%;
       }
@@ -441,7 +441,7 @@ in
         padding-right: 0.9em;
         padding-left: 0.9em;
         transition: color 0.1s linear;
-        border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.2) 25%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.2) 75%, transparent 100%);
+        border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.1) 25%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.1) 75%, transparent 100%);
         border-image-width: 0.13em;
         border-image-slice: 0% 100% 0% 0%;
       }
