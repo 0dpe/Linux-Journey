@@ -380,11 +380,6 @@ in
         padding-bottom: 0.45em;
         border-radius: 9px;
       }
-      .modules-right:not(:last-child) {
-        border-right: 4px solid #F00;
-        height: 60%;
-        align-self: center;
-      }
       .modules-left {
         background: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3);
         text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.5) 0em 0em 0.4em;
@@ -416,6 +411,9 @@ in
         padding-right: 0.9em;
         padding-left: 0.9em;
         transition: text-shadow 0.1s linear;
+
+        border-image-source: image(rgb(255,255,255));
+        border-image-slice: 30%;
       }
       #wireplumber:hover {
         text-shadow: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.7) 0em 0em 0.4em;
