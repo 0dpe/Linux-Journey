@@ -382,7 +382,7 @@ in
         border-radius: 9px;
       }
       .modules-left {
-        color: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.1);
+        color: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.4);
         background: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3);
         text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.5) 0em 0em 0.4em;
         margin: 7px 0px 0px 9px;
@@ -412,7 +412,6 @@ in
         padding-right: 0.9em;
         padding-left: 0.9em;
         transition: text-shadow 0.1s linear;
-
         border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.2) 25%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.2) 75%, transparent 100%);
         border-image-width: 0.13em;
         border-image-slice: 0% 100% 0% 0%;
@@ -424,6 +423,9 @@ in
         padding-right: 0.9em;
         padding-left: 0.9em;
         transition: text-shadow 0.1s linear;
+        border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.2) 25%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.2) 75%, transparent 100%);
+        border-image-width: 0.13em;
+        border-image-slice: 0% 100% 0% 0%;
       }
       #bluetooth:hover {
         text-shadow: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.7) 0em 0em 0.4em;
@@ -431,10 +433,17 @@ in
       #network {
         padding-right: 0.9em;
         padding-left: 0.9em;
+        border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.2) 25%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.2) 75%, transparent 100%);
+        border-image-width: 0.13em;
+        border-image-slice: 0% 100% 0% 0%;
       }
       #battery {
         padding-right: 0.9em;
         padding-left: 0.9em;
+        transition: color 0.1s linear;
+        border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.2) 25%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.2) 75%, transparent 100%);
+        border-image-width: 0.13em;
+        border-image-slice: 0% 100% 0% 0%;
       }
       #battery.discharging.low {
         color: #${config.colorScheme.palette.base08};
