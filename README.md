@@ -1685,85 +1685,102 @@ For Linux systems, [PipeWire](https://docs.pipewire.org/index.html "PipeWire Doc
    +       };
    +     };
    +   };
-   +   style = ''
-   +     * {
-   +       all: unset;
-   +       font: 12px "JetBrainsMonoNL Nerd Font Mono", monospace;
-   +     }
-   +     tooltip {
-   +       background: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3);
-   +       border-radius: 9px;
-   +     }
-   +     .modules-right {
-   +       background: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3);
-   +       margin: 7px 9px 0px 0px;
-   +       padding-top: 0.45em;
-   +       padding-bottom: 0.45em;
-   +       border-radius: 9px;
-   +     }
-   +     .modules-left {
-   +       background: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3);
-   +       margin: 7px 0px 0px 9px;
-   +       padding-top: 0.45em;
-   +       padding-bottom: 0.45em;
-   +       border-radius: 9px;
-   +     }
-   +     #workspaces {
-   +       padding-right: 0.45em;
-   +       padding-left: 0.45em;
-   +     }
-   +     #workspaces button {
-   +       color: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.4);
-   +       padding-right: 0.45em;
-   +       padding-left: 0.45em;
-   +       transition: all 0.1s linear;
-   +     }
-   +     #workspaces button:hover {
-   +       text-shadow: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.7) 0em 0em 0.4em;
-   +     }
-   +     #workspaces button.active {
-   +       color: #${config.colorScheme.palette.base07};
-   +     }
-   +     #workspaces button.urgent {
-   +       color: #${config.colorScheme.palette.base08};
-   +     }
-   +     #wireplumber {
-   +       padding-right: 0.9em;
-   +       padding-left: 0.9em;
-   +       transition: text-shadow 0.1s linear;
-   +     }
-   +     #wireplumber:hover {
-   +       text-shadow: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.7) 0em 0em 0.4em;
-   +     }
-   +     #bluetooth {
-   +       padding-right: 0.9em;
-   +       padding-left: 0.9em;
-   +       transition: text-shadow 0.1s linear;
-   +     }
-   +     #bluetooth:hover {
-   +       text-shadow: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.7) 0em 0em 0.4em;
-   +     }
-   +     #network {
-   +       padding-right: 0.9em;
-   +       padding-left: 0.9em;
-   +     }
-   +     #battery {
-   +       padding-right: 0.9em;
-   +       padding-left: 0.9em;
-   +     }
-   +     #battery.discharging.low {
-   +       color: #${config.colorScheme.palette.base08};
-   +     }
-   +     #clock {
-   +       padding-right: 0.9em;
-   +       padding-left: 0.9em;
-   +       transition: text-shadow 0.1s linear;
-   +     }
-   +     #clock:hover {
-   +       text-shadow: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.7) 0em 0em 0.4em;
-   +     }
-   +   '';
-   + };
+   +     style = ''
+   +       * {
+   +         all: unset;
+   +         font: 12px "JetBrainsMonoNL Nerd Font Mono", monospace;
+   +       }
+   +       tooltip {
+   +         background: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3);
+   +         text-shadow: #${config.colorScheme.palette.base00} 0em 0em 0.4em;
+   +         border-radius: 9px;
+   +       }
+   +       .modules-right {
+   +         color: #${config.colorScheme.palette.base07};
+   +         background: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3);
+   +         text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.4) 0em 0em 0.4em;
+   +         margin: 7px 9px 0px 0px;
+   +         padding-top: 0.45em;
+   +         padding-bottom: 0.45em;
+   +         border-radius: 9px;
+   +       }
+   +       .modules-left {
+   +         color: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.4);
+   +         background: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3);
+   +         text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.4) 0em 0em 0.4em;
+   +         margin: 7px 0px 0px 9px;
+   +         padding-top: 0.45em;
+   +         padding-bottom: 0.45em;
+   +         border-radius: 9px;
+   +       }
+   +       #workspaces {
+   +         padding-right: 0.45em;
+   +         padding-left: 0.45em;
+   +       }
+   +       #workspaces button {
+   +         padding-right: 0.45em;
+   +         padding-left: 0.45em;
+   +         transition: all 0.1s linear;
+   +       }
+   +       #workspaces button:hover {
+   +         text-shadow: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.7) 0em 0em 0.4em;
+   +       }
+   +       #workspaces button.active {
+   +         color: #${config.colorScheme.palette.base07};
+   +       }
+   +       #workspaces button.urgent {
+   +         color: #${config.colorScheme.palette.base08};
+   +       }
+   +       #wireplumber {
+   +         padding-right: 0.9em;
+   +         padding-left: 0.9em;
+   +         transition: text-shadow 0.1s linear;
+   +         border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.15) 25%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.15) 75%, transparent 100%);
+   +         border-image-width: 0.13em;
+   +         border-image-slice: 0% 100% 0% 0%;
+   +       }
+   +       #wireplumber:hover {
+   +         text-shadow: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.7) 0em 0em 0.4em;
+   +       }
+   +       #bluetooth {
+   +         padding-right: 0.9em;
+   +         padding-left: 0.9em;
+   +         transition: text-shadow 0.1s linear;
+   +         border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.15) 25%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.15) 75%, transparent 100%);
+   +         border-image-width: 0.13em;
+   +         border-image-slice: 0% 100% 0% 0%;
+   +       }
+   +       #bluetooth:hover {
+   +         text-shadow: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.7) 0em 0em 0.4em;
+   +       }
+   +       #network {
+   +         padding-right: 0.9em;
+   +         padding-left: 0.9em;
+   +         border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.15) 25%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.15) 75%, transparent 100%);
+   +         border-image-width: 0.13em;
+   +         border-image-slice: 0% 100% 0% 0%;
+   +       }
+   +       #battery {
+   +         padding-right: 0.9em;
+   +         padding-left: 0.9em;
+   +         transition: color 0.1s linear;
+   +         border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.15) 25%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.15) 75%, transparent 100%);
+   +         border-image-width: 0.13em;
+   +         border-image-slice: 0% 100% 0% 0%;
+   +       }
+   +       #battery.discharging.low {
+   +         color: #${config.colorScheme.palette.base08};
+   +       }
+   +       #clock {
+   +         padding-right: 0.9em;
+   +         padding-left: 0.9em;
+   +         transition: text-shadow 0.1s linear;
+   +       }
+   +       #clock:hover {
+   +         text-shadow: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.7) 0em 0em 0.4em;
+   +       }
+   +     '';
+   +   };
 
      # ...
    }
