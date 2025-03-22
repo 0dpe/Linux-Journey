@@ -412,9 +412,8 @@ in
         padding-left: 0.9em;
         transition: text-shadow 0.1s linear;
 
-        border: 5px solid rgba(125,185,153,0.5);
-        border-image-source: image(rgb(255,255,255));
-        border-image-slice: 30%;
+        border-image-source: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,0) 100%);
+        border-image-width: 1em;
       }
       #wireplumber:hover {
         text-shadow: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.7) 0em 0em 0.4em;
