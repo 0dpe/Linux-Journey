@@ -412,7 +412,7 @@ in
         padding-left: 0.9em;
         transition: text-shadow 0.1s linear;
 
-        border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3) 0%, rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3) 100%, transparent 100%);
+        border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.4) 10%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.4) 90%, transparent 100%);
         border-image-width: 0.125em;
         border-image-slice: 0% 100% 0% 0%;
       }
