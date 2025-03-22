@@ -375,7 +375,7 @@ in
       .modules-right {
         color: #${config.colorScheme.palette.base07};
         background: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3);
-        text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.5) 0em 0em 0.4em;
+        text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.4) 0em 0em 0.4em;
         margin: 7px 9px 0px 0px;
         padding-top: 0.45em;
         padding-bottom: 0.45em;
@@ -384,7 +384,7 @@ in
       .modules-left {
         color: rgba(${hexToRgba config.colorScheme.palette.base07}, 0.4);
         background: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3);
-        text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.5) 0em 0em 0.4em;
+        text-shadow: rgba(${hexToRgba config.colorScheme.palette.base00}, 0.4) 0em 0em 0.4em;
         margin: 7px 0px 0px 9px;
         padding-top: 0.45em;
         padding-bottom: 0.45em;
@@ -412,7 +412,7 @@ in
         padding-right: 0.9em;
         padding-left: 0.9em;
         transition: text-shadow 0.1s linear;
-        border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.1) 25%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.1) 75%, transparent 100%);
+        border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.15) 25%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.15) 75%, transparent 100%);
         border-image-width: 0.13em;
         border-image-slice: 0% 100% 0% 0%;
       }
@@ -423,7 +423,7 @@ in
         padding-right: 0.9em;
         padding-left: 0.9em;
         transition: text-shadow 0.1s linear;
-        border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.1) 25%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.1) 75%, transparent 100%);
+        border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.15) 25%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.15) 75%, transparent 100%);
         border-image-width: 0.13em;
         border-image-slice: 0% 100% 0% 0%;
       }
@@ -433,7 +433,7 @@ in
       #network {
         padding-right: 0.9em;
         padding-left: 0.9em;
-        border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.1) 25%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.1) 75%, transparent 100%);
+        border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.15) 25%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.15) 75%, transparent 100%);
         border-image-width: 0.13em;
         border-image-slice: 0% 100% 0% 0%;
       }
@@ -441,7 +441,7 @@ in
         padding-right: 0.9em;
         padding-left: 0.9em;
         transition: color 0.1s linear;
-        border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.1) 25%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.1) 75%, transparent 100%);
+        border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.15) 25%, rgba(${hexToRgba config.colorScheme.palette.base07}, 0.15) 75%, transparent 100%);
         border-image-width: 0.13em;
         border-image-slice: 0% 100% 0% 0%;
       }
