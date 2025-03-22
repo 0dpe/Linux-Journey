@@ -412,8 +412,8 @@ in
         padding-left: 0.9em;
         transition: text-shadow 0.1s linear;
 
-        border-image-source: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 100%, rgba(0,0,0,0) 100%);
-        border-image-width: 0.25em;
+        border-image-source: linear-gradient(180deg, transparent 0%, rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3) 0%, rgba(${hexToRgba config.colorScheme.palette.base00}, 0.3) 100%, transparent 100%);
+        border-image-width: 0.125em;
         border-image-slice: 0% 100% 0% 0%;
       }
       #wireplumber:hover {
