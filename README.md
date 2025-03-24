@@ -734,7 +734,7 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    +       middle_click_paste = false;
    +     };
    +     windowrule = [
-   +       "scrolltouchpad 1.0, kitty"
+   +       "scrolltouchpad 1.0, class:kitty, title:kitty"
    +     ];
    +   };
    + };
