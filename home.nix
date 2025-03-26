@@ -97,7 +97,7 @@ in
         "windowsOut, 1, 8, snappyOut2, popin 80%"
         "windowsMove, 1, 5, snappyOut1"
         "fadeOut, 1, 4, expoOut"
-        "borderangle, 1, 40, linear, loop"
+        "borderangle, 1, 3, snappyOut2, once"
         "workspaces, 1, 3, snappyOut1, slide"
       ];
       general = {
