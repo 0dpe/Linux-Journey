@@ -144,7 +144,7 @@ in
         middle_click_paste = false;
       };
       windowrule = [
-        "scrolltouchpad 1.0, class:kitty, title:kitty"
+        "scrolltouchpad 1.0, class:kitty"
       ];
       layerrule = [
         "blur, waybar"
