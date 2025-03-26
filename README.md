@@ -687,7 +687,9 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    +       "windowsOut, 1, 8, snappyOut2, popin 80%"
    +       "windowsMove, 1, 5, snappyOut1"
    +       "fadeOut, 1, 4, expoOut"
-   +       "borderangle, 1, 40, linear, loop"
+   +       "fadeLayers, 1, 4, expoOut"
+   +       "border, 1, 4, expoOut"
+   +       "borderangle, 1, 6, expoOut, once"
    +       "workspaces, 1, 3, snappyOut1, slide"
    +     ];
    +     general = {
