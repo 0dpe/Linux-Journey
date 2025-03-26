@@ -104,8 +104,9 @@ in
         border_size = 2;
         gaps_in = 4;
         gaps_out = 10;
-        "col.active_border" = "rgba(${hexToRgba config.colorScheme.palette.base07},1) rgba(${hexToRgba config.colorScheme.palette.base07},0.65) 45deg";
+#        "col.active_border" = "rgba(${hexToRgba config.colorScheme.palette.base07},1) rgba(${hexToRgba config.colorScheme.palette.base07},0.65) 45deg";
         "col.inactive_border" = "rgba(${hexToRgba config.colorScheme.palette.base03},0.6)";
+        "col.active_border" = "rgba(255,0,132,1) rgba(0,157,255,0.8) 45deg";
         resize_on_border = true;
       };
       decoration = {
