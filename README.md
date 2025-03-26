@@ -734,7 +734,7 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    +       middle_click_paste = false;
    +     };
    +     windowrule = [
-   +       "scrolltouchpad 1.0, class:kitty, title:kitty"
+   +       "scrolltouchpad 1.0, class:kitty"
    +     ];
    +   };
    + };
@@ -746,7 +746,8 @@ Using [Home Manager](https://nix-community.github.io/home-manager/options.xhtml#
    Options that have syntax similar to Nix need to be wrapped in `""`.\
    When defining colors with `rgba()`, there must be no whitespace.\
    Although trackpad (libinput) configuration can be done through `configuration.nix`, that [doesn't work](https://discourse.nixos.org/t/xorg-libinput-configuration-seems-to-be-ignored/15504 "NixOS Help") for me (`/etc/X11/xorg.conf` isn't generated), so I use Hyprland's options instead.\
-   On the [Hyprland wiki](https://wiki.hyprland.org/Configuring/Variables/#touchpad:~:text=bool-,false,-Touchdevice), `touch-and-drag`'s default is marked as `false`, but in reality it's default is actually `true`, so I explicitly set it.
+   On the [Hyprland wiki](https://wiki.hyprland.org/Configuring/Variables/#touchpad:~:text=bool-,false,-Touchdevice), `touch-and-drag`'s default is marked as `false`, but in reality it's default is actually `true`, so I explicitly set it.\
+   The `windowrule` parameter [`title:[regex]`](https://wiki.hyprland.org/Configuring/Window-Rules/#syntax "Hyprland Wiki") is not specified because Kitty changes the title based on the previous command visible through using `$ hyprctl clients`.
 1. Connect to internet. Use `# nixos-rebuild switch`.\
    An error occurs since a configuration file for Hyprland was automatically generated when installing Hyprland. Home Manager will not overwrite this existing configuration file.
 1. Use `$ rm ~/.config/hypr/hyprland.conf`, then `# nixos-rebuild switch` again.\
