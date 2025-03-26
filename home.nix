@@ -97,7 +97,7 @@ in
         "windowsOut, 1, 8, snappyOut2, popin 80%"
         "windowsMove, 1, 5, snappyOut1"
         "fadeOut, 1, 4, expoOut"
-        "fadeLayers, 1, 3, expoOut"
+        "fadeLayers, 1, 1, expoOut"
         "border, 1, 5, snappyOut2"
         "borderangle, 1, 10, snappyOut2, once"
         "workspaces, 1, 3, snappyOut1, slide"
