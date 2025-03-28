@@ -191,6 +191,9 @@ in
   programs.firefox = {
     enable = true;
     package = pkgs.firefox-bin;
+    policies = {
+      BlockAboutConfig = true;
+    };
     profiles.tim1 = {
       name = "School";
       id = 0;
