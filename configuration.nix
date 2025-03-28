@@ -103,62 +103,62 @@
     firefox = {
       enable = true;
       package = pkgs.firefox;
-      #policies = {
-      #  DisablePocket = true;
-      #  #ExtensionSettings = ;
-      #  FirefoxHome = {
-      #    Search = false;
-      #    TopSites = false;
-      #    SponsoredTopSites = false;
-      #    Highlights = false;
-      #    Pocket = false;
-      #    SponsoredPocket = false;
-      #  };
-      #  Homepage = {
-      #    URL = "https://worcesteracademy.myschoolapp.com/app/student";
-      #    StartPage = "previous-session";
-      #  };
-      #  OverrideFirstRunPage = "";
-      #  #Permissions = ;
-      #  Preferences = {
-      #    "browser.tabs.tabmanager.enabled" = {
-      #      Value = false;
-      #      Status = "user";
-      #    };
-      #    "browser.tabs.inTitlebar" = {
-      #      Value = 0;
-      #      Status = "user";
-      #    };
-      #    "browser.uidensity" = {
-      #      Value = 1;
-      #      Status = "user";
-      #    };
-      #    "browser.urlbar.shortcuts.tabs" = {
-      #      Value = false;
-      #      Status = "user";
-      #    };
-      #    "browser.urlbar.suggest.engines" = {
-      #      Value = false;
-      #      Status = "user";
-      #    };
-      #    "browser.urlbar.suggest.topsites" = {
-      #      Value = false;
-      #      Status = "user";
-      #    };
-      #    "browser.urlbar.suggest.calculator" = {
-      #      Value = true;
-      #      Status = "user";
-      #    };
-      #    "browser.urlbar.unitConversion.enabled" = {
-      #      Value = true;
-      #      Status = "user";
-      #    };
-      #    "browser.vpn_promo.enabled" = {
-      #      Value = false;
-      #      Status = "user";
-      #    };
-      #  };
-      #};
+      policies = {
+        DisablePocket = true;
+        #ExtensionSettings = ;
+        FirefoxHome = {
+          Search = false;
+          TopSites = false;
+          SponsoredTopSites = false;
+          Highlights = false;
+          Pocket = false;
+          SponsoredPocket = false;
+        };
+        Homepage = {
+          URL = "https://worcesteracademy.myschoolapp.com/app/student";
+          StartPage = "previous-session";
+        };
+        OverrideFirstRunPage = "";
+        #Permissions = ;
+        Preferences = {
+          "browser.tabs.tabmanager.enabled" = {
+            Value = false;
+            Status = "user";
+          };
+          "browser.tabs.inTitlebar" = {
+            Value = 0;
+            Status = "user";
+          };
+          "browser.uidensity" = {
+            Value = 1;
+            Status = "user";
+          };
+          "browser.urlbar.shortcuts.tabs" = {
+            Value = false;
+            Status = "user";
+          };
+          "browser.urlbar.suggest.engines" = {
+            Value = false;
+            Status = "user";
+          };
+          "browser.urlbar.suggest.topsites" = {
+            Value = false;
+            Status = "user";
+          };
+          "browser.urlbar.suggest.calculator" = {
+            Value = true;
+            Status = "user";
+          };
+          "browser.urlbar.unitConversion.enabled" = {
+            Value = true;
+            Status = "user";
+          };
+          "browser.vpn_promo.enabled" = {
+            Value = false;
+            Status = "user";
+          };
+        };
+      };
     };
 
     waybar.enable = true;
