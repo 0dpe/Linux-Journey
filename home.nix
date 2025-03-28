@@ -201,6 +201,7 @@ in
         Pocket = false;
         SponsoredPocket = false;
       };
+    languagePacks = [ "en-US" ];
     };
     profiles.tim1 = {
       name = "School";
