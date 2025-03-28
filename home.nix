@@ -189,7 +189,7 @@ in
   };
 
   programs.firefox = {
-    enable = true;
+    enable = false;
     package = pkgs.firefox;
     policies = {
       BlockAboutConfig = true;
