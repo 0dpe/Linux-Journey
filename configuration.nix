@@ -102,7 +102,6 @@
   
     firefox = {
       enable = true;
-      package = pkgs.firefox;
       policies = {
         DisablePocket = true;
         #ExtensionSettings = ;
