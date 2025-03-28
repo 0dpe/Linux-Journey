@@ -190,19 +190,6 @@ in
 
   programs.firefox = {
     enable = true;
-    package = pkgs.firefox;
-    policies = {
-      BlockAboutConfig = true;
-      FirefoxHome = {
-        Search = false;
-        TopSites = false;
-        SponsoredTopSites = false;
-        Highlights = false;
-        Pocket = false;
-        SponsoredPocket = false;
-      };
-    languagePacks = [ "en-US" ];
-    };
     profiles.tim1 = {
       name = "School";
       id = 0;
