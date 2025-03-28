@@ -193,6 +193,14 @@ in
     package = pkgs.firefox-bin;
     policies = {
       BlockAboutConfig = true;
+      FirefoxHome = {
+        Search = false;
+        TopSites = false;
+        SponsoredTopSites = false;
+        Highlights = false;
+        Pocket = false;
+        SponsoredPocket = false;
+      };
     };
     profiles.tim1 = {
       name = "School";
