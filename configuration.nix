@@ -1,3 +1,4 @@
+
 { pkgs, ... }:
 
 {
@@ -119,45 +120,19 @@
         };
         OverrideFirstRunPage = "";
         #Permissions = ;
-        Preferences = {
-          "browser.tabs.tabmanager.enabled" = {
-            Value = false;
-            Status = "user";
-          };
-          "browser.tabs.inTitlebar" = {
-            Value = 0;
-            Status = "user";
-          };
-          "browser.uidensity" = {
-            Value = 1;
-            Status = "user";
-          };
-          "browser.urlbar.shortcuts.tabs" = {
-            Value = false;
-            Status = "user";
-          };
-          "browser.urlbar.suggest.engines" = {
-            Value = false;
-            Status = "user";
-          };
-          "browser.urlbar.suggest.topsites" = {
-            Value = false;
-            Status = "user";
-          };
-          "browser.urlbar.suggest.calculator" = {
-            Value = true;
-            Status = "user";
-          };
-          "browser.urlbar.unitConversion.enabled" = {
-            Value = true;
-            Status = "user";
-          };
-          "browser.vpn_promo.enabled" = {
-            Value = false;
-            Status = "user";
-          };
-        };
       };
+      preferences = {
+        "browser.tabs.tabmanager.enabled" = false;
+        "browser.tabs.inTitlebar" = 0;
+        "browser.uidensity" = 1;
+        "browser.urlbar.shortcuts.tabs" = false;
+        "browser.urlbar.suggest.engines" = false;
+        "browser.urlbar.suggest.topsites" = false;
+        "browser.urlbar.suggest.calculator" = true;
+        "browser.urlbar.unitConversion.enabled" = true;
+        "browser.vpn_promo.enabled" = false;
+      };
+      preferencesStatus = "user";
     };
 
     waybar.enable = true;
