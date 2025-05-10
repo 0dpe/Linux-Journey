@@ -6,19 +6,21 @@
 // @author       Odpe
 // @match        https://soundcloud.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=soundcloud.com
+// @require      https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.6.0/color-thief.umd.js
 // @grant        none
 // ==/UserScript==
 
 const style = document.createElement('style');
 style.textContent = `
-    .tweak-element {
-        display: none;
-    }
-
     /* reverse playlists */
     .trackList__list {
         display: flex;
         flex-direction: column-reverse;
+    }
+
+    /* remove app promotions */
+    .sidebarModule.mobileApps {
+        display: none;
     }
 
     /* remove header promotions */
@@ -41,11 +43,6 @@ style.textContent = `
     /* remove home on the toolbar since the soundcloud logo links to home anyways */
     a[data-menu-name="home"] {
         display: none !important;
-    }
-
-    /* remove language changer */
-    .localeSelector {
-        display: none;
     }
 
     /* blur popup background */
@@ -77,7 +74,7 @@ style.textContent = `
     
     .theme-dark {
         .tweak__background__gradient {
-            background: var(--old-gradient);
+            background: var(--old-gradient, black);
             filter: brightness(0.2);
             position: fixed;
             width: 100vw;
@@ -88,7 +85,7 @@ style.textContent = `
         }
         .tweak__background__gradient::before {
             content: "";
-            background: var(--new-gradient);
+            background: var(--new-gradient, black);
             position: absolute;
             inset: 0;
             opacity: 0;
@@ -102,7 +99,7 @@ style.textContent = `
         /* waveform and creator badge color */
         .waveform__scene canvas:not(.waveformCommentsNode),
         .creatorBadge {
-            filter: hue-rotate(var(--theme-hue-rotate));
+            filter: hue-rotate(var(--theme-waveform-hue-rotate)) grayscale(var(--theme-waveform-grayscale));
         }
 
         /* artist liked comment color */
@@ -220,87 +217,102 @@ style.textContent = `
 document.head.append(style);
 
 document.documentElement.style.setProperty('--blur-amount', '30px');
-document.documentElement.style.setProperty('--theme-color', 'rgb(133, 157, 255)');
-document.documentElement.style.setProperty('--theme-hue-rotate', '240deg');
 
 const tweakGradientElement = document.createElement("div");
 tweakGradientElement.classList.add("tweak__background__gradient");
 document.body.appendChild(tweakGradientElement);
 
-document.documentElement.style.setProperty('--old-gradient', "black");
+const rgbToHsl = ([r, g, b]) => {
+    r /= 255; g /= 255; b /= 255;
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const delta = max - min;
+    let h = 0;
+    let s = 0;
+    let l = (max + min) / 2;
+    if (delta !== 0) {
+        if (max === r) {
+            h = ((g - b) / delta) % 6;
+        } else if (max === g) {
+            h = (b - r) / delta + 2;
+        } else {
+            h = (r - g) / delta + 4;
+        }
+        h *= 60;
+        if (h < 0) h += 360;
+        s = delta / (1 - Math.abs(2 * l - 1));
+    }
+    s *= 100;
+    l *= 100;
+    return [h, s, l];
+}
+
+const luminanceRgb = ([r, g, b]) => (.299 * r) + (.587 * g) + (.114 * b);
+
+const setColors = artwork => {
+    let artworkStyles = window.getComputedStyle(artwork);
+    let artworkURL = artworkStyles.backgroundImage.match(/url\("?(.+?)"?\)/);
+    const colorThiefImage = new Image();
+    colorThiefImage.crossOrigin = 'Anonymous';
+    colorThiefImage.src = artworkURL[1];
+    colorThiefImage.onload = () => {
+        const colorThief = new ColorThief();
+        let palette = colorThief.getPalette(colorThiefImage, 2);
+        let singleColorRgb = colorThief.getColor(colorThiefImage);
+        let singleColorHsl = rgbToHsl(singleColorRgb);
+        let [h, s, l] = singleColorHsl;
+        if (l < 60) {
+            l = 60;
+        };
+        document.documentElement.style.setProperty('--theme-color', `hsl(${h}, ${s}%, ${l}%)`);
+        document.documentElement.style.setProperty('--theme-waveform-hue-rotate', `${h - 20}deg`); // this is incorrect since hue-rotation is not hsl but rgb, and relationship is nonlinear
+        document.documentElement.style.setProperty('--theme-waveform-grayscale', `${100 - s}%`);
+
+        if (luminanceRgb(palette[0]) >= luminanceRgb(palette[1])) {
+            document.documentElement.style.setProperty('--new-gradient', `linear-gradient(135deg, rgb(${palette[0].join(',')}) 0%, rgb(${palette[1].join(',')}) 100%)`);
+        } else {
+            document.documentElement.style.setProperty('--new-gradient', `linear-gradient(135deg, rgb(${palette[1].join(',')}) 0%, rgb(${palette[0].join(',')}) 100%)`);
+        };
+        tweakGradientElement.classList.add('fade');
+        setTimeout(() => {
+            document.documentElement.style.setProperty('--old-gradient', getComputedStyle(tweakGradientElement).getPropertyValue('--new-gradient'));
+            tweakGradientElement.classList.remove('fade');
+        }, 300);
+    };
+};
+
+const removeTooltips = playingIndicatorButtons => {
+    playingIndicatorButtons.addEventListener('mouseover', () => {
+        document.querySelectorAll('.tooltip__content').forEach(el => {
+            if (el.textContent.trim() === 'Like' || el.textContent.trim() === 'Follow' || el.textContent.trim() === 'Unfollow') {
+                el.style.display = 'none';
+            }
+        });
+    }, { passive: true });
+}
 
 window.onload = () => {
 
-    const bodyObserver = new MutationObserver((mutations, obs) => {
+    new MutationObserver((mutations, obs) => {
         const playingIndicator = document.querySelector('.playbackSoundBadge');
-        let gradientElement = document.querySelector('.backgroundGradient__buffer:not(.backgroundGradient__hidden)');
-        if (playingIndicator && gradientElement) {
+        let artwork = document.querySelector('.playControls__elements .sc-artwork.image__full');
+        let playingIndicatorButtons = document.querySelector('.playbackSoundBadge__actions');
+        if (playingIndicator && artwork && playingIndicatorButtons) {
             obs.disconnect();
 
-            gradientElement = document.querySelector('.backgroundGradient__buffer:not(.backgroundGradient__hidden)');
-            let gradient = gradientElement.style.background;
-            const startTime = Date.now();
-            const intervalId = setInterval(() => {
-                const elapsed = Date.now() - startTime;
-                gradientElement = document.querySelector('.backgroundGradient__buffer:not(.backgroundGradient__hidden)');
-                gradient = gradientElement.style.background;
-                if (gradient !== "") {
-                    clearInterval(intervalId);
-                    document.documentElement.style.setProperty('--new-gradient', gradient);
-                    tweakGradientElement.classList.add('fade');
-                    setTimeout(() => {
-                        document.documentElement.style.setProperty('--old-gradient', getComputedStyle(tweakGradientElement).getPropertyValue('--new-gradient'));
-                        tweakGradientElement.classList.remove('fade');
-                    }, 300);
-                } else if (elapsed >= 2000) {
-                    clearInterval(intervalId);
-                    console.error("Soundcloud Tweaks: No gradient detected in .backgroundGradient__buffer element. 2 second polling loop ended.")
-                }
-            }, 5);
+            setColors(artwork);
+            removeTooltips(playingIndicatorButtons);
 
-            const playingObserver = new MutationObserver(() => {
-                let gradientBuffer = gradient;
-                gradientElement = document.querySelector('.backgroundGradient__buffer:not(.backgroundGradient__hidden)');
-                gradient = gradientElement.style.background;
-                const startTime = Date.now();
-                const intervalId = setInterval(() => {
-                    const elapsed = Date.now() - startTime;
-                    gradientElement = document.querySelector('.backgroundGradient__buffer:not(.backgroundGradient__hidden)');
-                    gradient = gradientElement.style.background;
-                    if (gradient !== gradientBuffer) {
-                        clearInterval(intervalId);
-                        document.documentElement.style.setProperty('--new-gradient', gradient);
-                        tweakGradientElement.classList.add('fade');
-                        setTimeout(() => {
-                            document.documentElement.style.setProperty('--old-gradient', getComputedStyle(tweakGradientElement).getPropertyValue('--new-gradient'));
-                            tweakGradientElement.classList.remove('fade');
-                        }, 300);
-                    } else if (elapsed >= 2000) {
-                        console.error("Soundcloud Tweaks: No gradient detected in .backgroundGradient__buffer element. 2 second polling loop ended.")
-                        clearInterval(intervalId);
-                    }
-                }, 5);
-            });
-            playingObserver.observe(playingIndicator, {
+            new MutationObserver(() => {
+                artwork = document.querySelector('.playControls__elements .sc-artwork.image__full');
+                setColors(artwork);
+                playingIndicatorButtons = document.querySelector('.playbackSoundBadge__actions');
+                removeTooltips(playingIndicatorButtons);
+            }).observe(playingIndicator, {
                 childList: true
             });
         }
-    });
-    bodyObserver.observe(document.body, {
+    }).observe(document.body, {
         childList: true
     });
-
-    // mouse hover on any element event listener
-    document.addEventListener('mouseover', function (e) {
-        if (e.target.closest('.playbackSoundBadge__actions')) {
-            setTimeout(() => {
-                console.log("looping?")
-                document.querySelectorAll('.tooltip__content').forEach(el => {
-                    if (el.textContent.trim() === 'Like' || el.textContent.trim() === 'Follow') {
-                        el.parentElement?.classList.add('tweak-element');
-                    }
-                });
-            }, 10);
-        }
-    }, { passive: true });
 }
