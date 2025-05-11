@@ -45,6 +45,11 @@ style.textContent = `
         display: none !important;
     }
 
+    /* remove Promoted track in feed */
+    li:has(span.soundContext__promoted) {
+        display: none;
+    }
+
     /* blur popup background */
     .modal {
         background-color: rgba(0, 0, 0, .5) !important;
@@ -53,14 +58,10 @@ style.textContent = `
 
     /* animate bottom control bar progress bar */
     .playbackTimeline__progressBar {
-        transition: width .1s ease-out;
+        transition: width .08s ease-out;
     }
     .playbackTimeline__progressHandle {
-        transition: left .1s ease-out;
-    }
-    /* progress bar circle fill color */
-    .playbackTimeline__progressHandle {
-        background-color: rgb(from var(--theme-color) r g b / 1);
+        transition: left .08s ease-out;
     }
 
     /* the fans page on tracks are separate html documents
@@ -73,6 +74,7 @@ style.textContent = `
     */
     
     .theme-dark {
+        /* background gradient based on track artwork */
         .tweak__background__gradient {
             background: var(--old-gradient, black);
             filter: brightness(0.2);
@@ -96,9 +98,15 @@ style.textContent = `
             opacity: 1;
         }
 
-        /* waveform and creator badge color */
+        /* progress bar circle fill color */
+        .playbackTimeline__progressHandle {
+            background-color: rgb(from var(--theme-color) r g b / 1);
+        }
+
+        /* waveform, creator badge, and Try Artist Pro color */
         .waveform__scene canvas:not(.waveformCommentsNode),
-        .creatorBadge {
+        .creatorBadge,
+        .creatorSubscriptionsButton svg.profileMenu__icon {
             filter: hue-rotate(var(--theme-waveform-hue-rotate)) grayscale(var(--theme-waveform-grayscale));
         }
 
@@ -106,13 +114,9 @@ style.textContent = `
         .creatorLikeInlineLikeIcon {
             color: var(--special-color);
         }
-
-        --surface-color: rgba(0, 0, 0, 0.5);
-        --background-surface-color: black;
+        
         --special-color: rgb(from var(--theme-color) r g b / 1);
         --font-special-color: rgb(from var(--theme-color) r g b / 1);
-
-        --input-default-background-color: rgba(255, 255, 255, .075);
 
         --button-special-background-color: rgb(from var(--theme-color) r g b / 1);
 
@@ -130,7 +134,6 @@ style.textContent = `
         --checkbox-checked-background-color: rgb(from var(--theme-color) r g b / 1);
         --checkbox-checked-border-color: rgb(from var(--theme-color) r g b / 1);
 
-        --button-secondary-background-color: rgba(255, 255, 255, .08);
         /* hover color for playlist items */
         .trackItem.hover {
             background-color: rgba(255, 255, 255, .08)
@@ -154,7 +157,15 @@ style.textContent = `
         }
         /* blur volume slider background */
         .volume__sliderWrapper {
+            background-color: rgba(255, 255, 255, .05) !important;
             backdrop-filter: blur(var(--blur-amount));
+        }
+        .volume__sliderWrapper::after, 
+        .volume__sliderWrapper::before {
+            display: none;
+        }
+        .volume__sliderBackground {
+            background-color: rgba(255, 255, 255, .1);
         }
 
         /* blur top header */
@@ -164,12 +175,7 @@ style.textContent = `
             filter: drop-shadow(0 .4em .4em rgba(0, 0, 0, .2));
         }
 
-        /* blur dropdowns */
-        .dropdownMenu,
-        .linkMenu {
-            backdrop-filter: blur(var(--blur-amount));
-        }
-        /* Next Up background fix */
+        /* blur Next Up background */
         .queue__itemsHeight {
             background-image: none;
         }
@@ -179,6 +185,66 @@ style.textContent = `
         .playControls__queue {
             backdrop-filter: blur(var(--blur-amount));
         }
+        .playControls__queue .m-visible,
+        .playControls__queue .queue {
+            background-color: rgba(0, 0, 0, .25);
+        };
+
+        /* blur dropdowns */
+        .dropdownMenu,
+        .moreActions,
+        .moreActions__group * {
+            background-color: transparent !important;
+        }
+        .linkMenu,
+        .headerMenu,
+        .moreActions {
+            background-color: rgba(0, 0, 0, .25) !important;
+            backdrop-filter: blur(var(--blur-amount));
+        }
+
+        /* View All background color */
+        .readMoreTile__countWrapper {
+            background-color: transparent;
+        }
+        .readMoreTile .playableTile__artwork,
+        .readMoreTile .sc-artwork {
+            filter: brightness(0.6);
+        }
+        .readMoreTile .playableTile__description,
+        .readMoreTile .userBadgeListItem__title,
+        .readMoreTile .userBadgeListItem__subtitle {
+            filter: brightness(0.4);
+        }
+
+        /* Library placeholder color */
+        .audibleTilePlaceholder::before {
+            background-color: rgba(255, 255, 255, .08) !important;
+        }
+
+        /* search bar color */
+        .headerSearch__input {
+            background-color: rgba(255, 255, 255, .15);
+        }
+
+        /* comment like button and download button background */
+        .commentItem__like button,
+        .soundActions__purchaseLink {
+            background-color: transparent;
+        }
+
+        /* fix and blur track description shadow */
+        .truncatedAudioInfo__wrapper::after {
+            background: none !important;
+            backdrop-filter: blur(1.5px);
+            mask-image: linear-gradient(to top, black 30%, transparent);
+        }
+
+        
+
+
+
+
 
         /* blur account popup */
         .dialog.sc-border-box.sc-p-2x.sc-text-secondary.g-z-index-overlay.rounded.dialog__centertop {
@@ -190,24 +256,6 @@ style.textContent = `
             background-color: transparent;
         }
 
-        /* fix track More dropdown background */
-        .moreActions__group * {
-            background-color: transparent;
-        }
-
-        /* fix comment like button and download button background */
-        .commentItem__like button,
-        .soundActions__purchaseLink {
-            background-color: transparent;
-        }
-
-        /* fix track description shadow */
-        .truncatedAudioInfo__wrapper::after {
-            background: none !important;
-            backdrop-filter: blur(1.5px);
-            mask-image: linear-gradient(to top, black 40%, transparent);
-        }
-
         /* fix related tracks hover */
         .soundBadge__additional {
             background: none;
@@ -217,6 +265,7 @@ style.textContent = `
 document.head.append(style);
 
 document.documentElement.style.setProperty('--blur-amount', '30px');
+document.documentElement.style.setProperty('--blur-background-color', 'rgba(0, 0, 0, .5)');
 
 const tweakGradientElement = document.createElement("div");
 tweakGradientElement.classList.add("tweak__background__gradient");
@@ -265,7 +314,7 @@ const setColors = artwork => {
             l = 60;
         };
         document.documentElement.style.setProperty('--theme-color', `hsl(${h}, ${s}%, ${l}%)`);
-        document.documentElement.style.setProperty('--theme-waveform-hue-rotate', `${h - 20}deg`); // this is incorrect since hue-rotation is not hsl but rgb, and relationship is nonlinear
+        document.documentElement.style.setProperty('--theme-waveform-hue-rotate', `${h - 20}deg`); // this is incorrect since hue-rotation is in rgb not hsl
         document.documentElement.style.setProperty('--theme-waveform-grayscale', `${100 - s}%`);
 
         if (luminanceRgb(palette[0]) >= luminanceRgb(palette[1])) {
@@ -292,7 +341,6 @@ const removeTooltips = playingIndicatorButtons => {
 }
 
 window.onload = () => {
-
     new MutationObserver((mutations, obs) => {
         const playingIndicator = document.querySelector('.playbackSoundBadge');
         let artwork = document.querySelector('.playControls__elements .sc-artwork.image__full');
