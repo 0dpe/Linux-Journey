@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Soundcloud Tweaks
-// @namespace    http://tampermonkey.net/
+// @namespace    https://github.com/0dpe
 // @version      1.0
-// @description  asd
+// @description  Soundcloud Tweaks
 // @author       Odpe
 // @match        https://soundcloud.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=soundcloud.com
@@ -240,8 +240,6 @@ style.textContent = `
             mask-image: linear-gradient(to top, black 30%, transparent);
         }
 
-        
-
 
 
 
@@ -265,7 +263,6 @@ style.textContent = `
 document.head.append(style);
 
 document.documentElement.style.setProperty('--blur-amount', '30px');
-document.documentElement.style.setProperty('--blur-background-color', 'rgba(0, 0, 0, .5)');
 
 const tweakGradientElement = document.createElement("div");
 tweakGradientElement.classList.add("tweak__background__gradient");
