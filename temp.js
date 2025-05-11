@@ -50,6 +50,11 @@ style.textContent = `
         display: none;
     }
 
+    /* remove playlist Go+ promotion */
+    .playlistConsumerSubUpsell {
+        display: none;
+    }
+
     /* blur popup background */
     .modal {
         background-color: rgba(0, 0, 0, .5) !important;
@@ -72,7 +77,7 @@ style.textContent = `
         display: none;
     }
     */
-    
+
     .theme-dark {
         /* background gradient based on track artwork */
         .tweak__background__gradient {
@@ -114,7 +119,7 @@ style.textContent = `
         .creatorLikeInlineLikeIcon {
             color: var(--special-color);
         }
-        
+
         --special-color: rgb(from var(--theme-color) r g b / 1);
         --font-special-color: rgb(from var(--theme-color) r g b / 1);
 
@@ -160,7 +165,7 @@ style.textContent = `
             background-color: rgba(255, 255, 255, .05) !important;
             backdrop-filter: blur(var(--blur-amount));
         }
-        .volume__sliderWrapper::after, 
+        .volume__sliderWrapper::after,
         .volume__sliderWrapper::before {
             display: none;
         }
