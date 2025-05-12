@@ -44,6 +44,14 @@ style.textContent = `
     a[data-menu-name="home"] {
         display: none !important;
     }
+    
+    /* remove top header down arrow next to profile picture since the picture opens the dropdown anyways */
+    .header__userNavUsernameButtonIcon {
+        display: none;
+    }
+    .header__userNavUsernameButton {
+        margin-right: 0px !important;
+    }
 
     /* remove Promoted track in feed */
     li:has(span.soundContext__promoted) {
@@ -194,6 +202,11 @@ style.textContent = `
         .playControls__queue .queue {
             background-color: rgba(0, 0, 0, .25);
         };
+        .queueItemView.m-active,
+        .queueItemView:hover,
+        .queueItemView:hover.m-active {
+            background-color: rgba(255, 255, 255, .08);
+        }
 
         /* blur dropdowns */
         .dropdownMenu,
@@ -207,8 +220,27 @@ style.textContent = `
             background-color: rgba(0, 0, 0, .25) !important;
             backdrop-filter: blur(var(--blur-amount));
         }
+        .dropdownContent__container {
+            background-color: rgba(0, 0, 0, .25);
+            backdrop-filter: blur(var(--blur-amount));
+            border-color: rgba(255, 255, 255, .15);
+        }
+        .headerMenu__list,
+        .headerMenu {
+            border-color: rgba(255, 255, 255, .15) !important;
+        }
+        
+        /* blur account popup */
+        .dialog {
+            background-color: rgba(0, 0, 0, .25);
+            backdrop-filter: blur(var(--blur-amount));
+        }
+        .dialog__arrow {
+            background-color: transparent;
+            backdrop-filter: blur(3px);
+        }
 
-        /* View All background color */
+        /* Library View All background color */
         .readMoreTile__countWrapper {
             background-color: transparent;
         }
@@ -245,23 +277,9 @@ style.textContent = `
             mask-image: linear-gradient(to top, black 30%, transparent);
         }
 
-
-
-
-
-        /* blur account popup */
-        .dialog.sc-border-box.sc-p-2x.sc-text-secondary.g-z-index-overlay.rounded.dialog__centertop {
-            backdrop-filter: blur(var(--blur-amount));
-        }
-        /* fix diamond */
-        .dialog__arrow {
-            backdrop-filter: blur(4px);
-            background-color: transparent;
-        }
-
-        /* fix related tracks hover */
-        .soundBadge__additional {
-            background: none;
+        /* fix no messages Write One button */
+        .noConversations__writeOne {
+            background-color: transparent !important;
         }
     }
 `;
@@ -332,8 +350,8 @@ const setColors = artwork => {
     };
 };
 
-const removeTooltips = playingIndicatorButtons => {
-    playingIndicatorButtons.addEventListener('mouseover', () => {
+const removeTooltips = hoverElement => {
+    hoverElement.addEventListener('mouseover', () => {
         document.querySelectorAll('.tooltip__content').forEach(el => {
             if (el.textContent.trim() === 'Like' || el.textContent.trim() === 'Follow' || el.textContent.trim() === 'Unfollow') {
                 el.style.display = 'none';
