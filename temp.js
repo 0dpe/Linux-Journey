@@ -296,8 +296,7 @@ const rgbToHsl = ([r, g, b]) => {
     const max = Math.max(r, g, b);
     const min = Math.min(r, g, b);
     const delta = max - min;
-    let h = 0;
-    let s = 0;
+    let h = 0, s = 0;
     let l = (max + min) / 2;
     if (delta !== 0) {
         if (max === r) {
@@ -311,28 +310,23 @@ const rgbToHsl = ([r, g, b]) => {
         if (h < 0) h += 360;
         s = delta / (1 - Math.abs(2 * l - 1));
     }
-    s *= 100;
-    l *= 100;
-    return [h, s, l];
+    return [h, s * 100, l * 100];
 }
 
 const luminanceRgb = ([r, g, b]) => (.299 * r) + (.587 * g) + (.114 * b);
 
 const setColors = artwork => {
-    let artworkStyles = window.getComputedStyle(artwork);
-    let artworkURL = artworkStyles.backgroundImage.match(/url\("?(.+?)"?\)/);
+    let artworkURL = window.getComputedStyle(artwork).backgroundImage.match(/url\("?(.+?)"?\)/)[1];
     const colorThiefImage = new Image();
     colorThiefImage.crossOrigin = 'Anonymous';
-    colorThiefImage.src = artworkURL[1];
+    colorThiefImage.src = artworkURL;
+    
     colorThiefImage.onload = () => {
         const colorThief = new ColorThief();
         let palette = colorThief.getPalette(colorThiefImage, 2);
         let singleColorRgb = colorThief.getColor(colorThiefImage);
-        let singleColorHsl = rgbToHsl(singleColorRgb);
-        let [h, s, l] = singleColorHsl;
-        if (l < 60) {
-            l = 60;
-        };
+        let [h, s, l] = rgbToHsl(singleColorRgb);
+        l = Math.max(l, 60);
         document.documentElement.style.setProperty('--theme-color', `hsl(${h}, ${s}%, ${l}%)`);
         document.documentElement.style.setProperty('--theme-waveform-hue-rotate', `${h - 20}deg`); // this is incorrect since hue-rotation is in rgb not hsl
         document.documentElement.style.setProperty('--theme-waveform-grayscale', `${100 - s}%`);
@@ -361,12 +355,12 @@ const removeTooltips = hoverElement => {
 }
 
 window.onload = () => {
-    new MutationObserver((mutations, obs) => {
+    new MutationObserver((_, observer) => {
         const playingIndicator = document.querySelector('.playbackSoundBadge');
         let artwork = document.querySelector('.playControls__elements .sc-artwork.image__full');
         let playingIndicatorButtons = document.querySelector('.playbackSoundBadge__actions');
         if (playingIndicator && artwork && playingIndicatorButtons) {
-            obs.disconnect();
+            observer.disconnect();
 
             setColors(artwork);
             removeTooltips(playingIndicatorButtons);
@@ -380,7 +374,5 @@ window.onload = () => {
                 childList: true
             });
         }
-    }).observe(document.body, {
-        childList: true
-    });
+    }).observe(document.body, { childList: true });
 }
