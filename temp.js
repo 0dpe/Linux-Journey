@@ -18,6 +18,12 @@ style.textContent = `
         flex-direction: column-reverse;
     }
 
+    /* show more text for playlist items */
+    .trackItem__additional {
+        padding-left: 0px !important;
+        margin-left: 0.5em !important;
+    }
+
     /* remove app promotions */
     .sidebarModule.mobileApps {
         display: none;
