@@ -267,6 +267,16 @@ style.textContent = `
 
         /* search bar color */
         .headerSearch__input {
+            background-color: rgba(255, 255, 255, .1);
+        }
+
+        /* Library History Clear all History button background */
+        .playHistory__top .sc-button-tertiary {
+            background-color: rgba(255, 255, 255, .1);
+        }
+        
+        /* text input background */
+        .textfield__input {
             background-color: rgba(255, 255, 255, .15);
         }
 
