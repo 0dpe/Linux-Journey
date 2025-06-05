@@ -117,9 +117,15 @@ style.textContent = `
             opacity: 1;
         }
 
+        /* text selection color */
+        ::selection {
+            background-color: hsl(from var(--theme-color) h s l / 0.25);
+            color: white;
+        }
+
         /* progress bar circle fill color */
         .playbackTimeline__progressHandle {
-            background-color: rgb(from var(--theme-color) r g b / 1);
+            background-color: var(--theme-color);
         }
 
         /* waveform, creator badge, and Try Artist Pro color */
@@ -131,27 +137,27 @@ style.textContent = `
 
         /* artist liked comment color */
         .creatorLikeInlineLikeIcon {
-            color: var(--special-color);
+            color: var(--theme-color);
         }
 
-        --special-color: rgb(from var(--theme-color) r g b / 1);
-        --font-special-color: rgb(from var(--theme-color) r g b / 1);
+        --special-color: var(--theme-color);
+        --font-special-color: var(--theme-color);
 
-        --button-special-background-color: rgb(from var(--theme-color) r g b / 1);
+        --button-special-background-color: var(--theme-color);
 
-        --button-tertiary-selected-font-color: rgb(from var(--theme-color) r g b / 1);
-        --button-tertiary-selected-active-font-color: rgb(from var(--theme-color) r g b / 1);
-        --button-tertiary-selected-hover-font-color: rgb(from var(--theme-color) r g b / 0.5);
+        --button-tertiary-selected-font-color: var(--theme-color);
+        --button-tertiary-selected-active-font-color: var(--theme-color);
+        --button-tertiary-selected-hover-font-color: hsl(from var(--theme-color) h s l / 0.5);
 
-        --button-secondary-selected-font-color: rgb(from var(--theme-color) r g b / 1);
-        --button-secondary-selected-active-font-color: rgb(from var(--theme-color) r g b / 1);
-        --button-secondary-selected-hover-font-color: rgb(from var(--theme-color) r g b / 0.5);
+        --button-secondary-selected-font-color: var(--theme-color);
+        --button-secondary-selected-active-font-color: var(--theme-color);
+        --button-secondary-selected-hover-font-color: hsl(from var(--theme-color) h s l / 0.5);
 
-        --toggle-on-body-color: rgb(from var(--theme-color) r g b / 1);
-        --toggle-on-body-hover-color: rgb(from var(--theme-color) r g b / 1);
+        --toggle-on-body-color: var(--theme-color);
+        --toggle-on-body-hover-color: var(--theme-color);
 
-        --checkbox-checked-background-color: rgb(from var(--theme-color) r g b / 1);
-        --checkbox-checked-border-color: rgb(from var(--theme-color) r g b / 1);
+        --checkbox-checked-background-color: var(--theme-color);
+        --checkbox-checked-border-color: var(--theme-color);
 
         /* hover color for playlist items */
         .trackItem.hover {
@@ -307,7 +313,7 @@ style.textContent = `
 `;
 document.head.append(style);
 
-document.documentElement.style.setProperty('--blur-amount', '30px');
+document.documentElement.style.setProperty('--blur-amount', '40px');
 
 const tweakGradientElement = document.createElement("div");
 tweakGradientElement.classList.add("tweak__background__gradient");
