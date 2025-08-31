@@ -1882,9 +1882,8 @@ Application Launcher: \
 Authentication Agent: Starting method: manual (exec-once) Authentication agents are the things that pop up a window asking you for a password whenever an app wants to elevate its privileges.\
 https://gitlab.com/christosangel/ascii-matrix \
 Find wallpapers\
-Customize Grub
+Customize Grub (also libreboot.org)?
 
 Minimizing windows in Hyprland: https://github.com/hyprwm/Hyprland/issues/995 https://github.com/DreamMaoMao/hych/tree/main https://github.com/hyprwm/Hyprland/discussions/8281 https://wiki.hyprland.org/Configuring/Uncommon-tips--tricks/#minimize-windows-using-special-workspaces
 
 https://github.com/danihek/hellwal
-
