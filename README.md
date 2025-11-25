@@ -1887,3 +1887,4 @@ Customize Grub (also libreboot.org)?
 Minimizing windows in Hyprland: https://github.com/hyprwm/Hyprland/issues/995 https://github.com/DreamMaoMao/hych/tree/main https://github.com/hyprwm/Hyprland/discussions/8281 https://wiki.hyprland.org/Configuring/Uncommon-tips--tricks/#minimize-windows-using-special-workspaces
 
 https://github.com/danihek/hellwal
+https://github.com/kayxean/oblique-cursor
