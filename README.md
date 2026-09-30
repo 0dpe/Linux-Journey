@@ -1888,3 +1888,5 @@ Minimizing windows in Hyprland: https://github.com/hyprwm/Hyprland/issues/995 ht
 
 https://github.com/danihek/hellwal
 https://github.com/kayxean/oblique-cursor
+
+0dpe -> J-ZG
